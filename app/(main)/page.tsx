@@ -46,10 +46,10 @@ export default function Home() {
         </Card>
 
         {/* Categories - Graines */}
-        <Card className="md:col-span-1 md:row-span-1 hover:bg-accent transition-colors cursor-pointer group flex flex-row items-center p-4">
-           <Sprout className="text-primary mr-4 group-hover:rotate-12 transition-transform" size={24} />
-           <div>
-             <CardTitle className="text-sm">Graines</CardTitle>
+        <Card className="md:col-span-1 md:row-span-1 hover:bg-accent transition-colors cursor-pointer group flex flex-row items-center p-4 bg-secondary">
+           <Sprout className="text-primary mr-4 group-hover:rotate-12 transition-transform" size={36} />
+           <div >
+             <CardTitle className="text-2xl">Graines</CardTitle>
              <CardDescription className="text-xs">Sélection Premium</CardDescription>
            </div>
         </Card>
@@ -71,14 +71,16 @@ export default function Home() {
             <CardTitle className="mb-2">Besoin d&apos;aide ?</CardTitle>
             <CardDescription>Nos experts vous conseillent pour votre installation.</CardDescription>
           </div>
-          <Button variant="outline" className="mt-4">Nous contacter</Button>
+          <Button  className="mt-4">Nous contacter</Button>
         </Card>
 
         {/* Small Visual Block */}
         <Card className="md:col-span-1 md:row-span-1 bg-accent/20 border-dashed flex items-center justify-center italic text-muted-foreground p-4 text-center">
            &quot;La nature à portée de main, même en ville.&quot;
         </Card>
-
+  <Card className="md:col-span-1 md:row-span-1 bg-accent/20 border-dashed flex items-center justify-center italic text-muted-foreground p-4 text-center bg-secondary">
+           &quot;La nature à portée de main, même en ville.&quot;
+        </Card>
       </div>
     </div>
   );

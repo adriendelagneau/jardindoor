@@ -16,7 +16,7 @@ export default function MiniMap({ lat, lng, onClick }: Props) {
   return (
     <div
       onClick={onClick}
-      className="relative z-40 h-80 w-full cursor-pointer overflow-hidden rounded-lg"
+      className="relative z-40 h-120 w-full cursor-pointer overflow-hidden rounded-lg"
     >
       <MapContainer
         center={center}
