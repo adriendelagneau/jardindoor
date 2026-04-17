@@ -30,11 +30,18 @@ enum PriceUnit {
 // CATEGORIES & PRODUCTS
 // ==========================
 //
+
 model Category {
-  id       String     @id @default(uuid())
-  name     String
-  slug     String     @unique
-  position Int        @default(0)
+  id          String  @id @default(uuid())
+  name        String
+  slug        String
+  description String? @db.Text
+  position    Int     @default(0)
+
+  // SEO Metadata
+  metaTitle       String?
+  metaDescription String?
+
   parentId String?
   parent   Category?  @relation("CategoryTree", fields: [parentId], references: [id], onDelete: SetNull)
   children Category[] @relation("CategoryTree")
@@ -59,13 +66,19 @@ model Product {
   priceUnit   PriceUnit @default(UNIT)
 
   status      ProductStatus @default(ACTIVE)
+  publishedAt DateTime?
   isPromotion Boolean       @default(false)
 
-  categoryId String?
-  category   Category? @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  // SEO Metadata
+  metaTitle       String?
+  metaDescription String?
 
-  images Image[]
-  brands Brand[]
+  categoryId String?
+  category   Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+
+  images  Image[]
+  brandId String?
+  brand   Brand?  @relation(fields: [brandId], references: [id], onDelete: SetNull)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -77,23 +90,33 @@ model Product {
 }
 
 model Image {
-  id               String  @id @default(uuid())
-  url              String
+  id      String  @id @default(uuid())
+  url     String
+  fileKey String?
+
+  // Media Metadata
+  originalName String?
+  mimeType     String?
+  fileSize     Int?
+  width        Int?
+  height       Int?
+
+  // Usage Metadata
   altText          String?
   index            Int     @default(0)
   shortDescription String? @db.VarChar(255)
   metaTitle        String?
   metaDescription  String?
 
-  // Relationships
+  // Relations
   productId String?
   product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   brandId String?
-  brand   Brand?  @relation(fields: [brandId], references: [id], onDelete: Cascade)
+  brand   Brand?  @relation(fields: [brandId], references: [id], onDelete: SetNull)
 
   categoryId String?
-  category   Category? @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  category   Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

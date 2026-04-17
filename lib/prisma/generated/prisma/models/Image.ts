@@ -27,16 +27,28 @@ export type AggregateImage = {
 }
 
 export type ImageAvgAggregateOutputType = {
+  fileSize: number | null
+  width: number | null
+  height: number | null
   index: number | null
 }
 
 export type ImageSumAggregateOutputType = {
+  fileSize: number | null
+  width: number | null
+  height: number | null
   index: number | null
 }
 
 export type ImageMinAggregateOutputType = {
   id: string | null
   url: string | null
+  fileKey: string | null
+  originalName: string | null
+  mimeType: string | null
+  fileSize: number | null
+  width: number | null
+  height: number | null
   altText: string | null
   index: number | null
   shortDescription: string | null
@@ -52,6 +64,12 @@ export type ImageMinAggregateOutputType = {
 export type ImageMaxAggregateOutputType = {
   id: string | null
   url: string | null
+  fileKey: string | null
+  originalName: string | null
+  mimeType: string | null
+  fileSize: number | null
+  width: number | null
+  height: number | null
   altText: string | null
   index: number | null
   shortDescription: string | null
@@ -67,6 +85,12 @@ export type ImageMaxAggregateOutputType = {
 export type ImageCountAggregateOutputType = {
   id: number
   url: number
+  fileKey: number
+  originalName: number
+  mimeType: number
+  fileSize: number
+  width: number
+  height: number
   altText: number
   index: number
   shortDescription: number
@@ -82,16 +106,28 @@ export type ImageCountAggregateOutputType = {
 
 
 export type ImageAvgAggregateInputType = {
+  fileSize?: true
+  width?: true
+  height?: true
   index?: true
 }
 
 export type ImageSumAggregateInputType = {
+  fileSize?: true
+  width?: true
+  height?: true
   index?: true
 }
 
 export type ImageMinAggregateInputType = {
   id?: true
   url?: true
+  fileKey?: true
+  originalName?: true
+  mimeType?: true
+  fileSize?: true
+  width?: true
+  height?: true
   altText?: true
   index?: true
   shortDescription?: true
@@ -107,6 +143,12 @@ export type ImageMinAggregateInputType = {
 export type ImageMaxAggregateInputType = {
   id?: true
   url?: true
+  fileKey?: true
+  originalName?: true
+  mimeType?: true
+  fileSize?: true
+  width?: true
+  height?: true
   altText?: true
   index?: true
   shortDescription?: true
@@ -122,6 +164,12 @@ export type ImageMaxAggregateInputType = {
 export type ImageCountAggregateInputType = {
   id?: true
   url?: true
+  fileKey?: true
+  originalName?: true
+  mimeType?: true
+  fileSize?: true
+  width?: true
+  height?: true
   altText?: true
   index?: true
   shortDescription?: true
@@ -224,6 +272,12 @@ export type ImageGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
 export type ImageGroupByOutputType = {
   id: string
   url: string
+  fileKey: string | null
+  originalName: string | null
+  mimeType: string | null
+  fileSize: number | null
+  width: number | null
+  height: number | null
   altText: string | null
   index: number
   shortDescription: string | null
@@ -262,6 +316,12 @@ export type ImageWhereInput = {
   NOT?: Prisma.ImageWhereInput | Prisma.ImageWhereInput[]
   id?: Prisma.StringFilter<"Image"> | string
   url?: Prisma.StringFilter<"Image"> | string
+  fileKey?: Prisma.StringNullableFilter<"Image"> | string | null
+  originalName?: Prisma.StringNullableFilter<"Image"> | string | null
+  mimeType?: Prisma.StringNullableFilter<"Image"> | string | null
+  fileSize?: Prisma.IntNullableFilter<"Image"> | number | null
+  width?: Prisma.IntNullableFilter<"Image"> | number | null
+  height?: Prisma.IntNullableFilter<"Image"> | number | null
   altText?: Prisma.StringNullableFilter<"Image"> | string | null
   index?: Prisma.IntFilter<"Image"> | number
   shortDescription?: Prisma.StringNullableFilter<"Image"> | string | null
@@ -280,6 +340,12 @@ export type ImageWhereInput = {
 export type ImageOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   url?: Prisma.SortOrder
+  fileKey?: Prisma.SortOrderInput | Prisma.SortOrder
+  originalName?: Prisma.SortOrderInput | Prisma.SortOrder
+  mimeType?: Prisma.SortOrderInput | Prisma.SortOrder
+  fileSize?: Prisma.SortOrderInput | Prisma.SortOrder
+  width?: Prisma.SortOrderInput | Prisma.SortOrder
+  height?: Prisma.SortOrderInput | Prisma.SortOrder
   altText?: Prisma.SortOrderInput | Prisma.SortOrder
   index?: Prisma.SortOrder
   shortDescription?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -301,6 +367,12 @@ export type ImageWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.ImageWhereInput[]
   NOT?: Prisma.ImageWhereInput | Prisma.ImageWhereInput[]
   url?: Prisma.StringFilter<"Image"> | string
+  fileKey?: Prisma.StringNullableFilter<"Image"> | string | null
+  originalName?: Prisma.StringNullableFilter<"Image"> | string | null
+  mimeType?: Prisma.StringNullableFilter<"Image"> | string | null
+  fileSize?: Prisma.IntNullableFilter<"Image"> | number | null
+  width?: Prisma.IntNullableFilter<"Image"> | number | null
+  height?: Prisma.IntNullableFilter<"Image"> | number | null
   altText?: Prisma.StringNullableFilter<"Image"> | string | null
   index?: Prisma.IntFilter<"Image"> | number
   shortDescription?: Prisma.StringNullableFilter<"Image"> | string | null
@@ -319,6 +391,12 @@ export type ImageWhereUniqueInput = Prisma.AtLeast<{
 export type ImageOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   url?: Prisma.SortOrder
+  fileKey?: Prisma.SortOrderInput | Prisma.SortOrder
+  originalName?: Prisma.SortOrderInput | Prisma.SortOrder
+  mimeType?: Prisma.SortOrderInput | Prisma.SortOrder
+  fileSize?: Prisma.SortOrderInput | Prisma.SortOrder
+  width?: Prisma.SortOrderInput | Prisma.SortOrder
+  height?: Prisma.SortOrderInput | Prisma.SortOrder
   altText?: Prisma.SortOrderInput | Prisma.SortOrder
   index?: Prisma.SortOrder
   shortDescription?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -342,6 +420,12 @@ export type ImageScalarWhereWithAggregatesInput = {
   NOT?: Prisma.ImageScalarWhereWithAggregatesInput | Prisma.ImageScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Image"> | string
   url?: Prisma.StringWithAggregatesFilter<"Image"> | string
+  fileKey?: Prisma.StringNullableWithAggregatesFilter<"Image"> | string | null
+  originalName?: Prisma.StringNullableWithAggregatesFilter<"Image"> | string | null
+  mimeType?: Prisma.StringNullableWithAggregatesFilter<"Image"> | string | null
+  fileSize?: Prisma.IntNullableWithAggregatesFilter<"Image"> | number | null
+  width?: Prisma.IntNullableWithAggregatesFilter<"Image"> | number | null
+  height?: Prisma.IntNullableWithAggregatesFilter<"Image"> | number | null
   altText?: Prisma.StringNullableWithAggregatesFilter<"Image"> | string | null
   index?: Prisma.IntWithAggregatesFilter<"Image"> | number
   shortDescription?: Prisma.StringNullableWithAggregatesFilter<"Image"> | string | null
@@ -357,6 +441,12 @@ export type ImageScalarWhereWithAggregatesInput = {
 export type ImageCreateInput = {
   id?: string
   url: string
+  fileKey?: string | null
+  originalName?: string | null
+  mimeType?: string | null
+  fileSize?: number | null
+  width?: number | null
+  height?: number | null
   altText?: string | null
   index?: number
   shortDescription?: string | null
@@ -372,6 +462,12 @@ export type ImageCreateInput = {
 export type ImageUncheckedCreateInput = {
   id?: string
   url: string
+  fileKey?: string | null
+  originalName?: string | null
+  mimeType?: string | null
+  fileSize?: number | null
+  width?: number | null
+  height?: number | null
   altText?: string | null
   index?: number
   shortDescription?: string | null
@@ -387,6 +483,12 @@ export type ImageUncheckedCreateInput = {
 export type ImageUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
+  fileKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  originalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   altText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   index?: Prisma.IntFieldUpdateOperationsInput | number
   shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -402,6 +504,12 @@ export type ImageUpdateInput = {
 export type ImageUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
+  fileKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  originalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   altText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   index?: Prisma.IntFieldUpdateOperationsInput | number
   shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -417,6 +525,12 @@ export type ImageUncheckedUpdateInput = {
 export type ImageCreateManyInput = {
   id?: string
   url: string
+  fileKey?: string | null
+  originalName?: string | null
+  mimeType?: string | null
+  fileSize?: number | null
+  width?: number | null
+  height?: number | null
   altText?: string | null
   index?: number
   shortDescription?: string | null
@@ -432,6 +546,12 @@ export type ImageCreateManyInput = {
 export type ImageUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
+  fileKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  originalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   altText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   index?: Prisma.IntFieldUpdateOperationsInput | number
   shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -444,6 +564,12 @@ export type ImageUpdateManyMutationInput = {
 export type ImageUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
+  fileKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  originalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   altText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   index?: Prisma.IntFieldUpdateOperationsInput | number
   shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -469,6 +595,12 @@ export type ImageOrderByRelationAggregateInput = {
 export type ImageCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   url?: Prisma.SortOrder
+  fileKey?: Prisma.SortOrder
+  originalName?: Prisma.SortOrder
+  mimeType?: Prisma.SortOrder
+  fileSize?: Prisma.SortOrder
+  width?: Prisma.SortOrder
+  height?: Prisma.SortOrder
   altText?: Prisma.SortOrder
   index?: Prisma.SortOrder
   shortDescription?: Prisma.SortOrder
@@ -482,12 +614,21 @@ export type ImageCountOrderByAggregateInput = {
 }
 
 export type ImageAvgOrderByAggregateInput = {
+  fileSize?: Prisma.SortOrder
+  width?: Prisma.SortOrder
+  height?: Prisma.SortOrder
   index?: Prisma.SortOrder
 }
 
 export type ImageMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   url?: Prisma.SortOrder
+  fileKey?: Prisma.SortOrder
+  originalName?: Prisma.SortOrder
+  mimeType?: Prisma.SortOrder
+  fileSize?: Prisma.SortOrder
+  width?: Prisma.SortOrder
+  height?: Prisma.SortOrder
   altText?: Prisma.SortOrder
   index?: Prisma.SortOrder
   shortDescription?: Prisma.SortOrder
@@ -503,6 +644,12 @@ export type ImageMaxOrderByAggregateInput = {
 export type ImageMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   url?: Prisma.SortOrder
+  fileKey?: Prisma.SortOrder
+  originalName?: Prisma.SortOrder
+  mimeType?: Prisma.SortOrder
+  fileSize?: Prisma.SortOrder
+  width?: Prisma.SortOrder
+  height?: Prisma.SortOrder
   altText?: Prisma.SortOrder
   index?: Prisma.SortOrder
   shortDescription?: Prisma.SortOrder
@@ -516,6 +663,9 @@ export type ImageMinOrderByAggregateInput = {
 }
 
 export type ImageSumOrderByAggregateInput = {
+  fileSize?: Prisma.SortOrder
+  width?: Prisma.SortOrder
+  height?: Prisma.SortOrder
   index?: Prisma.SortOrder
 }
 
@@ -603,6 +753,14 @@ export type ImageUncheckedUpdateManyWithoutProductNestedInput = {
   deleteMany?: Prisma.ImageScalarWhereInput | Prisma.ImageScalarWhereInput[]
 }
 
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 export type ImageCreateNestedManyWithoutBrandInput = {
   create?: Prisma.XOR<Prisma.ImageCreateWithoutBrandInput, Prisma.ImageUncheckedCreateWithoutBrandInput> | Prisma.ImageCreateWithoutBrandInput[] | Prisma.ImageUncheckedCreateWithoutBrandInput[]
   connectOrCreate?: Prisma.ImageCreateOrConnectWithoutBrandInput | Prisma.ImageCreateOrConnectWithoutBrandInput[]
@@ -648,6 +806,12 @@ export type ImageUncheckedUpdateManyWithoutBrandNestedInput = {
 export type ImageCreateWithoutCategoryInput = {
   id?: string
   url: string
+  fileKey?: string | null
+  originalName?: string | null
+  mimeType?: string | null
+  fileSize?: number | null
+  width?: number | null
+  height?: number | null
   altText?: string | null
   index?: number
   shortDescription?: string | null
@@ -662,6 +826,12 @@ export type ImageCreateWithoutCategoryInput = {
 export type ImageUncheckedCreateWithoutCategoryInput = {
   id?: string
   url: string
+  fileKey?: string | null
+  originalName?: string | null
+  mimeType?: string | null
+  fileSize?: number | null
+  width?: number | null
+  height?: number | null
   altText?: string | null
   index?: number
   shortDescription?: string | null
@@ -705,6 +875,12 @@ export type ImageScalarWhereInput = {
   NOT?: Prisma.ImageScalarWhereInput | Prisma.ImageScalarWhereInput[]
   id?: Prisma.StringFilter<"Image"> | string
   url?: Prisma.StringFilter<"Image"> | string
+  fileKey?: Prisma.StringNullableFilter<"Image"> | string | null
+  originalName?: Prisma.StringNullableFilter<"Image"> | string | null
+  mimeType?: Prisma.StringNullableFilter<"Image"> | string | null
+  fileSize?: Prisma.IntNullableFilter<"Image"> | number | null
+  width?: Prisma.IntNullableFilter<"Image"> | number | null
+  height?: Prisma.IntNullableFilter<"Image"> | number | null
   altText?: Prisma.StringNullableFilter<"Image"> | string | null
   index?: Prisma.IntFilter<"Image"> | number
   shortDescription?: Prisma.StringNullableFilter<"Image"> | string | null
@@ -720,6 +896,12 @@ export type ImageScalarWhereInput = {
 export type ImageCreateWithoutProductInput = {
   id?: string
   url: string
+  fileKey?: string | null
+  originalName?: string | null
+  mimeType?: string | null
+  fileSize?: number | null
+  width?: number | null
+  height?: number | null
   altText?: string | null
   index?: number
   shortDescription?: string | null
@@ -734,6 +916,12 @@ export type ImageCreateWithoutProductInput = {
 export type ImageUncheckedCreateWithoutProductInput = {
   id?: string
   url: string
+  fileKey?: string | null
+  originalName?: string | null
+  mimeType?: string | null
+  fileSize?: number | null
+  width?: number | null
+  height?: number | null
   altText?: string | null
   index?: number
   shortDescription?: string | null
@@ -774,6 +962,12 @@ export type ImageUpdateManyWithWhereWithoutProductInput = {
 export type ImageCreateWithoutBrandInput = {
   id?: string
   url: string
+  fileKey?: string | null
+  originalName?: string | null
+  mimeType?: string | null
+  fileSize?: number | null
+  width?: number | null
+  height?: number | null
   altText?: string | null
   index?: number
   shortDescription?: string | null
@@ -788,6 +982,12 @@ export type ImageCreateWithoutBrandInput = {
 export type ImageUncheckedCreateWithoutBrandInput = {
   id?: string
   url: string
+  fileKey?: string | null
+  originalName?: string | null
+  mimeType?: string | null
+  fileSize?: number | null
+  width?: number | null
+  height?: number | null
   altText?: string | null
   index?: number
   shortDescription?: string | null
@@ -828,6 +1028,12 @@ export type ImageUpdateManyWithWhereWithoutBrandInput = {
 export type ImageCreateManyCategoryInput = {
   id?: string
   url: string
+  fileKey?: string | null
+  originalName?: string | null
+  mimeType?: string | null
+  fileSize?: number | null
+  width?: number | null
+  height?: number | null
   altText?: string | null
   index?: number
   shortDescription?: string | null
@@ -842,6 +1048,12 @@ export type ImageCreateManyCategoryInput = {
 export type ImageUpdateWithoutCategoryInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
+  fileKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  originalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   altText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   index?: Prisma.IntFieldUpdateOperationsInput | number
   shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -856,6 +1068,12 @@ export type ImageUpdateWithoutCategoryInput = {
 export type ImageUncheckedUpdateWithoutCategoryInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
+  fileKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  originalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   altText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   index?: Prisma.IntFieldUpdateOperationsInput | number
   shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -870,6 +1088,12 @@ export type ImageUncheckedUpdateWithoutCategoryInput = {
 export type ImageUncheckedUpdateManyWithoutCategoryInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
+  fileKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  originalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   altText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   index?: Prisma.IntFieldUpdateOperationsInput | number
   shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -884,6 +1108,12 @@ export type ImageUncheckedUpdateManyWithoutCategoryInput = {
 export type ImageCreateManyProductInput = {
   id?: string
   url: string
+  fileKey?: string | null
+  originalName?: string | null
+  mimeType?: string | null
+  fileSize?: number | null
+  width?: number | null
+  height?: number | null
   altText?: string | null
   index?: number
   shortDescription?: string | null
@@ -898,6 +1128,12 @@ export type ImageCreateManyProductInput = {
 export type ImageUpdateWithoutProductInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
+  fileKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  originalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   altText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   index?: Prisma.IntFieldUpdateOperationsInput | number
   shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -912,6 +1148,12 @@ export type ImageUpdateWithoutProductInput = {
 export type ImageUncheckedUpdateWithoutProductInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
+  fileKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  originalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   altText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   index?: Prisma.IntFieldUpdateOperationsInput | number
   shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -926,6 +1168,12 @@ export type ImageUncheckedUpdateWithoutProductInput = {
 export type ImageUncheckedUpdateManyWithoutProductInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
+  fileKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  originalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   altText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   index?: Prisma.IntFieldUpdateOperationsInput | number
   shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -940,6 +1188,12 @@ export type ImageUncheckedUpdateManyWithoutProductInput = {
 export type ImageCreateManyBrandInput = {
   id?: string
   url: string
+  fileKey?: string | null
+  originalName?: string | null
+  mimeType?: string | null
+  fileSize?: number | null
+  width?: number | null
+  height?: number | null
   altText?: string | null
   index?: number
   shortDescription?: string | null
@@ -954,6 +1208,12 @@ export type ImageCreateManyBrandInput = {
 export type ImageUpdateWithoutBrandInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
+  fileKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  originalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   altText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   index?: Prisma.IntFieldUpdateOperationsInput | number
   shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -968,6 +1228,12 @@ export type ImageUpdateWithoutBrandInput = {
 export type ImageUncheckedUpdateWithoutBrandInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
+  fileKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  originalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   altText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   index?: Prisma.IntFieldUpdateOperationsInput | number
   shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -982,6 +1248,12 @@ export type ImageUncheckedUpdateWithoutBrandInput = {
 export type ImageUncheckedUpdateManyWithoutBrandInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
+  fileKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  originalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   altText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   index?: Prisma.IntFieldUpdateOperationsInput | number
   shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -998,6 +1270,12 @@ export type ImageUncheckedUpdateManyWithoutBrandInput = {
 export type ImageSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   url?: boolean
+  fileKey?: boolean
+  originalName?: boolean
+  mimeType?: boolean
+  fileSize?: boolean
+  width?: boolean
+  height?: boolean
   altText?: boolean
   index?: boolean
   shortDescription?: boolean
@@ -1016,6 +1294,12 @@ export type ImageSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
 export type ImageSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   url?: boolean
+  fileKey?: boolean
+  originalName?: boolean
+  mimeType?: boolean
+  fileSize?: boolean
+  width?: boolean
+  height?: boolean
   altText?: boolean
   index?: boolean
   shortDescription?: boolean
@@ -1034,6 +1318,12 @@ export type ImageSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 export type ImageSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   url?: boolean
+  fileKey?: boolean
+  originalName?: boolean
+  mimeType?: boolean
+  fileSize?: boolean
+  width?: boolean
+  height?: boolean
   altText?: boolean
   index?: boolean
   shortDescription?: boolean
@@ -1052,6 +1342,12 @@ export type ImageSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 export type ImageSelectScalar = {
   id?: boolean
   url?: boolean
+  fileKey?: boolean
+  originalName?: boolean
+  mimeType?: boolean
+  fileSize?: boolean
+  width?: boolean
+  height?: boolean
   altText?: boolean
   index?: boolean
   shortDescription?: boolean
@@ -1064,7 +1360,7 @@ export type ImageSelectScalar = {
   updatedAt?: boolean
 }
 
-export type ImageOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "url" | "altText" | "index" | "shortDescription" | "metaTitle" | "metaDescription" | "productId" | "brandId" | "categoryId" | "createdAt" | "updatedAt", ExtArgs["result"]["image"]>
+export type ImageOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "url" | "fileKey" | "originalName" | "mimeType" | "fileSize" | "width" | "height" | "altText" | "index" | "shortDescription" | "metaTitle" | "metaDescription" | "productId" | "brandId" | "categoryId" | "createdAt" | "updatedAt", ExtArgs["result"]["image"]>
 export type ImageInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   product?: boolean | Prisma.Image$productArgs<ExtArgs>
   brand?: boolean | Prisma.Image$brandArgs<ExtArgs>
@@ -1091,6 +1387,12 @@ export type $ImagePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     url: string
+    fileKey: string | null
+    originalName: string | null
+    mimeType: string | null
+    fileSize: number | null
+    width: number | null
+    height: number | null
     altText: string | null
     index: number
     shortDescription: string | null
@@ -1529,6 +1831,12 @@ export interface Prisma__ImageClient<T, Null = never, ExtArgs extends runtime.Ty
 export interface ImageFieldRefs {
   readonly id: Prisma.FieldRef<"Image", 'String'>
   readonly url: Prisma.FieldRef<"Image", 'String'>
+  readonly fileKey: Prisma.FieldRef<"Image", 'String'>
+  readonly originalName: Prisma.FieldRef<"Image", 'String'>
+  readonly mimeType: Prisma.FieldRef<"Image", 'String'>
+  readonly fileSize: Prisma.FieldRef<"Image", 'Int'>
+  readonly width: Prisma.FieldRef<"Image", 'Int'>
+  readonly height: Prisma.FieldRef<"Image", 'Int'>
   readonly altText: Prisma.FieldRef<"Image", 'String'>
   readonly index: Prisma.FieldRef<"Image", 'Int'>
   readonly shortDescription: Prisma.FieldRef<"Image", 'String'>

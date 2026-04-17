@@ -77,7 +77,10 @@ export const CategoryScalarFieldEnum = {
   id: 'id',
   name: 'name',
   slug: 'slug',
+  description: 'description',
   position: 'position',
+  metaTitle: 'metaTitle',
+  metaDescription: 'metaDescription',
   parentId: 'parentId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -94,8 +97,12 @@ export const ProductScalarFieldEnum = {
   price: 'price',
   priceUnit: 'priceUnit',
   status: 'status',
+  publishedAt: 'publishedAt',
   isPromotion: 'isPromotion',
+  metaTitle: 'metaTitle',
+  metaDescription: 'metaDescription',
   categoryId: 'categoryId',
+  brandId: 'brandId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -106,6 +113,12 @@ export type ProductScalarFieldEnum = (typeof ProductScalarFieldEnum)[keyof typeo
 export const ImageScalarFieldEnum = {
   id: 'id',
   url: 'url',
+  fileKey: 'fileKey',
+  originalName: 'originalName',
+  mimeType: 'mimeType',
+  fileSize: 'fileSize',
+  width: 'width',
+  height: 'height',
   altText: 'altText',
   index: 'index',
   shortDescription: 'shortDescription',
