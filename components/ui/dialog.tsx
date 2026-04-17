@@ -8,10 +8,10 @@ import { Button } from "@/components/ui/button"
 import { XIcon } from "lucide-react"
 
 function Dialog({
-  preventScrollLock,
+ 
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Root>) {
-  return <DialogPrimitive.Root data-slot="dialog" preventScrollLock={preventScrollLock} {...props} />
+  return <DialogPrimitive.Root data-slot="dialog" {...props} />
 }
 
 function DialogTrigger({

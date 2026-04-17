@@ -33,7 +33,7 @@ export default function Home() {
           <Tag size={48} className="mb-4 opacity-80" />
           <CardTitle className="text-2xl mb-2">PROMOS -20%</CardTitle>
           <CardDescription className="text-primary-foreground/80 mb-6">Sur tous les engrais ce weekend avec le code <span className="font-bold">JARDIN20</span></CardDescription>
-          <Button variant="secondary" className="w-full">Profiter de l'offre</Button>
+          <Button variant="secondary" className="w-full">Profiter de l&apos;offre</Button>
         </Card>
 
         {/* Categories - Boutique */}
@@ -68,7 +68,7 @@ export default function Home() {
         {/* Quick Contact / Info */}
         <Card className="md:col-span-1 md:row-span-2 flex flex-col justify-between p-6 bg-muted/50">
           <div>
-            <CardTitle className="mb-2">Besoin d'aide ?</CardTitle>
+            <CardTitle className="mb-2">Besoin d&apos;aide ?</CardTitle>
             <CardDescription>Nos experts vous conseillent pour votre installation.</CardDescription>
           </div>
           <Button variant="outline" className="mt-4">Nous contacter</Button>
@@ -76,7 +76,7 @@ export default function Home() {
 
         {/* Small Visual Block */}
         <Card className="md:col-span-1 md:row-span-1 bg-accent/20 border-dashed flex items-center justify-center italic text-muted-foreground p-4 text-center">
-           "La nature à portée de main, même en ville."
+           &quot;La nature à portée de main, même en ville.&quot;
         </Card>
 
       </div>
