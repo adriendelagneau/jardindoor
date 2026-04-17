@@ -68,6 +68,12 @@ export const Navbar = () => {
             href="/favorites"
             className="flex items-center gap-1 underline-effect cursor-pointer"
           >
+            Graines
+          </Link>
+          <Link
+            href="/favorites"
+            className="flex items-center gap-1 underline-effect cursor-pointer"
+          >
             Promos
           </Link>
           <Link

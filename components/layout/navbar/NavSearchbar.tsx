@@ -178,13 +178,13 @@ export function NavSearchbar() {
 
   /* ------------------ UI ------------------ */
   return (
-    <div ref={containerRef} className="relative w-full lg:max-w-lg z-50">
+    <div ref={containerRef} className="relative w-full lg:max-w-md z-50">
       <SearchIcon className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
 
       <input
         value={value}
         placeholder="Rechercher sur JARDIN INDOOR"
-        className="bg-background focus:ring-primary h-11 w-full rounded-md border pr-10 pl-9 text-sm focus:ring-2 focus:outline-none"
+        className="bg-background focus:ring-primary h-11 w-full rounded-4xl border pr-10 pl-9 text-sm focus:ring-2 focus:outline-none"
         onChange={(e) => {
           setValue(e.target.value);
           setIsManualSelection(false);
