@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { 
@@ -20,9 +21,11 @@ export default function AdminPage() {
           <h1 className="text-3xl font-bold font-serif">Tableau de bord</h1>
           <p className="text-muted-foreground">Gérez votre boutique et vos contenus.</p>
         </div>
-        <Button className="gap-2">
-          <Plus size={18} /> Nouveau Produit
-        </Button>
+        <Link href="/admin/products/new">
+          <Button className="gap-2">
+            <Plus size={18} /> Nouveau Produit
+          </Button>
+        </Link>
       </div>
 
       {/* Bento Grid Container */}
@@ -53,72 +56,80 @@ export default function AdminPage() {
         </Card>
 
         {/* 2. Products Management */}
-        <Card className="md:col-span-2 md:row-span-3 hover:shadow-lg transition-all border-primary/10 flex flex-col">
-          <CardHeader className="pb-2">
-            <div className="bg-primary/10 w-fit p-3 rounded-xl mb-4 text-primary">
-              <Package size={32} />
-            </div>
-            <CardTitle className="text-3xl">Produits</CardTitle>
-            <CardDescription className="text-base">
-              Inventaire complet, gestion des stocks et prix.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="flex-1 flex flex-col justify-end">
-            <div className="space-y-4">
-              <div className="flex justify-between items-center p-3 bg-muted/50 rounded-lg">
-                <span className="text-sm font-medium">Total Produits</span>
-                <span className="text-xl font-bold">124</span>
+        <Link href="/admin/products" className="md:col-span-2 md:row-span-3 group/card">
+          <Card className="h-full hover:shadow-lg transition-all border-primary/10 flex flex-col">
+            <CardHeader className="pb-2">
+              <div className="bg-primary/10 w-fit p-3 rounded-xl mb-4 text-primary group-hover/card:scale-110 transition-transform">
+                <Package size={32} />
               </div>
-              <Button className="w-full gap-2 group">
-                Gérer le catalogue <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+              <CardTitle className="text-3xl">Produits</CardTitle>
+              <CardDescription className="text-base">
+                Inventaire complet, gestion des stocks et prix.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="flex-1 flex flex-col justify-end">
+              <div className="space-y-4">
+                <div className="flex justify-between items-center p-3 bg-muted/50 rounded-lg">
+                  <span className="text-sm font-medium">Total Produits</span>
+                  <span className="text-xl font-bold">124</span>
+                </div>
+                <Button className="w-full gap-2 group">
+                  Gérer le catalogue <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </Link>
 
         {/* 3. Brands */}
-        <Card className="md:col-span-1 md:row-span-1 hover:bg-accent/5 transition-colors cursor-pointer group flex flex-col justify-center">
-          <CardHeader className="p-6">
-            <Tag className="text-primary mb-2 group-hover:scale-110 transition-transform" size={28} />
-            <CardTitle className="text-xl">Marques</CardTitle>
-            <CardDescription className="text-xs">Gestion des partenaires</CardDescription>
-          </CardHeader>
-        </Card>
+        <Link href="/admin/brands" className="md:col-span-1 md:row-span-1">
+          <Card className="h-full hover:bg-accent/5 transition-colors cursor-pointer group flex flex-col justify-center">
+            <CardHeader className="p-6">
+              <Tag className="text-primary mb-2 group-hover:scale-110 transition-transform" size={28} />
+              <CardTitle className="text-xl">Marques</CardTitle>
+              <CardDescription className="text-xs">Gestion des partenaires</CardDescription>
+            </CardHeader>
+          </Card>
+        </Link>
 
         {/* 4. Images */}
-        <Card className="md:col-span-1 md:row-span-1 hover:bg-accent/5 transition-colors cursor-pointer group flex flex-col justify-center">
-          <CardHeader className="p-6">
-            <ImageIcon className="text-primary mb-2 group-hover:scale-110 transition-transform" size={28} />
-            <CardTitle className="text-xl">Médiathèque</CardTitle>
-            <CardDescription className="text-xs">Images & assets</CardDescription>
-          </CardHeader>
-        </Card>
+        <Link href="/admin/images" className="md:col-span-1 md:row-span-1">
+          <Card className="h-full hover:bg-accent/5 transition-colors cursor-pointer group flex flex-col justify-center">
+            <CardHeader className="p-6">
+              <ImageIcon className="text-primary mb-2 group-hover:scale-110 transition-transform" size={28} />
+              <CardTitle className="text-xl">Médiathèque</CardTitle>
+              <CardDescription className="text-xs">Images & assets</CardDescription>
+            </CardHeader>
+          </Card>
+        </Link>
 
         {/* 5. Categories & Subcategories */}
-        <Card className="md:col-span-2 md:row-span-2 bg-secondary/10 border-dashed border-primary/20 hover:border-primary/50 transition-colors cursor-pointer group overflow-hidden">
-          <CardHeader className="relative z-10">
-            <Layers className="text-primary mb-2 group-hover:rotate-12 transition-transform" size={32} />
-            <CardTitle className="text-2xl">Catégories</CardTitle>
-            <CardDescription className="text-sm">
-              Structure de la boutique & sous-catégories.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="relative z-10 flex flex-col gap-2 mt-4">
-             <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <div className="w-2 h-2 rounded-full bg-primary" />
-                <span>Systèmes Hydro</span>
-             </div>
-             <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <div className="w-2 h-2 rounded-full bg-primary/60" />
-                <span>Éclairage LED</span>
-             </div>
-             <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <div className="w-2 h-2 rounded-full bg-primary/30" />
-                <span>Engrais Bio</span>
-             </div>
-          </CardContent>
-          <Layers className="absolute -right-8 -bottom-8 text-primary/5 group-hover:scale-110 transition-transform" size={200} />
-        </Card>
+        <Link href="/admin/categories" className="md:col-span-2 md:row-span-2">
+          <Card className="h-full bg-secondary/10 border-dashed border-primary/20 hover:border-primary/50 transition-colors cursor-pointer group overflow-hidden">
+            <CardHeader className="relative z-10">
+              <Layers className="text-primary mb-2 group-hover:rotate-12 transition-transform" size={32} />
+              <CardTitle className="text-2xl">Catégories</CardTitle>
+              <CardDescription className="text-sm">
+                Structure de la boutique & sous-catégories.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="relative z-10 flex flex-col gap-2 mt-4">
+               <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <div className="w-2 h-2 rounded-full bg-primary" />
+                  <span>Systèmes Hydro</span>
+               </div>
+               <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <div className="w-2 h-2 rounded-full bg-primary/60" />
+                  <span>Éclairage LED</span>
+               </div>
+               <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <div className="w-2 h-2 rounded-full bg-primary/30" />
+                  <span>Engrais Bio</span>
+               </div>
+            </CardContent>
+            <Layers className="absolute -right-8 -bottom-8 text-primary/5 group-hover:scale-110 transition-transform" size={200} />
+          </Card>
+        </Link>
 
       </div>
     </div>
