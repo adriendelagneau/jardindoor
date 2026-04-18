@@ -19,10 +19,7 @@ const SingleMap = () => {
    }, []);
   
   return (
-    <div className="relative z-10 my-12">
-      <h2 className="mb-3 text-xl font-medium">
-        Localisation :  36 Avenue Gontran Bienvenu 56000 Vannes
-      </h2>
+    <div className="relative z-10 w-full h-full">
        <MiniMap
         lat={FIXED_LAT}
         lng={FIXED_LNG}
