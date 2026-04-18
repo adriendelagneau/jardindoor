@@ -11,4 +11,7 @@ export const imageSchema = z.object({
   categoryId: z.string().uuid().optional().nullable(),
 });
 
+export const imageUpdateSchema = imageSchema.partial();
+
 export type ImageSchema = z.infer<typeof imageSchema>;
+export type ImageUpdateSchema = z.infer<typeof imageUpdateSchema>;
