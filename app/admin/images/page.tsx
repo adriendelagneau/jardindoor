@@ -1,228 +1,91 @@
-"use client"
+import Image from "next/image"
+import Link from "next/link"
+import prisma from "@/lib/prisma/prisma"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
+import { Plus } from "lucide-react"
 
-import React, { useState } from 'react'
-import Image from 'next/image'
-import { ImageDropzone } from '@/components/ui/image-dropzone'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-
-interface UploadedImage {
-  id: string
-  url: string
-  cloudinaryUrl?: string
-  file: File
-  uploading?: boolean
-  saving?: boolean
-  saved?: boolean
-  dbId?: string
-  altText?: string
-  shortDescription?: string
-}
-
-const Page = () => {
-  const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>([])
-
-  const handleUpload = async (files: File[]) => {
-    const newImages: UploadedImage[] = await Promise.all(
-      files.map(async (file) => {
-        const localUrl = URL.createObjectURL(file)
-        
-        try {
-          const formData = new FormData()
-          formData.append('file', file)
-
-          const response = await fetch('/api/upload', {
-            method: 'POST',
-            body: formData,
-          })
-
-          if (!response.ok) {
-            throw new Error('Upload failed')
-          }
-
-          const data = await response.json()
-
-          return {
-            id: Math.random().toString(36).substring(7),
-            url: data.image.url,
-            cloudinaryUrl: data.image.url,
-            file,
-            uploading: false,
-          }
-        } catch (error) {
-          console.error('Error uploading image:', error)
-          return {
-            id: Math.random().toString(36).substring(7),
-            url: localUrl,
-            file,
-            uploading: false,
-          }
-        }
-      })
-    )
-
-    setUploadedImages((prev) => [...prev, ...newImages])
-  }
-
-  const handleSave = async (image: UploadedImage) => {
-    if (!image.cloudinaryUrl) return
-
-    setUploadedImages((prev) =>
-      prev.map((img) => (img.id === image.id ? { ...img, saving: true } : img))
-    )
-
-    try {
-      const response = await fetch('/api/images', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          url: image.cloudinaryUrl,
-          altText: image.altText,
-          shortDescription: image.shortDescription,
-          metaTitle: image.metaTitle,
-          metaDescription: image.metaDescription,
-        }),
-      })
-
-      if (!response.ok) {
-        throw new Error('Save failed')
-      }
-
-      const data = await response.json()
-
-      setUploadedImages((prev) =>
-        prev.map((img) =>
-          img.id === image.id
-            ? { ...img, saving: false, saved: true, dbId: data.image.id }
-            : img
-        )
-      )
-    } catch (error) {
-      console.error('Error saving image:', error)
-      setUploadedImages((prev) =>
-        prev.map((img) => (img.id === image.id ? { ...img, saving: false } : img))
-      )
-    }
-  }
-
-  const handleSaveAll = async () => {
-    const unsavedImages = uploadedImages.filter((img) => !img.saved)
-    await Promise.all(unsavedImages.map(handleSave))
-  }
-
-  const handleRemove = (id: string) => {
-    setUploadedImages((prev) => prev.filter((img) => img.id !== id))
-  }
+export default async function ImagesPage() {
+  const images = await prisma.image.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+  })
 
   return (
-    <div className="p-6">
-      <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-semibold">Images</h1>
-        {uploadedImages.length > 0 && (
-          <Button onClick={handleSaveAll} variant="default">
-            Save All
-          </Button>
-        )}
+    <div className="space-y-12 p-6">
+      {/* Hero Section */}
+      <div className="relative h-80 w-full overflow-hidden rounded-3xl shadow-xl">
+        <Image
+          src="/home-img.png"
+          alt="Gérer vos images"
+          fill
+          className="object-cover brightness-40"
+          priority
+        />
+        <div className="absolute inset-0 flex flex-col items-center justify-center space-y-4">
+          <h1 className="text-5xl font-bold text-white uppercase tracking-widest text-center">
+            Gérer vos images
+          </h1>
+          <p className="text-white/80 text-lg">Organisez et optimisez votre catalogue visuel</p>
+        </div>
       </div>
 
-      <ImageDropzone onUpload={handleUpload} />
+      {/* Action Button */}
+      <div className="flex justify-center -mt-16 relative z-10">
+        <Button asChild size="lg" className="h-16 px-10 text-xl rounded-full shadow-2xl hover:scale-105 transition-transform bg-primary text-primary-foreground">
+          <Link href="/admin/images/create">
+            <Plus className="mr-3 h-8 w-8" />
+            Créer une image
+          </Link>
+        </Button>
+      </div>
 
-      {uploadedImages.length > 0 && (
-        <div className="mt-6 space-y-4">
-          <h2 className="text-lg font-medium">Uploaded Images</h2>
-          <div className="space-y-4">
-            {uploadedImages.map((image) => (
-              <div
-                key={image.id}
-                className={`flex gap-4 rounded-lg border p-4 ${
-                  !image.altText || !image.shortDescription ? 'border-destructive' : ''
-                }`}
-              >
-                <div className="relative aspect-square w-32 shrink-0 overflow-hidden rounded-lg border">
-                  <Image
-                    src={image.url}
-                    alt="Preview"
-                    fill
-                    className="object-cover"
-                  />
-                  {image.saving && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/50">
-                      <span className="text-xs text-white">Saving...</span>
-                    </div>
-                  )}
-                  {image.saved && (
-                    <div className="absolute bottom-0 left-0 right-0 bg-green-600 px-2 py-1 text-center text-xs text-white">
-                      Saved
-                    </div>
-                  )}
-                </div>
-                <div className="flex flex-1 flex-col gap-3">
-                  <div>
-                    <Label htmlFor={`altText-${image.id}`} className="text-xs font-medium">Alt Text</Label>
-                    <Input
-                      id={`altText-${image.id}`}
-                      value={image.altText || ''}
-                      onChange={(e) =>
-                        setUploadedImages((prev) =>
-                          prev.map((img) =>
-                            img.id === image.id
-                              ? { ...img, altText: e.target.value }
-                              : img
-                          )
-                        )
-                      }
-                      placeholder="Describe the image..."
-                      className="h-8"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor={`shortDescription-${image.id}`} className="text-xs font-medium">Short Description</Label>
-                    <Input
-                      id={`shortDescription-${image.id}`}
-                      value={image.shortDescription || ''}
-                      onChange={(e) =>
-                        setUploadedImages((prev) =>
-                          prev.map((img) =>
-                            img.id === image.id
-                              ? { ...img, shortDescription: e.target.value }
-                              : img
-                          )
-                        )
-                      }
-                      placeholder="Brief description..."
-                      className="h-8"
-                    />
-                  </div>
-                  <div className="flex gap-2">
-                    <Button
-                      size="sm"
-                      onClick={() => handleSave(image)}
-                      disabled={image.saving || image.saved}
-                    >
-                      {image.saving ? 'Saving...' : image.saved ? 'Saved' : 'Save'}
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="destructive"
-                      onClick={() => handleRemove(image.id)}
-                    >
-                      Remove
-                    </Button>
-                  </div>
-                  {(!image.altText || !image.shortDescription) && !image.saved && (
-                    <p className="text-xs text-destructive">
-                      Alt text and short description are required
-                    </p>
-                  )}
-                </div>
+      {/* Images List */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 pt-4">
+        {images.map((image) => (
+          <Link key={image.id} href={`/admin/images/${image.id}`} className="group">
+            <Card className="overflow-hidden border-none shadow-md hover:shadow-xl transition-all duration-300 h-full bg-card">
+              <div className="aspect-4/3 relative overflow-hidden">
+                <Image
+                  src={image.url}
+                  alt={image.altText || ""}
+                  fill
+                  className="object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
               </div>
-            ))}
+              <CardContent className="p-5">
+                <h3 className="font-bold text-lg truncate group-hover:text-primary transition-colors">
+                  {image.altText}
+                </h3>
+                <p className="text-sm text-muted-foreground line-clamp-2 mt-1">
+                  {image.shortDescription}
+                </p>
+                <div className="mt-4 flex items-center text-xs font-medium text-primary">
+                  Modifier les détails
+                  <span className="ml-1 group-hover:ml-2 transition-all">→</span>
+                </div>
+              </CardContent>
+            </Card>
+          </Link>
+        ))}
+      </div>
+      
+      {images.length === 0 && (
+        <div className="text-center py-20 bg-muted/30 rounded-3xl border-2 border-dashed border-muted">
+          <div className="mx-auto w-16 h-16 bg-muted rounded-full flex items-center justify-center mb-4">
+            <Image src="/file.svg" alt="Empty" width={32} height={32} className="opacity-20" />
           </div>
+          <h3 className="text-xl font-semibold">Aucune image trouvée</h3>
+          <p className="text-muted-foreground mt-2 max-w-xs mx-auto">
+            Votre bibliothèque d&apos;images est vide. Commencez par ajouter votre première image.
+          </p>
+          <Button asChild variant="outline" className="mt-6">
+            <Link href="/admin/images/create">Ajouter une image</Link>
+          </Button>
         </div>
       )}
     </div>
   )
 }
-
-export default Page

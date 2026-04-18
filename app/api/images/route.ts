@@ -3,6 +3,27 @@ import { NextRequest, NextResponse } from "next/server"
 import { getUser } from "@/lib/auth/auth-session"
 import prisma from "@/lib/prisma/prisma"
 
+import { imageSchema } from "@/lib/validation/image"
+
+export async function GET() {
+  const user = await getUser()
+  if (!user) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+  }
+
+  try {
+    const images = await prisma.image.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+    })
+    return NextResponse.json({ images })
+  } catch (error) {
+    console.error("Error fetching images:", error)
+    return NextResponse.json({ error: "Failed to fetch images" }, { status: 500 })
+  }
+}
+
 export async function POST(req: NextRequest) {
   const user = await getUser()
   if (!user) {
@@ -11,15 +32,27 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json()
-    const { url, altText, shortDescription, productId, brandId, categoryId } = body
-
-    if (!url) {
-      return NextResponse.json({ error: "URL is required" }, { status: 400 })
+    
+    // Validate the request body with Zod
+    const result = imageSchema.safeParse(body)
+    
+    if (!result.success) {
+      return NextResponse.json({ 
+        error: "Validation failed", 
+        details: result.error.format() 
+      }, { status: 400 })
     }
 
-    if (!altText || !shortDescription) {
-      return NextResponse.json({ error: "Alt text and short description are required" }, { status: 400 })
-    }
+    const { 
+      url, 
+      altText, 
+      shortDescription, 
+      metaTitle, 
+      metaDescription, 
+      productId, 
+      brandId, 
+      categoryId 
+    } = result.data
 
     // Get the next available index for this entity
     let nextIndex = 0
@@ -48,8 +81,8 @@ export async function POST(req: NextRequest) {
         url,
         altText,
         shortDescription,
-        metaTitle: altText,
-        metaDescription: shortDescription,
+        metaTitle: metaTitle || altText,
+        metaDescription: metaDescription || shortDescription,
         index: nextIndex,
         productId: productId || null,
         brandId: brandId || null,

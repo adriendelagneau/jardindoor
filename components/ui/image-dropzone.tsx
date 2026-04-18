@@ -1,41 +1,37 @@
 "use client"
 
-import { useCallback, useState } from "react"
+import { useCallback } from "react"
 import { useDropzone } from "react-dropzone"
 import Image from "next/image"
-import { Upload, X, Image as ImageIcon } from "lucide-react"
+import { Upload, X, Image as ImageIcon, Loader2 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "./button"
 
 interface ImageDropzoneProps {
+  files?: File[]
+  previews?: string[]
+  uploadingStates?: boolean[]
   onUpload?: (files: File[]) => void
+  onRemove?: (index: number) => void
+  onClear?: () => void
   maxFiles?: number
   maxSize?: number
   className?: string
 }
 
 export function ImageDropzone({
+  files = [],
+  previews = [],
+  uploadingStates = [],
   onUpload,
-  maxFiles = 5,
+  onRemove,
+  onClear,
+  maxFiles = 100,
   maxSize = 5 * 1024 * 1024,
   className,
 }: ImageDropzoneProps) {
-  const [previews, setPreviews] = useState<string[]>([])
-  const [files, setFiles] = useState<File[]>([])
-
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
-      setFiles((prev) => [...prev, ...acceptedFiles])
-
-      const newPreviews = acceptedFiles.map((file) =>
-        Object.assign(file, { preview: URL.createObjectURL(file) })
-      )
-
-      setPreviews((prev) => [
-        ...prev,
-        ...newPreviews.map((f) => f.preview as string),
-      ])
-
       if (onUpload) {
         onUpload(acceptedFiles)
       }
@@ -43,19 +39,15 @@ export function ImageDropzone({
     [onUpload]
   )
 
-  const removeFile = (index: number) => {
-    setFiles((prev) => prev.filter((_, i) => i !== index))
-    setPreviews((prev) => prev.filter((_, i) => i !== index))
-  }
-
   const { getRootProps, getInputProps, isDragActive, isDragReject } =
     useDropzone({
       onDrop,
       accept: {
         "image/*": [".png", ".jpg", ".jpeg", ".gif", ".webp"],
       },
-      maxFiles,
+      maxFiles: maxFiles - files.length,
       maxSize,
+      disabled: files.length >= maxFiles,
     })
 
   return (
@@ -68,8 +60,7 @@ export function ImageDropzone({
             ? "border-primary bg-primary/5"
             : isDragReject
             ? "border-destructive bg-destructive/5"
-            : "border-muted-foreground/25 hover:border-muted-foreground/50 hover:bg-muted/50",
-          (files.length >= maxFiles || previews.length > 0) && "border-muted-foreground/25"
+            : "border-muted-foreground/25 hover:border-muted-foreground/50 hover:bg-muted/50"
         )}
       >
         <input {...getInputProps()} />
@@ -94,19 +85,16 @@ export function ImageDropzone({
           <div className="space-y-1">
             <p className="text-sm font-medium">
               {isDragActive
-                ? "Drop the images here"
-                : "Drag & drop images here"}
+                ? "Déposez les images ici"
+                : "Glissez-déposez vos images ici"}
             </p>
             <p className="text-xs text-muted-foreground">
-              or click to select files
+              ou cliquez pour sélectionner des fichiers
             </p>
           </div>
 
           <p className="text-xs text-muted-foreground">
-            PNG, JPG, JPEG, GIF, WebP up to {maxSize / 1024 / 1024}MB
-          </p>
-          <p className="text-xs text-muted-foreground">
-            Maximum {maxFiles} files
+            PNG, JPG, JPEG, GIF, WebP jusqu'à {maxSize / 1024 / 1024}MB
           </p>
         </div>
       </div>
@@ -124,6 +112,14 @@ export function ImageDropzone({
                 fill
                 className="object-cover"
               />
+              
+              {uploadingStates[index] && (
+                <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 backdrop-blur-[2px] z-10">
+                  <Loader2 className="h-6 w-6 animate-spin text-white" />
+                  <span className="mt-1 text-[10px] font-medium text-white uppercase tracking-tighter">Upload...</span>
+                </div>
+              )}
+
               <div className="absolute inset-0 bg-black/50 opacity-0 transition-opacity group-hover:opacity-100" />
               <Button
                 size="icon-xs"
@@ -131,7 +127,7 @@ export function ImageDropzone({
                 className="absolute right-2 top-2 opacity-0 transition-opacity group-hover:opacity-100"
                 onClick={(e) => {
                   e.stopPropagation()
-                  removeFile(index)
+                  if (onRemove) onRemove(index)
                 }}
               >
                 <X className="h-3 w-3" />
@@ -142,41 +138,38 @@ export function ImageDropzone({
             </div>
           ))}
 
-          {files.length < maxFiles && (
-            <label className="flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-muted-foreground/25 bg-muted/50 transition-colors hover:border-muted-foreground/50 hover:bg-muted"
-            >
-              <ImageIcon className="h-8 w-8 text-muted-foreground" />
-              <span className="mt-2 text-xs text-muted-foreground">Add more</span>
-              <input
-                type="file"
-                className="hidden"
-                accept="image/*"
-                multiple
-                onChange={(e) => {
-                  const newFiles = Array.from(e.target.files || [])
-                  onDrop(newFiles)
-                  e.target.value = ""
-                }}
-              />
-            </label>
-          )}
+          <label className="flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-muted-foreground/25 bg-muted/50 transition-colors hover:border-muted-foreground/50 hover:bg-muted"
+          >
+            <ImageIcon className="h-8 w-8 text-muted-foreground" />
+            <span className="mt-2 text-xs text-muted-foreground">Ajouter plus</span>
+            <input
+              type="file"
+              className="hidden"
+              accept="image/*"
+              multiple
+              onChange={(e) => {
+                const newFiles = Array.from(e.target.files || [])
+                onDrop(newFiles)
+                e.target.value = ""
+              }}
+            />
+          </label>
         </div>
       )}
 
       {files.length > 0 && (
         <div className="flex items-center justify-between">
-          <p className="text-sm text-muted-foreground">
-            {files.length} of {maxFiles} files selected
+          <p className="text-sm text-muted-foreground font-medium">
+            {files.length} image{files.length > 1 ? 's' : ''} sélectionnée{files.length > 1 ? 's' : ''}
           </p>
           <Button
             variant="outline"
             size="sm"
             onClick={() => {
-              setFiles([])
-              setPreviews([])
+              if (onClear) onClear()
             }}
           >
-            Clear all
+            Tout effacer
           </Button>
         </div>
       )}
