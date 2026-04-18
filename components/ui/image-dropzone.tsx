@@ -2,6 +2,7 @@
 
 import { useCallback, useState } from "react"
 import { useDropzone } from "react-dropzone"
+import Image from "next/image"
 import { Upload, X, Image as ImageIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "./button"
@@ -117,10 +118,11 @@ export function ImageDropzone({
               key={index}
               className="group relative aspect-square overflow-hidden rounded-lg border bg-muted"
             >
-              <img
+              <Image
                 src={preview}
                 alt={`Preview ${index + 1}`}
-                className="h-full w-full object-cover"
+                fill
+                className="object-cover"
               />
               <div className="absolute inset-0 bg-black/50 opacity-0 transition-opacity group-hover:opacity-100" />
               <Button

@@ -39,28 +39,15 @@ export async function POST(req: NextRequest) {
     const buffer = Buffer.from(arrayBuffer);
 
     try {
-        // Upload with automatic optimization transformations
-        // This optimizes the image on upload: converts to best format, compresses, etc.
-        const uploadResult = await new Promise<{ secure_url: string; public_id: string }>((resolve, reject) => {
+        // Upload to Cloudinary only
+        const uploadResult = await new Promise<{ secure_url: string; public_id: string; width: number; height: number }>((resolve, reject) => {
             const stream = cloudinary.uploader.upload_stream(
                 {
                     folder: "listings",
-                    // Automatic format selection (uses WebP/AVIF when supported)
                     transformation: [
                         {
                             fetch_format: "auto",
                             quality: "auto"
-                        },
-                    ],
-                    // Generate responsive breakpoints
-                    responsive_breakpoints: [
-                        {
-                            create_derived: true,
-                            min_width: 320,
-                            max_width: 1280,
-                            bytes_step: 20000,
-                            min_bytes: 15000,
-                            max_images: 5,
                         },
                     ],
                 },
@@ -69,7 +56,14 @@ export async function POST(req: NextRequest) {
             stream.end(buffer);
         });
 
-        return NextResponse.json({ url: uploadResult.secure_url });
+        return NextResponse.json({ 
+            image: { 
+                url: uploadResult.secure_url, 
+                fileKey: uploadResult.public_id,
+                width: uploadResult.width,
+                height: uploadResult.height,
+            } 
+        });
     } catch (err) {
         console.error(err);
         return NextResponse.json({ error: "Upload failed" }, { status: 500 });

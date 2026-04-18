@@ -194,11 +194,11 @@ model Image {
   height       Int?
 
   // Usage Metadata
-  altText          String?
+  altText          String
   index            Int     @default(0)
-  shortDescription String? @db.VarChar(255)
-  metaTitle        String?
-  metaDescription  String?
+  shortDescription String @db.VarChar(255)
+  metaTitle        String
+  metaDescription  String
 
   // Relations
   productId String?
