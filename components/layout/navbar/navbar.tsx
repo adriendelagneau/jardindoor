@@ -30,7 +30,7 @@ export const Navbar = () => {
     <div className="bg-background fixed top-0 left-0 z-50 flex h-16 w-full items-center border-b px-4 shadow-sm lg:px-8">
       <div className="relative mx-auto flex h-full w-full max-w-7xl items-center lg:justify-between">
         {/* Mobile menu */}
-        <button onClick={() => toggleSidebar()} className="lg:hidden">
+        <button onClick={() => toggleSidebar("home")} className="lg:hidden">
           <MenuIcon size={24} />
         </button>
 
