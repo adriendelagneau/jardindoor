@@ -94,7 +94,7 @@ export function ImageDropzone({
           </div>
 
           <p className="text-xs text-muted-foreground">
-            PNG, JPG, JPEG, GIF, WebP jusqu'à {maxSize / 1024 / 1024}MB
+            PNG, JPG, JPEG, GIF, WebP jusqu&apos;à {maxSize / 1024 / 1024}MB
           </p>
         </div>
       </div>
