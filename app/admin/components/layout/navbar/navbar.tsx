@@ -77,7 +77,7 @@ export const NavbarAdmin = () => {
             Marques
           </Link>
           <Link
-            href="/favorites"
+            href="/images"
             className="flex items-center gap-1 underline-effect cursor-pointer"
           >
             Images
