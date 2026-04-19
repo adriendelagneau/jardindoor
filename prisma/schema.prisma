@@ -111,6 +111,11 @@ enum ProductStatus {
   OUT_OF_STOCK
 }
 
+enum ProductType {
+  PRODUCT
+  SEED
+}
+
 enum PriceUnit {
   UNIT
   KG
@@ -158,6 +163,7 @@ model Product {
   priceUnit   PriceUnit @default(UNIT)
 
   status      ProductStatus @default(ACTIVE)
+  type        ProductType   @default(PRODUCT)
   publishedAt DateTime?
   isPromotion Boolean       @default(false)
 

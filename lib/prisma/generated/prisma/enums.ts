@@ -26,6 +26,14 @@ export const ProductStatus = {
 export type ProductStatus = (typeof ProductStatus)[keyof typeof ProductStatus]
 
 
+export const ProductType = {
+  PRODUCT: 'PRODUCT',
+  SEED: 'SEED'
+} as const
+
+export type ProductType = (typeof ProductType)[keyof typeof ProductType]
+
+
 export const PriceUnit = {
   UNIT: 'UNIT',
   KG: 'KG',

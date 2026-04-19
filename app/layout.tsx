@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { TanstackProvider } from "@/components/providers/Tanstackprovider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,7 +30,9 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col scrollbar scrollbar-none">
         <main className="flex-1 flex flex-col max-w-7xl mx-auto w-full">
+          <TanstackProvider>
           {children}
+          </TanstackProvider>
         </main>
       </body>
     </html>

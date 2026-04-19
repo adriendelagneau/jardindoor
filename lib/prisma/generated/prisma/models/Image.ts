@@ -278,11 +278,11 @@ export type ImageGroupByOutputType = {
   fileSize: number | null
   width: number | null
   height: number | null
-  altText: string | null
+  altText: string
   index: number
-  shortDescription: string | null
-  metaTitle: string | null
-  metaDescription: string | null
+  shortDescription: string
+  metaTitle: string
+  metaDescription: string
   productId: string | null
   brandId: string | null
   categoryId: string | null
@@ -322,11 +322,11 @@ export type ImageWhereInput = {
   fileSize?: Prisma.IntNullableFilter<"Image"> | number | null
   width?: Prisma.IntNullableFilter<"Image"> | number | null
   height?: Prisma.IntNullableFilter<"Image"> | number | null
-  altText?: Prisma.StringNullableFilter<"Image"> | string | null
+  altText?: Prisma.StringFilter<"Image"> | string
   index?: Prisma.IntFilter<"Image"> | number
-  shortDescription?: Prisma.StringNullableFilter<"Image"> | string | null
-  metaTitle?: Prisma.StringNullableFilter<"Image"> | string | null
-  metaDescription?: Prisma.StringNullableFilter<"Image"> | string | null
+  shortDescription?: Prisma.StringFilter<"Image"> | string
+  metaTitle?: Prisma.StringFilter<"Image"> | string
+  metaDescription?: Prisma.StringFilter<"Image"> | string
   productId?: Prisma.StringNullableFilter<"Image"> | string | null
   brandId?: Prisma.StringNullableFilter<"Image"> | string | null
   categoryId?: Prisma.StringNullableFilter<"Image"> | string | null
@@ -346,11 +346,11 @@ export type ImageOrderByWithRelationInput = {
   fileSize?: Prisma.SortOrderInput | Prisma.SortOrder
   width?: Prisma.SortOrderInput | Prisma.SortOrder
   height?: Prisma.SortOrderInput | Prisma.SortOrder
-  altText?: Prisma.SortOrderInput | Prisma.SortOrder
+  altText?: Prisma.SortOrder
   index?: Prisma.SortOrder
-  shortDescription?: Prisma.SortOrderInput | Prisma.SortOrder
-  metaTitle?: Prisma.SortOrderInput | Prisma.SortOrder
-  metaDescription?: Prisma.SortOrderInput | Prisma.SortOrder
+  shortDescription?: Prisma.SortOrder
+  metaTitle?: Prisma.SortOrder
+  metaDescription?: Prisma.SortOrder
   productId?: Prisma.SortOrderInput | Prisma.SortOrder
   brandId?: Prisma.SortOrderInput | Prisma.SortOrder
   categoryId?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -373,11 +373,11 @@ export type ImageWhereUniqueInput = Prisma.AtLeast<{
   fileSize?: Prisma.IntNullableFilter<"Image"> | number | null
   width?: Prisma.IntNullableFilter<"Image"> | number | null
   height?: Prisma.IntNullableFilter<"Image"> | number | null
-  altText?: Prisma.StringNullableFilter<"Image"> | string | null
+  altText?: Prisma.StringFilter<"Image"> | string
   index?: Prisma.IntFilter<"Image"> | number
-  shortDescription?: Prisma.StringNullableFilter<"Image"> | string | null
-  metaTitle?: Prisma.StringNullableFilter<"Image"> | string | null
-  metaDescription?: Prisma.StringNullableFilter<"Image"> | string | null
+  shortDescription?: Prisma.StringFilter<"Image"> | string
+  metaTitle?: Prisma.StringFilter<"Image"> | string
+  metaDescription?: Prisma.StringFilter<"Image"> | string
   productId?: Prisma.StringNullableFilter<"Image"> | string | null
   brandId?: Prisma.StringNullableFilter<"Image"> | string | null
   categoryId?: Prisma.StringNullableFilter<"Image"> | string | null
@@ -397,11 +397,11 @@ export type ImageOrderByWithAggregationInput = {
   fileSize?: Prisma.SortOrderInput | Prisma.SortOrder
   width?: Prisma.SortOrderInput | Prisma.SortOrder
   height?: Prisma.SortOrderInput | Prisma.SortOrder
-  altText?: Prisma.SortOrderInput | Prisma.SortOrder
+  altText?: Prisma.SortOrder
   index?: Prisma.SortOrder
-  shortDescription?: Prisma.SortOrderInput | Prisma.SortOrder
-  metaTitle?: Prisma.SortOrderInput | Prisma.SortOrder
-  metaDescription?: Prisma.SortOrderInput | Prisma.SortOrder
+  shortDescription?: Prisma.SortOrder
+  metaTitle?: Prisma.SortOrder
+  metaDescription?: Prisma.SortOrder
   productId?: Prisma.SortOrderInput | Prisma.SortOrder
   brandId?: Prisma.SortOrderInput | Prisma.SortOrder
   categoryId?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -426,11 +426,11 @@ export type ImageScalarWhereWithAggregatesInput = {
   fileSize?: Prisma.IntNullableWithAggregatesFilter<"Image"> | number | null
   width?: Prisma.IntNullableWithAggregatesFilter<"Image"> | number | null
   height?: Prisma.IntNullableWithAggregatesFilter<"Image"> | number | null
-  altText?: Prisma.StringNullableWithAggregatesFilter<"Image"> | string | null
+  altText?: Prisma.StringWithAggregatesFilter<"Image"> | string
   index?: Prisma.IntWithAggregatesFilter<"Image"> | number
-  shortDescription?: Prisma.StringNullableWithAggregatesFilter<"Image"> | string | null
-  metaTitle?: Prisma.StringNullableWithAggregatesFilter<"Image"> | string | null
-  metaDescription?: Prisma.StringNullableWithAggregatesFilter<"Image"> | string | null
+  shortDescription?: Prisma.StringWithAggregatesFilter<"Image"> | string
+  metaTitle?: Prisma.StringWithAggregatesFilter<"Image"> | string
+  metaDescription?: Prisma.StringWithAggregatesFilter<"Image"> | string
   productId?: Prisma.StringNullableWithAggregatesFilter<"Image"> | string | null
   brandId?: Prisma.StringNullableWithAggregatesFilter<"Image"> | string | null
   categoryId?: Prisma.StringNullableWithAggregatesFilter<"Image"> | string | null
@@ -447,11 +447,11 @@ export type ImageCreateInput = {
   fileSize?: number | null
   width?: number | null
   height?: number | null
-  altText?: string | null
+  altText: string
   index?: number
-  shortDescription?: string | null
-  metaTitle?: string | null
-  metaDescription?: string | null
+  shortDescription: string
+  metaTitle: string
+  metaDescription: string
   createdAt?: Date | string
   updatedAt?: Date | string
   product?: Prisma.ProductCreateNestedOneWithoutImagesInput
@@ -468,11 +468,11 @@ export type ImageUncheckedCreateInput = {
   fileSize?: number | null
   width?: number | null
   height?: number | null
-  altText?: string | null
+  altText: string
   index?: number
-  shortDescription?: string | null
-  metaTitle?: string | null
-  metaDescription?: string | null
+  shortDescription: string
+  metaTitle: string
+  metaDescription: string
   productId?: string | null
   brandId?: string | null
   categoryId?: string | null
@@ -489,11 +489,11 @@ export type ImageUpdateInput = {
   fileSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  altText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  altText?: Prisma.StringFieldUpdateOperationsInput | string
   index?: Prisma.IntFieldUpdateOperationsInput | number
-  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metaTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metaDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shortDescription?: Prisma.StringFieldUpdateOperationsInput | string
+  metaTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  metaDescription?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   product?: Prisma.ProductUpdateOneWithoutImagesNestedInput
@@ -510,11 +510,11 @@ export type ImageUncheckedUpdateInput = {
   fileSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  altText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  altText?: Prisma.StringFieldUpdateOperationsInput | string
   index?: Prisma.IntFieldUpdateOperationsInput | number
-  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metaTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metaDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shortDescription?: Prisma.StringFieldUpdateOperationsInput | string
+  metaTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  metaDescription?: Prisma.StringFieldUpdateOperationsInput | string
   productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   brandId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -531,11 +531,11 @@ export type ImageCreateManyInput = {
   fileSize?: number | null
   width?: number | null
   height?: number | null
-  altText?: string | null
+  altText: string
   index?: number
-  shortDescription?: string | null
-  metaTitle?: string | null
-  metaDescription?: string | null
+  shortDescription: string
+  metaTitle: string
+  metaDescription: string
   productId?: string | null
   brandId?: string | null
   categoryId?: string | null
@@ -552,11 +552,11 @@ export type ImageUpdateManyMutationInput = {
   fileSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  altText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  altText?: Prisma.StringFieldUpdateOperationsInput | string
   index?: Prisma.IntFieldUpdateOperationsInput | number
-  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metaTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metaDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shortDescription?: Prisma.StringFieldUpdateOperationsInput | string
+  metaTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  metaDescription?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -570,11 +570,11 @@ export type ImageUncheckedUpdateManyInput = {
   fileSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  altText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  altText?: Prisma.StringFieldUpdateOperationsInput | string
   index?: Prisma.IntFieldUpdateOperationsInput | number
-  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metaTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metaDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shortDescription?: Prisma.StringFieldUpdateOperationsInput | string
+  metaTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  metaDescription?: Prisma.StringFieldUpdateOperationsInput | string
   productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   brandId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -812,11 +812,11 @@ export type ImageCreateWithoutCategoryInput = {
   fileSize?: number | null
   width?: number | null
   height?: number | null
-  altText?: string | null
+  altText: string
   index?: number
-  shortDescription?: string | null
-  metaTitle?: string | null
-  metaDescription?: string | null
+  shortDescription: string
+  metaTitle: string
+  metaDescription: string
   createdAt?: Date | string
   updatedAt?: Date | string
   product?: Prisma.ProductCreateNestedOneWithoutImagesInput
@@ -832,11 +832,11 @@ export type ImageUncheckedCreateWithoutCategoryInput = {
   fileSize?: number | null
   width?: number | null
   height?: number | null
-  altText?: string | null
+  altText: string
   index?: number
-  shortDescription?: string | null
-  metaTitle?: string | null
-  metaDescription?: string | null
+  shortDescription: string
+  metaTitle: string
+  metaDescription: string
   productId?: string | null
   brandId?: string | null
   createdAt?: Date | string
@@ -881,11 +881,11 @@ export type ImageScalarWhereInput = {
   fileSize?: Prisma.IntNullableFilter<"Image"> | number | null
   width?: Prisma.IntNullableFilter<"Image"> | number | null
   height?: Prisma.IntNullableFilter<"Image"> | number | null
-  altText?: Prisma.StringNullableFilter<"Image"> | string | null
+  altText?: Prisma.StringFilter<"Image"> | string
   index?: Prisma.IntFilter<"Image"> | number
-  shortDescription?: Prisma.StringNullableFilter<"Image"> | string | null
-  metaTitle?: Prisma.StringNullableFilter<"Image"> | string | null
-  metaDescription?: Prisma.StringNullableFilter<"Image"> | string | null
+  shortDescription?: Prisma.StringFilter<"Image"> | string
+  metaTitle?: Prisma.StringFilter<"Image"> | string
+  metaDescription?: Prisma.StringFilter<"Image"> | string
   productId?: Prisma.StringNullableFilter<"Image"> | string | null
   brandId?: Prisma.StringNullableFilter<"Image"> | string | null
   categoryId?: Prisma.StringNullableFilter<"Image"> | string | null
@@ -902,11 +902,11 @@ export type ImageCreateWithoutProductInput = {
   fileSize?: number | null
   width?: number | null
   height?: number | null
-  altText?: string | null
+  altText: string
   index?: number
-  shortDescription?: string | null
-  metaTitle?: string | null
-  metaDescription?: string | null
+  shortDescription: string
+  metaTitle: string
+  metaDescription: string
   createdAt?: Date | string
   updatedAt?: Date | string
   brand?: Prisma.BrandCreateNestedOneWithoutImagesInput
@@ -922,11 +922,11 @@ export type ImageUncheckedCreateWithoutProductInput = {
   fileSize?: number | null
   width?: number | null
   height?: number | null
-  altText?: string | null
+  altText: string
   index?: number
-  shortDescription?: string | null
-  metaTitle?: string | null
-  metaDescription?: string | null
+  shortDescription: string
+  metaTitle: string
+  metaDescription: string
   brandId?: string | null
   categoryId?: string | null
   createdAt?: Date | string
@@ -968,11 +968,11 @@ export type ImageCreateWithoutBrandInput = {
   fileSize?: number | null
   width?: number | null
   height?: number | null
-  altText?: string | null
+  altText: string
   index?: number
-  shortDescription?: string | null
-  metaTitle?: string | null
-  metaDescription?: string | null
+  shortDescription: string
+  metaTitle: string
+  metaDescription: string
   createdAt?: Date | string
   updatedAt?: Date | string
   product?: Prisma.ProductCreateNestedOneWithoutImagesInput
@@ -988,11 +988,11 @@ export type ImageUncheckedCreateWithoutBrandInput = {
   fileSize?: number | null
   width?: number | null
   height?: number | null
-  altText?: string | null
+  altText: string
   index?: number
-  shortDescription?: string | null
-  metaTitle?: string | null
-  metaDescription?: string | null
+  shortDescription: string
+  metaTitle: string
+  metaDescription: string
   productId?: string | null
   categoryId?: string | null
   createdAt?: Date | string
@@ -1034,11 +1034,11 @@ export type ImageCreateManyCategoryInput = {
   fileSize?: number | null
   width?: number | null
   height?: number | null
-  altText?: string | null
+  altText: string
   index?: number
-  shortDescription?: string | null
-  metaTitle?: string | null
-  metaDescription?: string | null
+  shortDescription: string
+  metaTitle: string
+  metaDescription: string
   productId?: string | null
   brandId?: string | null
   createdAt?: Date | string
@@ -1054,11 +1054,11 @@ export type ImageUpdateWithoutCategoryInput = {
   fileSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  altText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  altText?: Prisma.StringFieldUpdateOperationsInput | string
   index?: Prisma.IntFieldUpdateOperationsInput | number
-  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metaTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metaDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shortDescription?: Prisma.StringFieldUpdateOperationsInput | string
+  metaTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  metaDescription?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   product?: Prisma.ProductUpdateOneWithoutImagesNestedInput
@@ -1074,11 +1074,11 @@ export type ImageUncheckedUpdateWithoutCategoryInput = {
   fileSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  altText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  altText?: Prisma.StringFieldUpdateOperationsInput | string
   index?: Prisma.IntFieldUpdateOperationsInput | number
-  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metaTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metaDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shortDescription?: Prisma.StringFieldUpdateOperationsInput | string
+  metaTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  metaDescription?: Prisma.StringFieldUpdateOperationsInput | string
   productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   brandId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1094,11 +1094,11 @@ export type ImageUncheckedUpdateManyWithoutCategoryInput = {
   fileSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  altText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  altText?: Prisma.StringFieldUpdateOperationsInput | string
   index?: Prisma.IntFieldUpdateOperationsInput | number
-  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metaTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metaDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shortDescription?: Prisma.StringFieldUpdateOperationsInput | string
+  metaTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  metaDescription?: Prisma.StringFieldUpdateOperationsInput | string
   productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   brandId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1114,11 +1114,11 @@ export type ImageCreateManyProductInput = {
   fileSize?: number | null
   width?: number | null
   height?: number | null
-  altText?: string | null
+  altText: string
   index?: number
-  shortDescription?: string | null
-  metaTitle?: string | null
-  metaDescription?: string | null
+  shortDescription: string
+  metaTitle: string
+  metaDescription: string
   brandId?: string | null
   categoryId?: string | null
   createdAt?: Date | string
@@ -1134,11 +1134,11 @@ export type ImageUpdateWithoutProductInput = {
   fileSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  altText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  altText?: Prisma.StringFieldUpdateOperationsInput | string
   index?: Prisma.IntFieldUpdateOperationsInput | number
-  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metaTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metaDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shortDescription?: Prisma.StringFieldUpdateOperationsInput | string
+  metaTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  metaDescription?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   brand?: Prisma.BrandUpdateOneWithoutImagesNestedInput
@@ -1154,11 +1154,11 @@ export type ImageUncheckedUpdateWithoutProductInput = {
   fileSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  altText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  altText?: Prisma.StringFieldUpdateOperationsInput | string
   index?: Prisma.IntFieldUpdateOperationsInput | number
-  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metaTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metaDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shortDescription?: Prisma.StringFieldUpdateOperationsInput | string
+  metaTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  metaDescription?: Prisma.StringFieldUpdateOperationsInput | string
   brandId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1174,11 +1174,11 @@ export type ImageUncheckedUpdateManyWithoutProductInput = {
   fileSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  altText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  altText?: Prisma.StringFieldUpdateOperationsInput | string
   index?: Prisma.IntFieldUpdateOperationsInput | number
-  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metaTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metaDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shortDescription?: Prisma.StringFieldUpdateOperationsInput | string
+  metaTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  metaDescription?: Prisma.StringFieldUpdateOperationsInput | string
   brandId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1194,11 +1194,11 @@ export type ImageCreateManyBrandInput = {
   fileSize?: number | null
   width?: number | null
   height?: number | null
-  altText?: string | null
+  altText: string
   index?: number
-  shortDescription?: string | null
-  metaTitle?: string | null
-  metaDescription?: string | null
+  shortDescription: string
+  metaTitle: string
+  metaDescription: string
   productId?: string | null
   categoryId?: string | null
   createdAt?: Date | string
@@ -1214,11 +1214,11 @@ export type ImageUpdateWithoutBrandInput = {
   fileSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  altText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  altText?: Prisma.StringFieldUpdateOperationsInput | string
   index?: Prisma.IntFieldUpdateOperationsInput | number
-  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metaTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metaDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shortDescription?: Prisma.StringFieldUpdateOperationsInput | string
+  metaTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  metaDescription?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   product?: Prisma.ProductUpdateOneWithoutImagesNestedInput
@@ -1234,11 +1234,11 @@ export type ImageUncheckedUpdateWithoutBrandInput = {
   fileSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  altText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  altText?: Prisma.StringFieldUpdateOperationsInput | string
   index?: Prisma.IntFieldUpdateOperationsInput | number
-  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metaTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metaDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shortDescription?: Prisma.StringFieldUpdateOperationsInput | string
+  metaTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  metaDescription?: Prisma.StringFieldUpdateOperationsInput | string
   productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1254,11 +1254,11 @@ export type ImageUncheckedUpdateManyWithoutBrandInput = {
   fileSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  altText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  altText?: Prisma.StringFieldUpdateOperationsInput | string
   index?: Prisma.IntFieldUpdateOperationsInput | number
-  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metaTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metaDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shortDescription?: Prisma.StringFieldUpdateOperationsInput | string
+  metaTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  metaDescription?: Prisma.StringFieldUpdateOperationsInput | string
   productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1393,11 +1393,11 @@ export type $ImagePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     fileSize: number | null
     width: number | null
     height: number | null
-    altText: string | null
+    altText: string
     index: number
-    shortDescription: string | null
-    metaTitle: string | null
-    metaDescription: string | null
+    shortDescription: string
+    metaTitle: string
+    metaDescription: string
     productId: string | null
     brandId: string | null
     categoryId: string | null
