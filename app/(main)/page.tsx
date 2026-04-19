@@ -18,7 +18,7 @@ import {
   MapPin,
   Leaf,
 } from "lucide-react";
-import { getProducts } from "../actions/products";
+import { getProducts } from "../../actions/products";
 import { ProductSection } from "@/components/carousel/main-carousel/ProductSection";
 
 export default async function Home() {
@@ -32,7 +32,7 @@ export default async function Home() {
   });
 
   return (
-    <div className="py-8 lg:py-12 mx-2 space-y-12">
+    <div className="py-8 lg:py-12 mx-2 space-y-12 mt-12">
       {/* --- PART 1: BOUTIQUE --- */}
       <div className="grid grid-cols-1 md:grid-cols-4 md:grid-rows-3 gap-4">
         {/* Main Hero - Large span */}
@@ -84,10 +84,10 @@ export default async function Home() {
       </div>
 
       {/* Carousel - Products */}
-      <ProductSection title="Produits" products={products} href="/boutique" />
+      <ProductSection title="Promos" products={products} href="/boutique" />
 
       {/* --- PART 2: SEEDS --- */}
-      <div className="grid grid-cols-1 md:grid-cols-4 md:grid-rows-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-4">
         {/* Categories - Graines (Main Seed) */}
         <Card className="md:col-span-2 md:row-span-2 hover:bg-accent transition-colors cursor-pointer group flex flex-col justify-center p-8 bg-secondary/30 relative overflow-hidden">
           <Sprout
@@ -142,7 +142,7 @@ export default async function Home() {
 
       {/* Carousel - Seeds */}
       {/* Carousel - Products */}
-      <ProductSection title="Produits" products={products} href="/boutique" />
+      <ProductSection title="Graines" products={products} href="/boutique" />
 
       {/* --- PART 3: CONTACT --- */}
       <div className="grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-4">

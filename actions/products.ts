@@ -95,6 +95,7 @@ export async function getProducts({
       priceUnit: true,
       createdAt: true,
       isPromotion: true,
+      description: true,
       type: true,
       category: { select: { slug: true, name: true } },
       brand: { select: { slug: true, name: true } },
@@ -118,7 +119,46 @@ export async function getProducts({
   };
 }
 
+export async function getProductBySlug(slug: string) {
+  const product = await prisma.product.findFirst({
+    where: { slug },
+    include: {
+      category: {
+        select: {
+          id: true,
+          name: true,
+          slug: true,
+        },
+      },
+      brand: {
+        select: {
+          id: true,
+          name: true,
+          slug: true,
+        },
+      },
+      images: {
+        orderBy: {
+          index: "asc",
+        },
+      },
+    },
+  });
+
+  if (!product) {
+    return null;
+  }
+
+  return {
+    ...product,
+    price: product.price?.toString() ?? null,
+  };
+}
+
 export type GetProductsResult = Awaited<ReturnType<typeof getProducts>>;
 export type ProductFromGetProducts = NonNullable<
   GetProductsResult["products"][number]
 >;
+
+export type GetProductBySlugResult = Awaited<ReturnType<typeof getProductBySlug>>;
+export type ProductBySlug = NonNullable<GetProductBySlugResult>;

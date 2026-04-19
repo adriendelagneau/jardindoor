@@ -2,7 +2,7 @@
 
 import * as React from "react";
 
-import { ProductFromGetProducts } from "@/app/actions/products";
+import { ProductFromGetProducts } from "@/actions/products";
 import {
   Carousel,
   CarouselApi,
@@ -54,7 +54,10 @@ export function ProductCarousel({ products }: ProductCarouselProps) {
           {products.map(
             (product) =>
               product && (
-                <CarouselItem key={product.id} className="shrink-0 basis-[170px] lg:basis-[200px]">
+                <CarouselItem
+                  key={product.id}
+                  className="shrink-0 basis-[170px] lg:basis-[200px]"
+                >
                   <ProductCard product={product} />
                 </CarouselItem>
               ),

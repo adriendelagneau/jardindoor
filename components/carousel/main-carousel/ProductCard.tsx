@@ -1,39 +1,28 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ProductFromGetProducts } from "@/app/actions/products";
+import { MoveRightIcon } from "lucide-react";
+import { ProductFromGetProducts } from "@/actions/products";
 
-type Props = { product: ProductFromGetProducts };
+// Add description to the type if it exists, otherwise it will just be undefined.
+type Props = {
+  product: ProductFromGetProducts & { description?: string | null };
+};
 
 export function ProductCard({ product }: Props) {
   const [isLoading, setIsLoading] = useState(true);
 
   if (!product) return null;
 
-  const image = product.images[0];
+  const image = product.images?.[0];
 
   return (
-    <Link
-      href={`/product/${product.slug}`}
-    >
-      <article className="group bg-background flex h-full w-44 lg:w-52 flex-col overflow-hidden rounded-xl mr-6">
-        {/* Brand */}
-        {product.brand && (
-          <div className="flex items-center gap-1 py-1">
-            <div className="bg-primary flex h-6 w-6 items-center justify-center rounded-full text-xs font-semibold text-white">
-              {product.brand.name?.charAt(0).toUpperCase()}
-            </div>
-
-            <p className="max-w-28 truncate text-sm capitalize">
-              {product.brand.name}
-            </p>
-          </div>
-        )}
-
-        {/* Image */}
-        <div className="bg-muted relative h-64 w-48  lg:h-72 lg:w-52  overflow-hidden mt-1">
+    <Link href={`/products/${product.slug}`} className="h-full block">
+      <article className="group flex h-full flex-col overflow-hidden rounded-[1.5rem] bg-white p-3 shadow-sm ring-1 ring-black/5 transition-all hover:shadow-lg">
+        {/* Image container */}
+        <div className="relative aspect-3/4 w-full overflow-hidden rounded-2xl bg-muted">
           {image ? (
             <>
               <Image
@@ -41,46 +30,51 @@ export function ProductCard({ product }: Props) {
                 alt={image.altText ?? product.name}
                 fill
                 sizes="(max-width: 768px) 80vw, 25vw"
-                className={`rounded-lg object-cover transition-transform duration-300 group-hover:scale-105 ${
+                className={`object-cover transition-transform duration-700 ease-out group-hover:scale-105 ${
                   isLoading ? "opacity-0" : "opacity-100"
                 }`}
                 onLoad={() => setIsLoading(false)}
               />
-              {isLoading && <div className="absolute inset-0 bg-gray-200 animate-pulse" />}
+              {isLoading && (
+                <div className="absolute inset-0 animate-pulse bg-muted" />
+              )}
             </>
           ) : (
-            <div className="text-muted-foreground flex h-full items-center justify-center text-sm">
+            <div className="flex h-full items-center justify-center bg-gray-50 text-muted-foreground">
               Aucune image
+            </div>
+          )}
+
+          {/* Promotion badge */}
+          {product.isPromotion && (
+            <div className="absolute left-3 top-3 rounded-full bg-red-500/90 px-3 py-1 backdrop-blur-sm">
+              <span className="text-[10px] font-bold tracking-wide text-white uppercase">
+                Promo
+              </span>
             </div>
           )}
         </div>
 
         {/* Content */}
-        <div className="flex flex-1 flex-col gap-0.5 pt-2">
-          <h3 className="line-clamp-1 w-48 text-sm lg:text-md leading-snug font-semibold">
+        <div className="flex flex-1 flex-col px-1 pb-1 pt-5">
+          {/* Name */}
+          <h3 className="line-clamp-2 font-serif text-[22px] font-medium leading-[1.2] text-green-900">
             {product.name}
           </h3>
-          <p className="text-md">
-            {Number(product.price).toLocaleString("fr-FR")} €
-            {product.priceUnit !== "UNIT" && (
-              <span>
-                {" / "}
-                {product.priceUnit.toLowerCase()}
-              </span>
-            )}
+
+          {/* Description / Mock Description */}
+          <p className="mt-3 text-[13px] italic leading-relaxed text-gray-500 line-clamp-3">
+            {product.description ||
+              `A beautiful display from the ${product.category?.name || "premium"} collection, bringing nature's finest aesthetics into your space.`}
           </p>
-          {product.category && (
-            <p className="text-sm truncate max-w-48">
-              {product.category.name}
-            </p>
-          )}
-          <p className="text-sm">
-            {new Date(product.createdAt).toLocaleDateString("fr-FR", {
-              day: "numeric",
-              month: "short",
-              year: "numeric"
-            })}
-          </p>
+
+          {/* Action button */}
+          <div className="mt-8 flex w-full items-center justify-between rounded-full bg-[#EBECE9] px-6 py-3.5 transition-colors duration-300 group-hover:bg-[#E0E2DF]">
+            <span className="text-[11px] font-bold uppercase tracking-widest text-green-900">
+              View Details
+            </span>
+            <MoveRightIcon className="h-4 w-4 text-green-900" />
+          </div>
         </div>
       </article>
     </Link>
