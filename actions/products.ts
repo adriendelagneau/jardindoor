@@ -124,6 +124,10 @@ export async function getProducts({
       price: defaultVariant?.price?.toString() ?? null,
       priceUnit: defaultVariant?.priceUnit ?? "UNIT",
       variantsCount: product.variants.length,
+      variants: product.variants.map(v => ({
+        ...v,
+        price: v.price.toString()
+      }))
     };
   });
 

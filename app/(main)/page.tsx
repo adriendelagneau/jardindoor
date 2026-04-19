@@ -140,9 +140,8 @@ export default async function Home() {
         </Card>
       </div>
 
-      {/* Carousel - Seeds */}
-      {/* Carousel - Products */}
-      <ProductSection title="Graines" products={products} href="/boutique" />
+         {/* Carousel - Products */}
+      <ProductSection title="Promos" products={products} href="/boutique" />
 
       {/* --- PART 3: CONTACT --- */}
       <div className="grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-4">

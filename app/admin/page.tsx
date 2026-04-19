@@ -21,7 +21,7 @@ export default function AdminPage() {
           <h1 className="text-3xl font-bold font-serif">Tableau de bord</h1>
           <p className="text-muted-foreground">Gérez votre boutique et vos contenus.</p>
         </div>
-        <Link href="/admin/products/new">
+        <Link href="/admin/products/create">
           <Button className="gap-2">
             <Plus size={18} /> Nouveau Produit
           </Button>
