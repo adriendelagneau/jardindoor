@@ -14,7 +14,8 @@ export default async function EditProductPage({ params }: PageProps) {
     prisma.product.findUnique({
       where: { id },
       include: {
-        images: { select: { id: true, url: true, altText: true } }
+        images: { select: { id: true, url: true, altText: true } },
+        variants: true
       }
     }),
     prisma.category.findMany({
@@ -37,11 +38,19 @@ export default async function EditProductPage({ params }: PageProps) {
     notFound()
   }
 
+  const serializedProduct = {
+    ...product,
+    variants: product.variants.map(v => ({
+      ...v,
+      price: Number(v.price)
+    }))
+  }
+
   return (
     <div className="p-6">
       <ProductForm 
         isEdit 
-        initialData={product} 
+        initialData={serializedProduct} 
         categories={categories} 
         availableImages={images} 
       />

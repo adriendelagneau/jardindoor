@@ -20,7 +20,8 @@ export default async function EditSeedPage({ params }: PageProps) {
     prisma.product.findUnique({
       where: { id, type: 'SEED' },
       include: {
-        images: { select: { id: true, url: true, altText: true } }
+        images: { select: { id: true, url: true, altText: true } },
+        variants: true
       }
     }),
     prisma.category.findMany({
@@ -43,12 +44,20 @@ export default async function EditSeedPage({ params }: PageProps) {
     notFound()
   }
 
+  const serializedSeed = {
+    ...seed,
+    variants: seed.variants.map(v => ({
+      ...v,
+      price: Number(v.price)
+    }))
+  }
+
   return (
     <div className="p-6">
       <ProductForm 
         isEdit 
         productType="SEED"
-        initialData={seed as unknown as ProductInitialData} 
+        initialData={serializedSeed as any} 
         categories={categories} 
         availableImages={images} 
       />

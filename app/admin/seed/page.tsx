@@ -28,6 +28,10 @@ export default async function SeedsPage() {
       images: {
         take: 1,
         orderBy: { index: "asc" }
+      },
+      variants: {
+        orderBy: { isDefault: 'desc' },
+        take: 1
       }
     },
     orderBy: {
@@ -64,61 +68,65 @@ export default async function SeedsPage() {
 
       {/* Seeds Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8">
-        {seeds.map((seed) => (
-          <div key={seed.id} className="group bg-card rounded-3xl border shadow-sm overflow-hidden flex flex-col transition-all hover:shadow-xl hover:border-green-500/20">
-            <div className="aspect-[4/3] relative bg-muted overflow-hidden">
-              {seed.images[0] ? (
-                <Image
-                  src={seed.images[0].url}
-                  alt={seed.name}
-                  fill
-                  className="object-cover group-hover:scale-110 transition-transform duration-500"
-                />
-              ) : (
-                <div className="absolute inset-0 flex items-center justify-center text-muted-foreground opacity-30">
-                  <Sprout className="h-16 w-16" />
-                </div>
-              )}
-              {seed.isPromotion && (
-                <div className="absolute top-4 left-4 bg-green-600 text-white text-[10px] font-black uppercase tracking-tighter px-3 py-1 rounded-full shadow-lg flex items-center gap-1 z-10">
-                  <Percent className="h-3 w-3" /> Promo
-                </div>
-              )}
-            </div>
-            
-            <div className="p-5 flex-1 flex flex-col gap-3">
-              <div className="flex justify-between items-start gap-2">
-                <div className="space-y-1">
-                  <h3 className="font-bold text-lg leading-tight group-hover:text-green-600 transition-colors line-clamp-1">
-                    {seed.name}
-                  </h3>
-                  <div className="flex items-center gap-1 text-muted-foreground text-xs">
-                    <Tag className="h-3 w-3" />
-                    {seed.category?.name || "Graines"}
-                  </div>
-                </div>
-                <div className="text-right">
-                  <span className="text-xl font-black text-green-600">
-                    {Number(seed.price).toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}
-                  </span>
-                  <div className="text-[10px] text-muted-foreground font-medium">
-                    {seed.priceUnit === 'UNIT' ? 'le sachet' : `par ${seed.priceUnit}`}
-                  </div>
-                </div>
-              </div>
+        {seeds.map((seed) => {
+          const defaultVariant = seed.variants[0];
 
-              <div className="flex items-center justify-between mt-auto pt-4 border-t border-dashed">
-                <StatusBadge status={seed.status} />
-                <Button variant="outline" size="sm" asChild className="rounded-full px-4 gap-2 hover:bg-green-600 hover:text-white transition-all hover:border-green-600">
-                  <Link href={`/admin/seed/${seed.id}`}>
-                    <Edit className="h-4 w-4" />
-                    Modifier
-                  </Link>
-                </Button>
+          return (
+            <div key={seed.id} className="group bg-card rounded-3xl border shadow-sm overflow-hidden flex flex-col transition-all hover:shadow-xl hover:border-green-500/20">
+              <div className="aspect-[4/3] relative bg-muted overflow-hidden">
+                {seed.images[0] ? (
+                  <Image
+                    src={seed.images[0].url}
+                    alt={seed.name}
+                    fill
+                    className="object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center text-muted-foreground opacity-30">
+                    <Sprout className="h-16 w-16" />
+                  </div>
+                )}
+                {seed.isPromotion && (
+                  <div className="absolute top-4 left-4 bg-green-600 text-white text-[10px] font-black uppercase tracking-tighter px-3 py-1 rounded-full shadow-lg flex items-center gap-1 z-10">
+                    <Percent className="h-3 w-3" /> Promo
+                  </div>
+                )}
+              </div>
+              
+              <div className="p-5 flex-1 flex flex-col gap-3">
+                <div className="flex justify-between items-start gap-2">
+                  <div className="space-y-1">
+                    <h3 className="font-bold text-lg leading-tight group-hover:text-green-600 transition-colors line-clamp-1">
+                      {seed.name}
+                    </h3>
+                    <div className="flex items-center gap-1 text-muted-foreground text-xs">
+                      <Tag className="h-3 w-3" />
+                      {seed.category?.name || "Graines"}
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-xl font-black text-green-600">
+                      {defaultVariant ? Number(defaultVariant.price).toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' }) : 'N/A'}
+                    </span>
+                    <div className="text-[10px] text-muted-foreground font-medium">
+                      {defaultVariant?.priceUnit === 'UNIT' ? 'le sachet' : `par ${defaultVariant?.priceUnit || 'UNIT'}`}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between mt-auto pt-4 border-t border-dashed">
+                  <StatusBadge status={defaultVariant?.status || 'ACTIVE'} />
+                  <Button variant="outline" size="sm" asChild className="rounded-full px-4 gap-2 hover:bg-green-600 hover:text-white transition-all hover:border-green-600">
+                    <Link href={`/admin/seed/${seed.id}`}>
+                      <Edit className="h-4 w-4" />
+                      Modifier
+                    </Link>
+                  </Button>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          )
+        })}
         {seeds.length === 0 && (
           <div className="col-span-full py-20 bg-muted/30 rounded-3xl border-2 border-dashed border-muted text-center">
             <div className="mx-auto w-16 h-16 bg-muted rounded-full flex items-center justify-center mb-4">

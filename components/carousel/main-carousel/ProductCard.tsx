@@ -63,10 +63,20 @@ export function ProductCard({ product }: Props) {
           </h3>
 
           {/* Description / Mock Description */}
-          <p className="mt-3 text-[13px] italic leading-relaxed text-gray-500 line-clamp-3">
+          <p className="mt-3 text-[13px] italic leading-relaxed text-gray-500 line-clamp-2">
             {product.description ||
               `A beautiful display from the ${product.category?.name || "premium"} collection, bringing nature's finest aesthetics into your space.`}
           </p>
+
+          {/* Price */}
+          <div className="mt-4 flex flex-col">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400">
+              {product.variantsCount > 1 ? "À partir de" : "Prix"}
+            </span>
+            <span className="text-lg font-serif font-medium text-green-900">
+              {product.price}€
+            </span>
+          </div>
 
           {/* Action button */}
           <div className="mt-8 flex w-full items-center justify-between rounded-full bg-[#EBECE9] px-6 py-3.5 transition-colors duration-300 group-hover:bg-[#E0E2DF]">

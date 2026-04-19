@@ -2,16 +2,16 @@
 
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useForm } from 'react-hook-form'
+import { useForm, useFieldArray } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { productSchema as schema, productUpdateSchema as updateSchema, type ProductSchema } from '@/lib/validation/product'
+import { productSchema as schema, productUpdateSchema as updateSchema, type ProductSchema, type VariantSchema } from '@/lib/validation/product'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card } from '@/components/ui/card'
 import { 
   Loader2, Trash2, ArrowLeft, Save, Info, Settings2, 
-  Image as ImageIcon, Check, Percent, DollarSign 
+  Image as ImageIcon, Check, Percent, Plus, X, List
 } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -25,10 +25,12 @@ import {
   DialogTrigger 
 } from '@/components/ui/dialog'
 import { cn } from '@/lib/utils'
+import { createProduct, updateProduct, deleteProduct } from '@/actions/products'
 
-interface ProductInitialData extends ProductSchema {
+interface ProductInitialData extends Omit<ProductSchema, 'variants'> {
   id: string
   images: { id: string, url: string, altText: string }[]
+  variants: (VariantSchema & { id: string })[]
 }
 
 interface ProductFormProps {
@@ -50,6 +52,7 @@ export const ProductForm = ({ initialData, categories, availableImages, isEdit =
 
   const {
     register,
+    control,
     handleSubmit,
     setValue,
     watch,
@@ -58,23 +61,35 @@ export const ProductForm = ({ initialData, categories, availableImages, isEdit =
     resolver: zodResolver(isEdit ? updateSchema : schema),
     defaultValues: initialData ? {
       ...initialData,
-      price: Number(initialData.price),
-      imageIds: initialData.images?.map((img) => img.id) || []
+      imageIds: initialData.images?.map((img) => img.id) || [],
+      variants: (initialData.variants || []).map(v => ({
+        ...v,
+        price: Number(v.price)
+      }))
     } : {
       name: '',
       slug: '',
       description: '',
-      price: 0,
-      priceUnit: 'UNIT',
-      status: 'ACTIVE',
       type: productType,
       isPromotion: false,
       categoryId: '',
       metaTitle: '',
       metaDescription: '',
       imageIds: [],
+      variants: [{
+        name: 'Standard',
+        price: 0,
+        priceUnit: 'UNIT',
+        status: 'ACTIVE',
+        isDefault: true,
+      }]
     },
   })
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "variants",
+  });
 
   const nameValue = watch('name')
   
@@ -103,19 +118,14 @@ export const ProductForm = ({ initialData, categories, availableImages, isEdit =
 
   const onSubmit = async (data: ProductSchema) => {
     setIsSaving(true)
-    const baseApi = productType === 'SEED' ? '/api/seeds' : '/api/products'
-    const url = isEdit ? `${baseApi}/${initialData.id}` : baseApi
-    const method = isEdit ? 'PATCH' : 'POST'
     const redirectUrl = productType === 'SEED' ? '/admin/seed' : '/admin/products'
 
     try {
-      const response = await fetch(url, {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...data, type: productType }),
-      })
-
-      if (!response.ok) throw new Error('Action failed')
+      if (isEdit && initialData?.id) {
+        await updateProduct(initialData.id, data)
+      } else {
+        await createProduct({ ...data, type: productType })
+      }
 
       router.push(redirectUrl)
       router.refresh()
@@ -129,16 +139,10 @@ export const ProductForm = ({ initialData, categories, availableImages, isEdit =
   const handleDelete = async () => {
     if (!initialData?.id) return
     setIsDeleting(true)
-    const baseApi = productType === 'SEED' ? '/api/seeds' : '/api/products'
     const redirectUrl = productType === 'SEED' ? '/admin/seed' : '/admin/products'
     
     try {
-      const response = await fetch(`${baseApi}/${initialData.id}`, {
-        method: 'DELETE',
-      })
-
-      if (!response.ok) throw new Error('Delete failed')
-
+      await deleteProduct(initialData.id)
       setIsDialogOpen(false)
       router.push(redirectUrl)
       router.refresh()
@@ -260,6 +264,121 @@ export const ProductForm = ({ initialData, categories, availableImages, isEdit =
             </div>
           </Card>
 
+          {/* Variants Section */}
+          <Card className="rounded-3xl border shadow-sm p-6 space-y-6">
+            <div className="flex items-center justify-between border-b pb-4">
+              <div className="flex items-center gap-2">
+                <List className="h-5 w-5 text-primary" />
+                <h2 className="text-xl font-semibold">Variantes & Prix</h2>
+              </div>
+              <Button 
+                type="button" 
+                variant="outline" 
+                size="sm" 
+                onClick={() => append({ name: '', price: 0, priceUnit: 'UNIT', status: 'ACTIVE', isDefault: false })}
+                className="rounded-full gap-2 border-primary/20 hover:bg-primary/5 text-primary"
+              >
+                <Plus className="h-4 w-4" />
+                Ajouter une variante
+              </Button>
+            </div>
+
+            <div className="space-y-4">
+              {fields.map((field, index) => (
+                <div key={field.id} className="p-4 rounded-2xl bg-muted/20 border border-muted/50 space-y-4 relative animate-in slide-in-from-top-2 duration-300">
+                  {fields.length > 1 && (
+                    <button 
+                      type="button" 
+                      onClick={() => remove(index)}
+                      className="absolute top-4 right-4 text-muted-foreground hover:text-destructive transition-colors"
+                    >
+                      <X className="h-5 w-5" />
+                    </button>
+                  )}
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div className="md:col-span-2 space-y-2">
+                      <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Option (ex: 500ml, 1L, Lot de 3)</Label>
+                      <Input 
+                        {...register(`variants.${index}.name`)} 
+                        placeholder="Nom de la variante" 
+                        className="h-10 rounded-xl bg-white"
+                      />
+                      {errors.variants?.[index]?.name && (
+                        <p className="text-[10px] text-destructive">{errors.variants[index]?.name?.message}</p>
+                      )}
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Prix (€)</Label>
+                      <div className="relative">
+                        <Input 
+                          type="number"
+                          step="0.01"
+                          {...register(`variants.${index}.price`)} 
+                          className="h-10 pl-8 rounded-xl bg-white font-semibold"
+                        />
+                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-xs font-bold">€</span>
+                      </div>
+                      {errors.variants?.[index]?.price && (
+                        <p className="text-[10px] text-destructive">{errors.variants[index]?.price?.message}</p>
+                      )}
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Unité</Label>
+                      <select
+                        {...register(`variants.${index}.priceUnit`)}
+                        className="flex h-10 w-full rounded-xl border border-input bg-white px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-ring"
+                      >
+                        <option value="UNIT">Unité</option>
+                        <option value="KG">Kg</option>
+                        <option value="L">Litre</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-6 pt-2">
+                    <div className="flex items-center gap-2">
+                      <select
+                        {...register(`variants.${index}.status`)}
+                        className={cn(
+                          "flex h-9 rounded-lg border border-input bg-white px-3 text-[11px] font-bold uppercase tracking-wider focus:outline-none",
+                          watch(`variants.${index}.status`) === 'ACTIVE' ? 'text-green-600' : 'text-amber-600'
+                        )}
+                      >
+                        <option value="ACTIVE">En stock</option>
+                        <option value="OUT_OF_STOCK">Rupture</option>
+                        <option value="ARCHIVED">Archivé</option>
+                      </select>
+                    </div>
+
+                    <label className="flex items-center gap-2 cursor-pointer group">
+                      <input 
+                        type="checkbox"
+                        {...register(`variants.${index}.isDefault`)}
+                        className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary accent-primary"
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            // Reset others
+                            fields.forEach((_, i) => {
+                              if (i !== index) setValue(`variants.${i}.isDefault`, false)
+                            })
+                          }
+                        }}
+                      />
+                      <span className="text-xs font-medium text-muted-foreground group-hover:text-primary transition-colors">Variante par défaut</span>
+                    </label>
+                  </div>
+                </div>
+              ))}
+              
+              {errors.variants?.message && (
+                <p className="text-sm text-destructive font-medium">{errors.variants.message}</p>
+              )}
+            </div>
+          </Card>
+
           <Card className="rounded-3xl border shadow-sm p-6 space-y-6">
             <div className="flex items-center gap-2 border-b pb-4">
               <ImageIcon className="h-5 w-5 text-primary" />
@@ -295,48 +414,8 @@ export const ProductForm = ({ initialData, categories, availableImages, isEdit =
                       <Check className="h-3 w-3 font-bold" />
                     </div>
                   )}
-                  <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <span className="text-[10px] text-white font-bold uppercase bg-black/40 px-2 py-1 rounded-full backdrop-blur-sm">
-                      {selectedImageIds.includes(img.id) ? 'Désélectionner' : 'Sélectionner'}
-                    </span>
-                  </div>
                 </div>
               ))}
-              {availableImages.length === 0 && (
-                <div className="col-span-full py-10 text-center bg-muted/30 rounded-2xl border border-dashed">
-                  <p className="text-muted-foreground text-sm">Aucune image disponible.</p>
-                  <Link href="/admin/images/create" className="text-xs text-primary font-bold hover:underline mt-2 inline-block">
-                    Uploader des images d&apos;abord
-                  </Link>
-                </div>
-              )}
-            </div>
-          </Card>
-
-          <Card className="rounded-3xl border shadow-sm p-6 space-y-6">
-            <div className="flex items-center gap-2 border-b pb-4">
-              <Settings2 className="h-5 w-5 text-primary" />
-              <h2 className="text-xl font-semibold">SEO & Réseaux sociaux</h2>
-            </div>
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="metaTitle" className="text-sm font-semibold">Meta Titre</Label>
-                <Input
-                  id="metaTitle"
-                  {...register('metaTitle')}
-                  placeholder="Titre SEO"
-                  className="h-11 rounded-xl bg-muted/30"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="metaDescription" className="text-sm font-semibold">Meta Description</Label>
-                <Input
-                  id="metaDescription"
-                  {...register('metaDescription')}
-                  placeholder="Description SEO"
-                  className="h-11 rounded-xl bg-muted/30"
-                />
-              </div>
             </div>
           </Card>
         </div>
@@ -344,37 +423,10 @@ export const ProductForm = ({ initialData, categories, availableImages, isEdit =
         {/* Sidebar Controls */}
         <div className="space-y-8">
           <Card className="rounded-3xl border shadow-sm p-6 space-y-6">
-            <h2 className="text-lg font-semibold border-b pb-4">Prix et Statut</h2>
+            <h2 className="text-lg font-semibold border-b pb-4">Options</h2>
             
             <div className="space-y-6">
-              <div className="space-y-2">
-                <Label htmlFor="price" className="text-sm font-semibold flex items-center gap-2"><DollarSign className="h-4 w-4" /> Prix</Label>
-                <div className="relative">
-                  <Input
-                    id="price"
-                    type="number"
-                    step="0.01"
-                    {...register('price')}
-                    className="h-12 pl-10 rounded-xl bg-muted/30 text-lg font-bold"
-                  />
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-muted-foreground">€</span>
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="priceUnit" className="text-sm font-semibold">Unité de vente</Label>
-                <select
-                  id="priceUnit"
-                  {...register('priceUnit')}
-                  className="flex h-11 w-full rounded-xl border border-input bg-muted/30 px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-ring"
-                >
-                  <option value="UNIT">À l&apos;unité / Sachet</option>
-                  <option value="KG">Au Kilo (Kg)</option>
-                  <option value="L">Au Litre (L)</option>
-                </select>
-              </div>
-
-              <div className="flex items-center justify-between p-3 rounded-2xl bg-primary/5 border border-primary/10">
+              <div className="flex items-center justify-between p-4 rounded-2xl bg-primary/5 border border-primary/10">
                 <Label htmlFor="isPromotion" className="text-sm font-bold cursor-pointer flex items-center gap-2">
                   <Percent className="h-4 w-4 text-primary" /> En promotion
                 </Label>
@@ -386,17 +438,20 @@ export const ProductForm = ({ initialData, categories, availableImages, isEdit =
                 />
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="status" className="text-sm font-semibold">Statut {productType === 'SEED' ? 'de la graine' : 'du produit'}</Label>
-                <select
-                  id="status"
-                  {...register('status')}
-                  className="flex h-11 w-full rounded-xl border border-input bg-muted/30 px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-ring font-bold"
-                >
-                  <option value="ACTIVE" className="text-green-600">En vente (Actif)</option>
-                  <option value="OUT_OF_STOCK" className="text-amber-600">Rupture de stock</option>
-                  <option value="ARCHIVED" className="text-slate-600">Archivé</option>
-                </select>
+              <div className="space-y-4">
+                <Label className="text-sm font-semibold flex items-center gap-2"><Settings2 className="h-4 w-4" /> SEO</Label>
+                <div className="space-y-3">
+                  <Input
+                    {...register('metaTitle')}
+                    placeholder="Titre SEO"
+                    className="h-10 rounded-xl bg-muted/30 text-xs"
+                  />
+                  <Input
+                    {...register('metaDescription')}
+                    placeholder="Meta description"
+                    className="h-10 rounded-xl bg-muted/30 text-xs"
+                  />
+                </div>
               </div>
             </div>
           </Card>
@@ -425,4 +480,3 @@ export const ProductForm = ({ initialData, categories, availableImages, isEdit =
     </div>
   )
 }
-

@@ -19,6 +19,9 @@ export async function GET() {
         images: {
           take: 1, // Preview image
           orderBy: { index: "asc" }
+        },
+        variants: {
+          orderBy: { price: 'asc' }
         }
       },
       orderBy: {
@@ -50,9 +53,8 @@ export async function POST(req: NextRequest) {
     }
 
     const { 
-      name, slug, description, price, priceUnit, status, 
-      isPromotion, categoryId, brandId, metaTitle, metaDescription,
-      imageIds
+      name, slug, description, isPromotion, categoryId, brandId, metaTitle, metaDescription,
+      imageIds, variants
     } = result.data
 
     const seed = await prisma.product.create({
@@ -60,15 +62,22 @@ export async function POST(req: NextRequest) {
         name,
         slug,
         description,
-        price,
-        priceUnit,
-        status,
         type: 'SEED',
         isPromotion,
         categoryId: categoryId || null,
         brandId: brandId || null,
         metaTitle: metaTitle || name,
         metaDescription: metaDescription || description,
+        variants: {
+          create: variants.map(v => ({
+            name: v.name,
+            sku: v.sku,
+            price: v.price,
+            priceUnit: v.priceUnit,
+            status: v.status,
+            isDefault: v.isDefault
+          }))
+        }
       },
     })
 

@@ -20,6 +20,7 @@ const StatusBadge = ({ status }: { status: string }) => {
 
 export default async function ProductsPage() {
   const products = await prisma.product.findMany({
+    where: { type: 'PRODUCT' },
     include: {
       category: {
         select: { name: true }
@@ -27,6 +28,10 @@ export default async function ProductsPage() {
       images: {
         take: 1,
         orderBy: { index: "asc" }
+      },
+      variants: {
+        orderBy: { isDefault: 'desc' },
+        take: 1
       }
     },
     orderBy: {
@@ -63,61 +68,65 @@ export default async function ProductsPage() {
 
       {/* Products Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8">
-        {products.map((product) => (
-          <div key={product.id} className="group bg-card rounded-3xl border shadow-sm overflow-hidden flex flex-col transition-all hover:shadow-xl hover:border-primary/20">
-            <div className="aspect-[4/3] relative bg-muted overflow-hidden">
-              {product.images[0] ? (
-                <Image
-                  src={product.images[0].url}
-                  alt={product.name}
-                  fill
-                  className="object-cover group-hover:scale-110 transition-transform duration-500"
-                />
-              ) : (
-                <div className="absolute inset-0 flex items-center justify-center text-muted-foreground opacity-30">
-                  <ShoppingBag className="h-16 w-16" />
-                </div>
-              )}
-              {product.isPromotion && (
-                <div className="absolute top-4 left-4 bg-primary text-white text-[10px] font-black uppercase tracking-tighter px-3 py-1 rounded-full shadow-lg flex items-center gap-1 z-10">
-                  <Percent className="h-3 w-3" /> Promotion
-                </div>
-              )}
-            </div>
-            
-            <div className="p-5 flex-1 flex flex-col gap-3">
-              <div className="flex justify-between items-start gap-2">
-                <div className="space-y-1">
-                  <h3 className="font-bold text-lg leading-tight group-hover:text-primary transition-colors line-clamp-1">
-                    {product.name}
-                  </h3>
-                  <div className="flex items-center gap-1 text-muted-foreground text-xs">
-                    <Tag className="h-3 w-3" />
-                    {product.category?.name || "Sans catégorie"}
+        {products.map((product) => {
+          const defaultVariant = product.variants[0];
+          
+          return (
+            <div key={product.id} className="group bg-card rounded-3xl border shadow-sm overflow-hidden flex flex-col transition-all hover:shadow-xl hover:border-primary/20">
+              <div className="aspect-[4/3] relative bg-muted overflow-hidden">
+                {product.images[0] ? (
+                  <Image
+                    src={product.images[0].url}
+                    alt={product.name}
+                    fill
+                    className="object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center text-muted-foreground opacity-30">
+                    <ShoppingBag className="h-16 w-16" />
                   </div>
-                </div>
-                <div className="text-right">
-                  <span className="text-xl font-black text-primary">
-                    {Number(product.price).toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}
-                  </span>
-                  <div className="text-[10px] text-muted-foreground font-medium">
-                    par {product.priceUnit}
+                )}
+                {product.isPromotion && (
+                  <div className="absolute top-4 left-4 bg-primary text-white text-[10px] font-black uppercase tracking-tighter px-3 py-1 rounded-full shadow-lg flex items-center gap-1 z-10">
+                    <Percent className="h-3 w-3" /> Promotion
                   </div>
-                </div>
+                )}
               </div>
+              
+              <div className="p-5 flex-1 flex flex-col gap-3">
+                <div className="flex justify-between items-start gap-2">
+                  <div className="space-y-1">
+                    <h3 className="font-bold text-lg leading-tight group-hover:text-primary transition-colors line-clamp-1">
+                      {product.name}
+                    </h3>
+                    <div className="flex items-center gap-1 text-muted-foreground text-xs">
+                      <Tag className="h-3 w-3" />
+                      {product.category?.name || "Sans catégorie"}
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-xl font-black text-primary">
+                      {defaultVariant ? Number(defaultVariant.price).toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' }) : 'N/A'}
+                    </span>
+                    <div className="text-[10px] text-muted-foreground font-medium">
+                      par {defaultVariant?.priceUnit || 'UNIT'}
+                    </div>
+                  </div>
+                </div>
 
-              <div className="flex items-center justify-between mt-auto pt-4 border-t border-dashed">
-                <StatusBadge status={product.status} />
-                <Button variant="outline" size="sm" asChild className="rounded-full px-4 gap-2 hover:bg-primary hover:text-white transition-all">
-                  <Link href={`/admin/products/${product.id}`}>
-                    <Edit className="h-4 w-4" />
-                    Modifier
-                  </Link>
-                </Button>
+                <div className="flex items-center justify-between mt-auto pt-4 border-t border-dashed">
+                  <StatusBadge status={defaultVariant?.status || 'ACTIVE'} />
+                  <Button variant="outline" size="sm" asChild className="rounded-full px-4 gap-2 hover:bg-primary hover:text-white transition-all">
+                    <Link href={`/admin/products/${product.id}`}>
+                      <Edit className="h-4 w-4" />
+                      Modifier
+                    </Link>
+                  </Button>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          )
+        })}
         {products.length === 0 && (
           <div className="col-span-full py-20 bg-muted/30 rounded-3xl border-2 border-dashed border-muted text-center">
             <div className="mx-auto w-16 h-16 bg-muted rounded-full flex items-center justify-center mb-4">

@@ -18,6 +18,7 @@ import {
   DialogTitle, 
   DialogTrigger 
 } from '@/components/ui/dialog'
+import { createCategory, updateCategory, deleteCategory } from '@/actions/categories'
 
 // Actually I created lib/validation/category.ts
 import { categorySchema as schema, categoryUpdateSchema as updateSchema, type CategorySchema } from '@/lib/validation/category'
@@ -72,22 +73,18 @@ export const CategoryForm = ({ initialData, availableCategories, isEdit = false 
 
   const onSubmit = async (data: CategorySchema) => {
     setIsSaving(true)
-    const url = isEdit ? `/api/categories/${initialData.id}` : '/api/categories'
-    const method = isEdit ? 'PATCH' : 'POST'
-
     try {
-      const response = await fetch(url, {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      })
-
-      if (!response.ok) throw new Error('Action failed')
+      if (isEdit && initialData?.id) {
+        await updateCategory(initialData.id, data)
+      } else {
+        await createCategory(data)
+      }
 
       router.push('/admin/categories')
       router.refresh()
     } catch (error) {
       console.error('Error saving category:', error)
+      // If toast is not available, I'll just console error for now
     } finally {
       setIsSaving(false)
     }
@@ -97,17 +94,14 @@ export const CategoryForm = ({ initialData, availableCategories, isEdit = false 
     if (!initialData?.id) return
     setIsDeleting(true)
     try {
-      const response = await fetch(`/api/categories/${initialData.id}`, {
-        method: 'DELETE',
-      })
-
-      if (!response.ok) throw new Error('Delete failed')
+      await deleteCategory(initialData.id)
 
       setIsDialogOpen(false)
       router.push('/admin/categories')
       router.refresh()
     } catch (error) {
       console.error('Error deleting category:', error)
+      alert(error instanceof Error ? error.message : 'Failed to delete category')
     } finally {
       setIsDeleting(false)
     }

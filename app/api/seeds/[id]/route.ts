@@ -20,7 +20,8 @@ export async function GET(
       include: {
         category: true,
         images: { orderBy: { index: "asc" } },
-        brand: true
+        brand: true,
+        variants: { orderBy: { price: 'asc' } }
       }
     })
 
@@ -58,39 +59,61 @@ export async function PATCH(
     }
 
     const { 
-      name, slug, description, price, priceUnit, status, 
+      name, slug, description, 
       isPromotion, categoryId, brandId, metaTitle, metaDescription,
-      imageIds
+      imageIds, variants
     } = result.data
 
-    const updatedSeed = await prisma.product.update({
-      where: { id, type: 'SEED' },
-      data: {
-        name,
-        slug,
-        description,
-        price,
-        priceUnit,
-        status,
-        isPromotion,
-        categoryId: categoryId === undefined ? undefined : (categoryId || null),
-        brandId: brandId === undefined ? undefined : (brandId || null),
-        metaTitle: metaTitle || (name ? name : undefined),
-        metaDescription: metaDescription || (description ? description : undefined),
-      },
-    })
+    const updatedSeed = await prisma.$transaction(async (tx) => {
+      // 1. Update Product
+      const product = await tx.product.update({
+        where: { id, type: 'SEED' },
+        data: {
+          name,
+          slug,
+          description,
+          isPromotion,
+          categoryId: categoryId === undefined ? undefined : (categoryId || null),
+          brandId: brandId === undefined ? undefined : (brandId || null),
+          metaTitle: metaTitle || (name ? name : undefined),
+          metaDescription: metaDescription || (description ? description : undefined),
+        },
+      })
 
-    // Update image associations if provided
-    if (imageIds !== undefined) {
-      await prisma.image.updateMany({
-        where: { productId: id, id: { notIn: imageIds } },
-        data: { productId: null }
-      })
-      await prisma.image.updateMany({
-        where: { id: { in: imageIds } },
-        data: { productId: id }
-      })
-    }
+      // 2. Update Variants if provided
+      if (variants !== undefined) {
+        // Delete all and recreate for simplicity
+        await tx.productVariant.deleteMany({
+          where: { productId: id }
+        })
+
+        await tx.productVariant.createMany({
+          data: variants.map(v => ({
+            productId: id,
+            name: v.name,
+            sku: v.sku,
+            price: v.price,
+            priceUnit: v.priceUnit,
+            status: v.status,
+            isDefault: v.isDefault
+          }))
+        })
+      }
+
+      // 3. Update image associations if provided
+      if (imageIds !== undefined) {
+        await tx.image.updateMany({
+          where: { productId: id, id: { notIn: imageIds } },
+          data: { productId: null }
+        })
+        await tx.image.updateMany({
+          where: { id: { in: imageIds } },
+          data: { productId: id }
+        })
+      }
+
+      return product
+    })
 
     return NextResponse.json({ seed: updatedSeed })
   } catch (error) {

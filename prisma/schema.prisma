@@ -159,10 +159,7 @@ model Product {
   name        String
   slug        String
   description String?   @db.Text
-  price       Decimal   @db.Decimal(16, 2)
-  priceUnit   PriceUnit @default(UNIT)
 
-  status      ProductStatus @default(ACTIVE)
   type        ProductType   @default(PRODUCT)
   publishedAt DateTime?
   isPromotion Boolean       @default(false)
@@ -178,6 +175,8 @@ model Product {
   brandId String?
   brand   Brand?  @relation(fields: [brandId], references: [id], onDelete: SetNull)
 
+  variants ProductVariant[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -185,6 +184,29 @@ model Product {
   @@index([categoryId])
   @@index([updatedAt])
   @@map("product")
+}
+
+model ProductVariant {
+  id        String   @id @default(uuid())
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  name      String   // e.g., "500ml", "1L"
+  sku       String?  @unique
+  
+  price     Decimal   @db.Decimal(16, 2)
+  priceUnit PriceUnit @default(UNIT)
+  status    ProductStatus @default(ACTIVE)
+
+  isDefault Boolean @default(false)
+
+  images    Image[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([productId])
+  @@map("product_variant")
 }
 
 model Image {
@@ -210,6 +232,9 @@ model Image {
   productId String?
   product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
 
+  variantId String?
+  variant   ProductVariant? @relation(fields: [variantId], references: [id], onDelete: Cascade)
+
   brandId String?
   brand   Brand?  @relation(fields: [brandId], references: [id], onDelete: SetNull)
 
@@ -220,6 +245,7 @@ model Image {
   updatedAt DateTime @updatedAt
 
   @@index([productId])
+  @@index([variantId])
   @@index([brandId])
   @@index([categoryId])
   @@map("image")
