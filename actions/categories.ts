@@ -1,5 +1,6 @@
 "use server";
 
+import { Prisma } from "@/lib/prisma/generated/prisma/client";
 import prisma from "@/lib/prisma/prisma";
 import { getUser } from "@/lib/auth/auth-session";
 import { revalidatePath } from "next/cache";
@@ -86,10 +87,110 @@ export async function deleteCategory(id: string) {
   return { success: true };
 }
 
-export async function getCategories() {
-    return await prisma.category.findMany({
-        orderBy: {
-            position: 'asc'
-        }
-    });
+export type GetCategoriesParams = {
+  query?: string;
+  page?: number;
+  pageSize?: number;
+  parentId?: string | null;
+  onlyRoots?: boolean;
+  onlySubcategories?: boolean;
+};
+
+export async function getCategories({
+  query,
+  page = 1,
+  pageSize = 10,
+  parentId,
+  onlyRoots = false,
+  onlySubcategories = false,
+}: GetCategoriesParams = {}) {
+  const skip = (page - 1) * pageSize;
+
+  const where: Prisma.CategoryWhereInput = {
+    ...(query && {
+      OR: [
+        { name: { contains: query, mode: "insensitive" } },
+        { description: { contains: query, mode: "insensitive" } },
+      ],
+    }),
+    ...(onlyRoots
+      ? { parentId: null }
+      : onlySubcategories
+      ? { parentId: { not: null } }
+      : parentId !== undefined
+      ? { parentId }
+      : {}),
+  };
+
+  const [total, categories] = await Promise.all([
+    prisma.category.count({ where }),
+    prisma.category.findMany({
+      where,
+      skip,
+      take: pageSize,
+      orderBy: {
+        position: "asc",
+      },
+      include: {
+        images: {
+          take: 1,
+          orderBy: { index: "asc" },
+          select: { url: true, altText: true },
+        },
+        _count: {
+          select: {
+            products: true,
+            children: true,
+          },
+        },
+      },
+    }),
+  ]);
+
+  return {
+    categories,
+    hasMore: skip + categories.length < total,
+    total,
+  };
 }
+
+export async function getCategoryById(id: string) {
+  return await prisma.category.findUnique({
+    where: { id },
+    include: {
+      parent: true,
+      children: true,
+      images: {
+        orderBy: { index: "asc" },
+      },
+      _count: {
+        select: {
+          products: true,
+        },
+      },
+    },
+  });
+}
+
+export async function getCategoryBySlug(slug: string) {
+  return await prisma.category.findFirst({
+    where: { slug },
+    include: {
+      parent: true,
+      children: true,
+      images: {
+        orderBy: { index: "asc" },
+      },
+      _count: {
+        select: {
+          products: true,
+        },
+      },
+    },
+  });
+}
+
+export type GetCategoriesResult = Awaited<ReturnType<typeof getCategories>>;
+export type CategoryFromGetCategories = NonNullable<
+  GetCategoriesResult["categories"][number]
+>;
