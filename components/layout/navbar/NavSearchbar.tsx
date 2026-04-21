@@ -178,7 +178,10 @@ export function NavSearchbar() {
     setValue("");
     setSuggestions([]);
     setOpen(false);
-    setIsManualSelection(false);
+    // Keep isManualSelection=true so the searchParams sync effect doesn't
+    // re-inject the old "query" value while the router is still transitioning.
+    // The onChange handler will flip it back to false when the user types again.
+    setIsManualSelection(true);
 
     const params = new URLSearchParams(searchParams.toString());
     params.delete("query");
