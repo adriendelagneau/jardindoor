@@ -67,6 +67,15 @@ export function ProductFilters({ categories, brands }: Props) {
     });
   };
 
+  const hasActiveFilters = !!(
+    filters.category || 
+    filters.subCategory || 
+    filters.brand || 
+    filters.priceMin || 
+    (filters.priceMax && filters.priceMax !== "2000") ||
+    (filters.orderBy && filters.orderBy !== "newest")
+  );
+
   return (
     <div className="space-y-6 p-4 bg-white rounded-2xl border shadow-sm">
       <h3 className="font-semibold text-lg">Filtres</h3>
@@ -166,9 +175,15 @@ export function ProductFilters({ categories, brands }: Props) {
         </div>
       </div>
 
-      <Button variant="ghost" onClick={clearFilters} className="w-full gap-2 mt-4">
-        <X size={16} /> Réinitialiser tout
-      </Button>
+      {hasActiveFilters && (
+        <Button 
+          variant="ghost" 
+          onClick={clearFilters} 
+          className="w-full gap-2 mt-4 text-red-600 hover:text-red-700 hover:bg-red-50"
+        >
+          <X size={16} /> Réinitialiser tout
+        </Button>
+      )}
     </div>
   );
 }

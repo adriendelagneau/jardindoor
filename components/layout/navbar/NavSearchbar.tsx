@@ -11,6 +11,7 @@ export type SearchSuggestion = {
 
   category?: string;
   subCategory?: string;
+  brand?: string;
   product?: string;
 
   from: "title" | "product" | "category";
@@ -141,10 +142,11 @@ export function NavSearchbar() {
 
     if (s.category) newParams.set("category", s.category);
     if (s.subCategory) newParams.set("subCategory", s.subCategory);
+    if (s.brand) newParams.set("brand", s.brand);
     if (s.product) newParams.set("product", s.product);
 
     for (const [key, value] of params.entries()) {
-      if (!["query", "category", "subCategory", "product"].includes(key)) {
+      if (!["query", "category", "subCategory", "brand", "product"].includes(key)) {
         newParams.set(key, value);
       }
     }
@@ -152,7 +154,11 @@ export function NavSearchbar() {
     saveRecentSearch(s);
     setRecentSearches(getRecentSearches());
 
-    router.push(`/search?${newParams.toString()}`);
+    if (s.product) {
+      router.push(`/products/${s.product}`);
+    } else {
+      router.push(`/products?${newParams.toString()}`);
+    }
     setOpen(false);
   };
 
@@ -173,7 +179,12 @@ export function NavSearchbar() {
     setSuggestions([]);
     setOpen(false);
     setIsManualSelection(false);
-    router.replace(`/search`);
+    
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete("query");
+    
+    const queryString = params.toString();
+    router.push(queryString ? `/products?${queryString}` : `/products`);
   };
 
   /* ------------------ UI ------------------ */

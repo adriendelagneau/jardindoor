@@ -12,8 +12,10 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: Antic, ui-sans-serif, sans-serif, system-ui;
-  --font-mono: JetBrains Mono, Courier New, monospace;
+  --font-sans: var(--font-geist-sans), Antic, ui-sans-serif, sans-serif, system-ui;
+  --font-mono: var(--font-geist-mono), JetBrains Mono, Courier New, monospace;
+  --font-serif: var(--font-playfair), Signifier, Georgia, serif;
+  --font-montserrat: var(--font-montserrat), Montserrat, sans-serif;
   --font-heading: var(--font-sans);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);

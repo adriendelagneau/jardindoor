@@ -153,7 +153,7 @@ export default async function Home() {
         </Card>
 
         {/* Address & Quick Help */}
-        <Card className="md:col-span-2 md:row-span-1 flex items-center justify-between p-6 bg-accent/20 text-xl">
+        <Card className="md:col-span-2 md:row-span-1 flex items-center justify-center p-6 bg-accent/20 text-xl">
           <div className="flex items-center gap-4">
             <div className="bg-primary/10 p-3 rounded-full">
               <MapPin className="text-primary" size={24} />
@@ -165,11 +165,10 @@ export default async function Home() {
               </CardDescription>
             </div>
           </div>
-          <Button>Nous contacter</Button>
         </Card>
 
         {/* Contact Info (Email & Phone) */}
-        <Card className="md:col-span-2 md:row-span-1 grid grid-cols-2 gap-4 bg-muted/30 p-4">
+        <Card className="md:col-span-2 md:row-span-1 grid grid-cols-2 gap-4 bg-muted/30 p-4 text-2xl">
           <div className="flex flex-col justify-center items-center text-center p-2 rounded-lg bg-card border border-border/50">
             <Mail className="text-primary mb-2" size={24} />
             <p className="text-sm font-medium">contact@jardin.fr</p>

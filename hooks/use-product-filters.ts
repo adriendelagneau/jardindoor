@@ -47,10 +47,20 @@ export function useProductFilters() {
   );
 
   const clearFilters = useCallback(() => {
+    const params = new URLSearchParams(searchParams.toString());
+    const query = params.get("query");
+    
+    // Create new params and only add query back if it exists
+    const newParams = new URLSearchParams();
+    if (query) {
+      newParams.set("query", query);
+    }
+
     startTransition(() => {
-      router.push(pathname, { scroll: false });
+      const queryString = newParams.toString();
+      router.push(queryString ? `${pathname}?${queryString}` : pathname, { scroll: false });
     });
-  }, [pathname, router]);
+  }, [pathname, router, searchParams]);
 
   return {
     filters: {
