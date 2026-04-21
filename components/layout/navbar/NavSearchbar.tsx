@@ -179,10 +179,10 @@ export function NavSearchbar() {
     setSuggestions([]);
     setOpen(false);
     setIsManualSelection(false);
-    
+
     const params = new URLSearchParams(searchParams.toString());
     params.delete("query");
-    
+
     const queryString = params.toString();
     router.push(queryString ? `/products?${queryString}` : `/products`);
   };
