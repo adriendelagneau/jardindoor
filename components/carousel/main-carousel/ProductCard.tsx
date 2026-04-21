@@ -72,9 +72,16 @@ export function ProductCard({ product }: Props) {
             <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400">
               {product.variantsCount > 1 ? "À partir de" : "Prix"}
             </span>
-            <span className="text-lg font-serif font-medium text-green-900">
-              {product.price}€
-            </span>
+            <div className="flex items-baseline gap-2">
+              <span className="text-lg font-serif font-medium text-green-900">
+                {product.price}€
+              </span>
+              {product.isPromotion && product.originalPrice && (
+                <span className="text-sm text-gray-400 line-through">
+                  {product.originalPrice}€
+                </span>
+              )}
+            </div>
           </div>
 
           {/* Action button */}

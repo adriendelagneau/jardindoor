@@ -46,7 +46,7 @@ export const Navbar = () => {
             height={50}
             className=""
           />
-          <div className="font-bold font-serif uppercase ">jardin indoor</div>
+          <div className="font-bold font-serif text-lg uppercase ">jardin indoor</div>
         </Link>
 
         {/* Search */}
@@ -57,7 +57,7 @@ export const Navbar = () => {
         </div>
 
         {/* Actions */}
-        <div className="hidden  gap-4 text-lg lg:flex items-center font-montserrat">
+        <div className="hidden  gap-3 font-medium lg:flex items-center font-montserrat">
           <Link
             href="/favorites"
             className="flex items-center gap-1 underline-effect cursor-pointer"

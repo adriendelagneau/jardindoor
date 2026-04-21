@@ -73,6 +73,7 @@ export async function POST(req: NextRequest) {
             name: v.name,
             sku: v.sku,
             price: v.price,
+            originalPrice: v.originalPrice,
             priceUnit: v.priceUnit,
             status: v.status,
             isDefault: v.isDefault

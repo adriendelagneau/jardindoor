@@ -64,7 +64,8 @@ export const ProductForm = ({ initialData, categories, availableImages, isEdit =
       imageIds: initialData.images?.map((img) => img.id) || [],
       variants: (initialData.variants || []).map(v => ({
         ...v,
-        price: Number(v.price)
+        price: Number(v.price),
+        originalPrice: v.originalPrice ? Number(v.originalPrice) : undefined
       }))
     } : {
       name: '',
@@ -324,6 +325,24 @@ export const ProductForm = ({ initialData, categories, availableImages, isEdit =
                         <p className="text-[10px] text-destructive">{errors.variants[index]?.price?.message}</p>
                       )}
                     </div>
+
+                    {watch('isPromotion') && (
+                      <div className="space-y-2 animate-in fade-in zoom-in duration-300">
+                        <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Ancien Prix (€)</Label>
+                        <div className="relative">
+                          <Input 
+                            type="number"
+                            step="0.01"
+                            {...register(`variants.${index}.originalPrice`)} 
+                            className="h-10 pl-8 rounded-xl bg-white/50 text-muted-foreground line-through"
+                          />
+                          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-xs font-bold">€</span>
+                        </div>
+                        {errors.variants?.[index]?.originalPrice && (
+                          <p className="text-[10px] text-destructive">{errors.variants[index]?.originalPrice?.message}</p>
+                        )}
+                      </div>
+                    )}
 
                     <div className="space-y-2">
                       <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Unité</Label>

@@ -194,8 +194,9 @@ model ProductVariant {
   name      String   // e.g., "500ml", "1L"
   sku       String?  @unique
   
-  price     Decimal   @db.Decimal(16, 2)
-  priceUnit PriceUnit @default(UNIT)
+  price         Decimal   @db.Decimal(16, 2)
+  originalPrice Decimal?  @db.Decimal(16, 2)
+  priceUnit     PriceUnit @default(UNIT)
   status    ProductStatus @default(ACTIVE)
 
   isDefault Boolean @default(false)

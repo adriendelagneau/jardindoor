@@ -5,6 +5,7 @@ export const variantSchema = z.object({
   name: z.string().min(1, "Le nom de la variante est requis (ex: 500ml)"),
   sku: z.string().optional().nullable(),
   price: z.coerce.number().positive("Le prix doit être positif"),
+  originalPrice: z.coerce.number().positive().optional().nullable(),
   priceUnit: z.enum(["UNIT", "KG", "L"]).default("UNIT"),
   status: z.enum(["ACTIVE", "ARCHIVED", "OUT_OF_STOCK"]).default("ACTIVE"),
   isDefault: z.boolean().default(false),

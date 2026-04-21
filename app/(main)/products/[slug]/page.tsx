@@ -4,7 +4,10 @@ import {
 } from "@/actions/products";
 import { ProductSection } from "@/components/carousel/main-carousel/ProductSection";
 import { AppBreadcrumb } from "@/components/layout/AppBreadcrumb";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 export default async function ProductPage({
@@ -48,7 +51,7 @@ export default async function ProductPage({
       : product.images;
 
   return (
-    <div className="container mx-auto px-4 py-12 h-screen mt-16">
+    <div className="container mx-auto px-4 py-12 min-h-screen mt-16">
       <AppBreadcrumb items={breadcrumbItems} />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
         {/* Product Images Section */}
@@ -83,14 +86,53 @@ export default async function ProductPage({
           </h1>
 
           {/* Price */}
-          <div className="mt-6 flex items-baseline gap-2">
+          <div className="mt-6 flex items-baseline gap-3">
             <span className="text-3xl font-bold text-green-900">
               {selectedVariant ? selectedVariant.price : "0.00"}€
             </span>
+            {product.isPromotion && selectedVariant?.originalPrice && (
+              <span className="text-xl text-gray-400 line-through">
+                {selectedVariant.originalPrice}€
+              </span>
+            )}
             <span className="text-sm text-gray-500 italic">
               / {selectedVariant?.priceUnit.toLowerCase() || "unité"}
             </span>
           </div>
+
+          {/* Variants Selector */}
+          {product.variants.length > 1 && (
+            <div className="mt-10">
+              <h3 className="text-sm font-bold uppercase tracking-widest text-green-900 mb-4">
+                Choisir un format
+              </h3>
+              <div className="flex flex-wrap gap-3">
+                {product.variants.map((variant) => {
+                  const isActive = selectedVariant?.id === variant.id;
+                  return (
+                    <Button
+                      key={variant.id}
+                      variant={isActive ? "default" : "outline"}
+                      asChild
+                      className={cn(
+                        "rounded-full px-6 transition-all duration-300",
+                        isActive 
+                          ? "bg-green-900 hover:bg-green-800 shadow-md" 
+                          : "hover:border-green-900 hover:text-green-900"
+                      )}
+                    >
+                      <Link 
+                        href={`/products/${slug}?variant=${variant.id}`}
+                        scroll={false}
+                      >
+                        {variant.name}
+                      </Link>
+                    </Button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
 
           {/* Description */}
           <div className="mt-10">

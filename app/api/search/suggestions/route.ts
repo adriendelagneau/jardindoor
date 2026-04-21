@@ -1,6 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma/prisma";
 
+type Suggestion = {
+  label: string;
+  query: string;
+  category?: string;
+  subCategory?: string;
+  brand?: string;
+  product?: string;
+  from: "category" | "product";
+};
+
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const q = searchParams.get("q")?.trim();
@@ -58,7 +68,7 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    const suggestions: any[] = [];
+    const suggestions: Suggestion[] = [];
 
     // Map Categories
     categories.forEach((cat) => {
@@ -93,7 +103,7 @@ export async function GET(req: NextRequest) {
     });
 
     // Deduplicate and limit
-    const unique = suggestions.reduce((acc: any[], current) => {
+    const unique = suggestions.reduce((acc: Suggestion[], current) => {
       const x = acc.find((item) => item.label === current.label);
       if (!x) return acc.concat([current]);
       return acc;

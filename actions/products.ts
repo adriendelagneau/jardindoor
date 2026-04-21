@@ -122,11 +122,13 @@ export async function getProducts({
     return {
       ...product,
       price: defaultVariant?.price?.toString() ?? null,
+      originalPrice: defaultVariant?.originalPrice?.toString() ?? null,
       priceUnit: defaultVariant?.priceUnit ?? "UNIT",
       variantsCount: product.variants.length,
       variants: product.variants.map(v => ({
         ...v,
-        price: v.price.toString()
+        price: v.price.toString(),
+        originalPrice: v.originalPrice?.toString() ?? null
       }))
     };
   });
@@ -183,6 +185,7 @@ export async function getProductBySlug(slug: string) {
   const serializedVariants = product.variants.map((v) => ({
     ...v,
     price: v.price.toString(),
+    originalPrice: v.originalPrice?.toString() ?? null,
   }));
 
   return {
@@ -236,6 +239,7 @@ export async function createProduct(data: ProductSchema) {
           name: v.name,
           sku: v.sku,
           price: v.price,
+          originalPrice: v.originalPrice,
           priceUnit: v.priceUnit,
           status: v.status,
           isDefault: v.isDefault,
@@ -312,6 +316,7 @@ export async function updateProduct(id: string, data: ProductUpdateSchema) {
           name: v.name,
           sku: v.sku,
           price: v.price,
+          originalPrice: v.originalPrice,
           priceUnit: v.priceUnit,
           status: v.status,
           isDefault: v.isDefault,
