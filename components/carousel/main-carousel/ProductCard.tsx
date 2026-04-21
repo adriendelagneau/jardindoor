@@ -24,21 +24,20 @@ export function ProductCard({ product }: Props) {
         {/* Image container */}
         <div className="relative aspect-3/4 w-full overflow-hidden rounded-2xl bg-muted">
           {image ? (
-            <>
+            <div className="absolute inset-0 p-5">
               <Image
                 src={image.url}
                 alt={image.altText ?? product.name}
                 fill
                 sizes="(max-width: 768px) 80vw, 25vw"
-                className={`object-cover transition-transform duration-700 ease-out group-hover:scale-105 ${
+                className={`object-cover transition-transform origin-center duration-700 ease-out group-hover:scale-105 ${
                   isLoading ? "opacity-0" : "opacity-100"
                 }`}
                 onLoad={() => setIsLoading(false)}
-              />
-              {isLoading && (
+              />              {isLoading && (
                 <div className="absolute inset-0 animate-pulse bg-muted" />
               )}
-            </>
+            </div>
           ) : (
             <div className="flex h-full items-center justify-center bg-gray-50 text-muted-foreground">
               Aucune image

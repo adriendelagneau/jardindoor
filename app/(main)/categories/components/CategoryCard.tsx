@@ -20,7 +20,7 @@ export function CategoryCard({ category }: Props) {
   const hasChildren = category._count.children > 0;
   const href = hasChildren 
     ? `/categories?parentId=${category.id}` 
-    : `/products?categorySlug=${category.slug}`;
+    : `/products?category=${category.slug}`;
 
   return (
     <Link href={href} className="h-full block">

@@ -1,0 +1,69 @@
+"use client";
+
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useCallback, useTransition } from "react";
+
+export type ProductFilters = {
+  query?: string;
+  category?: string;
+  subCategory?: string;
+  brand?: string;
+  orderBy?: string;
+  priceMin?: string;
+  priceMax?: string;
+};
+
+export function useProductFilters() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const [isPending, startTransition] = useTransition();
+
+  const getFilter = useCallback(
+    (key: keyof ProductFilters) => searchParams.get(key) || undefined,
+    [searchParams]
+  );
+
+  const setFilters = useCallback(
+    (filters: ProductFilters) => {
+      const params = new URLSearchParams(searchParams.toString());
+
+      Object.entries(filters).forEach(([key, value]) => {
+        if (value === undefined || value === null || value === "") {
+          params.delete(key);
+        } else {
+          params.set(key, value);
+        }
+      });
+
+      // Reset page when filters change
+      params.delete("page");
+
+      startTransition(() => {
+        router.push(`${pathname}?${params.toString()}`, { scroll: false });
+      });
+    },
+    [pathname, router, searchParams]
+  );
+
+  const clearFilters = useCallback(() => {
+    startTransition(() => {
+      router.push(pathname, { scroll: false });
+    });
+  }, [pathname, router]);
+
+  return {
+    filters: {
+      query: getFilter("query"),
+      category: getFilter("category"),
+      subCategory: getFilter("subCategory"),
+      brand: getFilter("brand"),
+      orderBy: getFilter("orderBy") || "newest",
+      priceMin: getFilter("priceMin"),
+      priceMax: getFilter("priceMax"),
+    },
+    setFilters,
+    clearFilters,
+    isPending,
+  };
+}

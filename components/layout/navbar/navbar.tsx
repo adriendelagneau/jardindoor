@@ -46,7 +46,7 @@ export const Navbar = () => {
             height={50}
             className=""
           />
-          <div className="font-bold uppercase">jardin indoor</div>
+          <div className="font-bold uppercase ">jardin indoor</div>
         </Link>
 
         {/* Search */}

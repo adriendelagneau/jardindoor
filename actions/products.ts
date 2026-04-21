@@ -7,9 +7,9 @@ export type GetProductsParams = {
   query?: string;
   page?: number;
   pageSize?: number;
-  categorySlug?: string;
-  subCategorySlug?: string;
-  brandSlug?: string;
+  category?: string;
+  subCategory?: string;
+  brand?: string;
   orderBy?: "newest" | "priceAsc" | "priceDesc";
   priceMin?: number;
   priceMax?: number;
@@ -21,9 +21,9 @@ export async function getProducts({
   query,
   page = 1,
   pageSize = 8,
-  categorySlug,
-  subCategorySlug,
-  brandSlug,
+  category,
+  subCategory,
+  brand,
   orderBy = "newest",
   priceMin,
   priceMax,
@@ -48,22 +48,22 @@ export async function getProducts({
       },
     },
 
-    ...(subCategorySlug
+    ...(subCategory
       ? {
-          category: { is: { slug: subCategorySlug } },
+          category: { is: { slug: subCategory } },
         }
-      : categorySlug
+      : category
       ? {
           category: {
             is: {
-              OR: [{ slug: categorySlug }, { parent: { slug: categorySlug } }],
+              OR: [{ slug: category }, { parent: { slug: category } }],
             },
           },
         }
       : {}),
 
-    ...(brandSlug && {
-      brand: { is: { slug: brandSlug } },
+    ...(brand && {
+      brand: { is: { slug: brand } },
     }),
 
     ...(query && {

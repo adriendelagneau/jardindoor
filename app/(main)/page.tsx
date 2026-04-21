@@ -74,7 +74,7 @@ export default async function Home() {
         </Card>
 
         {/* Promo / Discount Block */}
-        <Card className="md:col-span-1 md:row-span-1 bg-primary text-primary-foreground flex flex-col justify-center items-center text-center p-6 border-none">
+        <Card className="md:col-span-1 md:row-span-1 bg-primary text-primary-foreground flex flex-col justify-center items-center text-center p-6 border-none text-xl">
           <Tag size={32} className="mb-2 opacity-80" />
           <CardTitle className="text-xl mb-1">PROMOS -20%</CardTitle>
           <CardDescription className="text-primary-foreground/80 text-xs">
@@ -153,7 +153,7 @@ export default async function Home() {
         </Card>
 
         {/* Address & Quick Help */}
-        <Card className="md:col-span-2 md:row-span-1 flex items-center justify-between p-6 bg-accent/20">
+        <Card className="md:col-span-2 md:row-span-1 flex items-center justify-between p-6 bg-accent/20 text-xl">
           <div className="flex items-center gap-4">
             <div className="bg-primary/10 p-3 rounded-full">
               <MapPin className="text-primary" size={24} />
