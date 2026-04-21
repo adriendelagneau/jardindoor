@@ -59,7 +59,7 @@ export const Navbar = () => {
         {/* Actions */}
         <div className="hidden  gap-3 font-medium lg:flex items-center font-montserrat">
           <Link
-            href="/favorites"
+            href="/products"
             className="flex items-center gap-1 underline-effect cursor-pointer"
           >
             Boutique

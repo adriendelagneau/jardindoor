@@ -70,6 +70,9 @@ export async function getProducts({
       OR: [
         { name: { contains: query, mode: "insensitive" } },
         { description: { contains: query, mode: "insensitive" } },
+        { category: { name: { contains: query, mode: "insensitive" } } },
+        { category: { parent: { name: { contains: query, mode: "insensitive" } } } },
+        { brand: { name: { contains: query, mode: "insensitive" } } },
       ],
     }),
   };
