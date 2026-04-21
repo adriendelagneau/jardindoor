@@ -76,6 +76,7 @@ export function ProductFilters({ categories, brands }: Props) {
       <div className="space-y-2">
         <label className="text-sm font-medium">Catégorie</label>
         <Select
+         
           value={activeCategorySlug}
           onValueChange={(val) => 
             val === "all" 
@@ -83,7 +84,7 @@ export function ProductFilters({ categories, brands }: Props) {
               : setFilters({ category: val, subCategory: undefined })
           }
         >
-          <SelectTrigger>
+          <SelectTrigger className="w-full">
             <SelectValue placeholder="Toutes les catégories" />
           </SelectTrigger>
           <SelectContent>
@@ -110,7 +111,7 @@ export function ProductFilters({ categories, brands }: Props) {
             category: activeCategorySlug !== "all" ? activeCategorySlug : undefined
           })}
         >
-          <SelectTrigger>
+          <SelectTrigger className="w-full">
             <SelectValue placeholder="Toutes les sous-catégories" />
           </SelectTrigger>
           <SelectContent>
@@ -136,7 +137,7 @@ export function ProductFilters({ categories, brands }: Props) {
           value={filters.brand ?? "all"}
           onValueChange={(val) => setFilters({ brand: val === "all" ? undefined : val })}
         >
-          <SelectTrigger>
+          <SelectTrigger className="w-full">
             <SelectValue placeholder="Toutes les marques" />
           </SelectTrigger>
           <SelectContent>
