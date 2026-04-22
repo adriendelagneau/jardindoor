@@ -72,7 +72,7 @@ export const NavbarAdmin = () => {
             Graines
           </Link>
           <Link
-            href="/favorites"
+            href="/admin/brand"
             className="flex items-center gap-1 underline-effect cursor-pointer"
           >
             Marques

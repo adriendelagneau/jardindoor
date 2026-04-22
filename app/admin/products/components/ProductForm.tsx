@@ -36,13 +36,13 @@ export interface ProductInitialData extends Omit<ProductSchema, 'variants' | 'im
 interface ProductFormProps {
   initialData?: ProductInitialData
   categories: { id: string, name: string, parentId?: string | null }[]
-  brands: { id: string, name: string }[]
+  brands?: { id: string, name: string }[]
   availableImages: { id: string, url: string, altText: string }[]
   isEdit?: boolean
   productType?: 'PRODUCT' | 'SEED'
 }
 
-export const ProductForm = ({ initialData, categories, brands, availableImages, isEdit = false, productType = 'PRODUCT' }: ProductFormProps) => {
+export const ProductForm = ({ initialData, categories, brands = [], availableImages, isEdit = false, productType = 'PRODUCT' }: ProductFormProps) => {
   const router = useRouter()
   const [isSaving, setIsSaving] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)

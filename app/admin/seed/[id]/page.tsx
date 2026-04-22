@@ -11,7 +11,7 @@ interface PageProps {
 export default async function EditSeedPage({ params }: PageProps) {
   const { id } = await params
 
-  const [seed, categories, images] = await Promise.all([
+  const [seed, categories, images, brands] = await Promise.all([
     prisma.product.findUnique({
       where: { id, type: 'SEED' },
       include: {
@@ -32,6 +32,10 @@ export default async function EditSeedPage({ params }: PageProps) {
       },
       select: { id: true, url: true, altText: true },
       orderBy: { createdAt: 'desc' }
+    }),
+    prisma.brand.findMany({
+      select: { id: true, name: true },
+      orderBy: { name: 'asc' }
     })
   ])
 
@@ -55,7 +59,8 @@ export default async function EditSeedPage({ params }: PageProps) {
         productType="SEED"
         initialData={serializedSeed as unknown as ProductInitialData} 
         categories={categories} 
-        availableImages={images} 
+        availableImages={images}
+        brands={brands}
       />
     </div>
   )

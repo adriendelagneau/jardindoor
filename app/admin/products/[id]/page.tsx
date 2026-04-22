@@ -10,7 +10,7 @@ interface PageProps {
 export default async function EditProductPage({ params }: PageProps) {
   const { id } = await params
 
-  const [product, categories, images] = await Promise.all([
+  const [product, categories, images, brands] = await Promise.all([
     prisma.product.findUnique({
       where: { id },
       include: {
@@ -31,6 +31,10 @@ export default async function EditProductPage({ params }: PageProps) {
       },
       select: { id: true, url: true, altText: true },
       orderBy: { createdAt: 'desc' }
+    }),
+    prisma.brand.findMany({
+      select: { id: true, name: true },
+      orderBy: { name: 'asc' }
     })
   ])
 
@@ -53,7 +57,8 @@ export default async function EditProductPage({ params }: PageProps) {
         isEdit 
         initialData={serializedProduct} 
         categories={categories} 
-        availableImages={images} 
+        availableImages={images}
+        brands={brands}
       />
     </div>
   )
