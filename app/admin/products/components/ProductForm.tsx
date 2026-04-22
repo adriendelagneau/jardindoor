@@ -36,12 +36,13 @@ export interface ProductInitialData extends Omit<ProductSchema, 'variants' | 'im
 interface ProductFormProps {
   initialData?: ProductInitialData
   categories: { id: string, name: string, parentId?: string | null }[]
+  brands: { id: string, name: string }[]
   availableImages: { id: string, url: string, altText: string }[]
   isEdit?: boolean
   productType?: 'PRODUCT' | 'SEED'
 }
 
-export const ProductForm = ({ initialData, categories, availableImages, isEdit = false, productType = 'PRODUCT' }: ProductFormProps) => {
+export const ProductForm = ({ initialData, categories, brands, availableImages, isEdit = false, productType = 'PRODUCT' }: ProductFormProps) => {
   const router = useRouter()
   const [isSaving, setIsSaving] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
@@ -94,6 +95,7 @@ export const ProductForm = ({ initialData, categories, availableImages, isEdit =
       type: productType,
       isPromotion: false,
       categoryId: '',
+      brandId: '',
       metaTitle: '',
       metaDescription: '',
       imageIds: [],
@@ -299,6 +301,21 @@ export const ProductForm = ({ initialData, categories, availableImages, isEdit =
                   ))}
                 </select>
                 {errors.categoryId && <p className="text-xs text-destructive">{errors.categoryId.message}</p>}
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="brandId" className="text-sm font-semibold">Marque</Label>
+                <select
+                  id="brandId"
+                  {...register('brandId')}
+                  className="flex h-11 w-full rounded-xl border border-input bg-muted/30 px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-ring"
+                >
+                  <option value="">-- Sélectionner une marque --</option>
+                  {brands.map(brand => (
+                    <option key={brand.id} value={brand.id}>{brand.name}</option>
+                  ))}
+                </select>
+                {errors.brandId && <p className="text-xs text-destructive">{errors.brandId.message}</p>}
               </div>
 
               <div className="space-y-2 md:col-span-2">

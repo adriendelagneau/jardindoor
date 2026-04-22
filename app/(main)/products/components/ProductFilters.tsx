@@ -7,8 +7,9 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
-import { X } from "lucide-react";
+import { X, Sprout } from "lucide-react";
 import { useState, useEffect } from "react";
+import { Checkbox } from "@/components/ui/checkbox";
 
 type Props = {
   categories: CategoryFromGetCategories[];
@@ -81,7 +82,22 @@ export function ProductFilters({ categories, brands }: Props) {
     <div className="space-y-6 p-4 bg-white rounded-2xl border shadow-sm">
       <h3 className="font-semibold text-lg">Filtres</h3>
 
-
+      <div className="flex items-center space-x-2 p-3 rounded-xl bg-green-50/50 border border-green-100">
+        <Checkbox 
+          id="seeds-only" 
+          checked={filters.type === "SEED"}
+          onCheckedChange={(checked) => {
+            setFilters({ type: checked ? "SEED" : undefined });
+          }}
+        />
+        <label
+          htmlFor="seeds-only"
+          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-center gap-2 cursor-pointer"
+        >
+          <Sprout size={16} className="text-green-600" />
+          Graines uniquement
+        </label>
+      </div>
 
       <div className="space-y-2">
         <label className="text-sm font-medium">Catégorie</label>
