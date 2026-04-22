@@ -258,9 +258,8 @@ export function NavSearchbar() {
                       key={i}
                       onMouseDown={() => submitSuggestion(s)}
                       onMouseEnter={() => setSelectedIndex(i)}
-                      className={`cursor-pointer px-4 py-2 ${
-                        selectedIndex === i ? "bg-muted" : "hover:bg-muted"
-                      }`}
+                      className={`cursor-pointer px-4 py-2 ${selectedIndex === i ? "bg-muted" : "hover:bg-muted"
+                        }`}
                     >
                       <div className="text-sm font-medium">{s.label}</div>
 
@@ -296,9 +295,8 @@ export function NavSearchbar() {
                       key={s.timestamp}
                       onMouseDown={() => submitSuggestion(s)}
                       onMouseEnter={() => setSelectedIndex(index)}
-                      className={`cursor-pointer px-4 py-2 text-sm ${
-                        selectedIndex === index ? "bg-muted" : "hover:bg-muted"
-                      }`}
+                      className={`cursor-pointer px-4 py-2 text-sm ${selectedIndex === index ? "bg-muted" : "hover:bg-muted"
+                        }`}
                     >
                       🔁 {s.label}
                     </li>

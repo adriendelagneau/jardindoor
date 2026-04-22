@@ -44,6 +44,7 @@ export const Navbar = () => {
             alt="Lokko logo"
             width={50}
             height={50}
+            sizes="50px"
             className=""
           />
           <div className="font-bold font-serif text-lg uppercase ">jardin indoor</div>

@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useForm, useFieldArray } from 'react-hook-form'
+import { useForm, useFieldArray, Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { productSchema as schema, productUpdateSchema as updateSchema, type ProductSchema, type VariantSchema } from '@/lib/validation/product'
 import { Button } from '@/components/ui/button'
@@ -27,7 +27,7 @@ import {
 import { cn } from '@/lib/utils'
 import { createProduct, updateProduct, deleteProduct } from '@/actions/products'
 
-interface ProductInitialData extends Omit<ProductSchema, 'variants'> {
+export interface ProductInitialData extends Omit<ProductSchema, 'variants' | 'imageIds'> {
   id: string
   images: { id: string, url: string, altText: string }[]
   variants: (VariantSchema & { id: string })[]
@@ -35,7 +35,7 @@ interface ProductInitialData extends Omit<ProductSchema, 'variants'> {
 
 interface ProductFormProps {
   initialData?: ProductInitialData
-  categories: { id: string, name: string }[]
+  categories: { id: string, name: string, parentId?: string | null }[]
   availableImages: { id: string, url: string, altText: string }[]
   isEdit?: boolean
   productType?: 'PRODUCT' | 'SEED'
@@ -50,6 +50,26 @@ export const ProductForm = ({ initialData, categories, availableImages, isEdit =
     initialData?.images?.map((img) => img.id) || []
   )
 
+  // Subcategory logic
+  const [selectedParentId, setSelectedParentId] = useState<string>(() => {
+    if (initialData?.categoryId) {
+      const currentCat = categories.find(c => c.id === initialData.categoryId)
+      return currentCat?.parentId || initialData.categoryId
+    }
+    return ''
+  })
+
+  const [selectedSubCategoryId, setSelectedSubCategoryId] = useState<string>(() => {
+    if (initialData?.categoryId) {
+      const currentCat = categories.find(c => c.id === initialData.categoryId)
+      return currentCat?.parentId ? initialData.categoryId : ''
+    }
+    return ''
+  })
+
+  const parentCategories = categories.filter(c => !c.parentId)
+  const subCategories = categories.filter(c => c.parentId === selectedParentId)
+
   const {
     register,
     control,
@@ -58,7 +78,7 @@ export const ProductForm = ({ initialData, categories, availableImages, isEdit =
     watch,
     formState: { errors, isDirty },
   } = useForm<ProductSchema>({
-    resolver: zodResolver(isEdit ? updateSchema : schema),
+    resolver: zodResolver(isEdit ? updateSchema : schema) as Resolver<ProductSchema>,
     defaultValues: initialData ? {
       ...initialData,
       imageIds: initialData.images?.map((img) => img.id) || [],
@@ -169,7 +189,7 @@ export const ProductForm = ({ initialData, categories, availableImages, isEdit =
           </Button>
           <div>
             <h1 className="text-3xl font-bold tracking-tight">
-              {isEdit ? `Modifier "${initialData.name}"` : titleLabel}
+              {isEdit && initialData ? `Modifier "${initialData.name}"` : titleLabel}
             </h1>
             <p className="text-muted-foreground">
               {isEdit ? `Mettez à jour les informations de ${editLabel}.` : `Ajoutez ${labelPrefix === 'la graine' ? 'une' : 'un'} ${productType === 'SEED' ? 'graine' : 'article'} à votre catalogue.`}
@@ -239,17 +259,44 @@ export const ProductForm = ({ initialData, categories, availableImages, isEdit =
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="categoryId" className="text-sm font-semibold">Catégorie</Label>
+                <Label htmlFor="parentCategoryId" className="text-sm font-semibold">Catégorie</Label>
                 <select
-                  id="categoryId"
-                  {...register('categoryId')}
+                  id="parentCategoryId"
+                  value={selectedParentId}
+                  onChange={(e) => {
+                    const val = e.target.value
+                    setSelectedParentId(val)
+                    setSelectedSubCategoryId('')
+                    setValue('categoryId', val, { shouldDirty: true })
+                  }}
                   className="flex h-11 w-full rounded-xl border border-input bg-muted/30 px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-ring"
                 >
                   <option value="">-- Sélectionner une catégorie --</option>
-                  {categories.map(cat => (
+                  {parentCategories.map(cat => (
                     <option key={cat.id} value={cat.id}>{cat.name}</option>
                   ))}
                 </select>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="subCategoryId" className="text-sm font-semibold">Sous-catégorie</Label>
+                <select
+                  id="subCategoryId"
+                  value={selectedSubCategoryId}
+                  onChange={(e) => {
+                    const val = e.target.value
+                    setSelectedSubCategoryId(val)
+                    setValue('categoryId', val || selectedParentId, { shouldDirty: true })
+                  }}
+                  disabled={!selectedParentId || subCategories.length === 0}
+                  className="flex h-11 w-full rounded-xl border border-input bg-muted/30 px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-ring disabled:opacity-50"
+                >
+                  <option value="">-- Sélectionner une sous-catégorie --</option>
+                  {subCategories.map(cat => (
+                    <option key={cat.id} value={cat.id}>{cat.name}</option>
+                  ))}
+                </select>
+                {errors.categoryId && <p className="text-xs text-destructive">{errors.categoryId.message}</p>}
               </div>
 
               <div className="space-y-2 md:col-span-2">

@@ -27,6 +27,7 @@ export function AppSidebar() {
               src="/logo1.png"
               alt="Lokko logo"
               fill
+              sizes="50px"
               className="object-contain"
             />
           </div>

@@ -41,6 +41,7 @@ export default async function Home() {
             src="/home-img.png"
             alt="Hero image"
             fill
+            sizes="(max-width: 768px) 100vw, 75vw"
             className="object-cover transition-transform duration-500 group-hover:scale-105"
             priority
           />
@@ -76,9 +77,9 @@ export default async function Home() {
         {/* Promo / Discount Block */}
         <Card className="md:col-span-1 md:row-span-1 bg-primary text-primary-foreground flex flex-col justify-center items-center text-center p-6 border-none text-xl">
           <Tag size={32} className="mb-2 opacity-80" />
-          <CardTitle className="text-xl mb-1">PROMOS -20%</CardTitle>
+          <CardTitle className="text-xl mb-1">PROMOS</CardTitle>
           <CardDescription className="text-primary-foreground/80 text-xs">
-            Avec le code <span className="font-bold">JARDIN20</span>
+           <span className="font-semibold text-lg">-10%, -20%, -30%</span>
           </CardDescription>
         </Card>
       </div>
@@ -121,7 +122,7 @@ export default async function Home() {
             <Leaf className="text-primary" size={24} />
           </div>
           <CardTitle className="text-sm uppercase tracking-widest font-bold">
-            Producteur 1
+          Barneys Farm
           </CardTitle>
           <CardDescription className="text-[10px]">
             Partenaire Premium
@@ -134,7 +135,7 @@ export default async function Home() {
             <Leaf className="text-primary" size={24} />
           </div>
           <CardTitle className="text-sm uppercase tracking-widest font-bold">
-            Producteur 2
+            Green House Seeds
           </CardTitle>
           <CardDescription className="text-[10px]">Graines Bio</CardDescription>
         </Card>

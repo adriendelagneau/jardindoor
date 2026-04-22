@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useForm } from 'react-hook-form'
+import { useForm, Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -43,7 +43,7 @@ export const CategoryForm = ({ initialData, availableCategories, isEdit = false 
     watch,
     formState: { errors, isDirty },
   } = useForm<CategorySchema>({
-    resolver: zodResolver(isEdit ? updateSchema : schema),
+    resolver: zodResolver(schema) as Resolver<CategorySchema>,
     defaultValues: initialData || {
       name: '',
       slug: '',
@@ -118,7 +118,7 @@ export const CategoryForm = ({ initialData, availableCategories, isEdit = false 
           </Button>
           <div>
             <h1 className="text-3xl font-bold tracking-tight">
-              {isEdit ? `Modifier "${initialData.name}"` : 'Nouvelle catégorie'}
+              {isEdit && initialData ? `Modifier "${initialData.name}"` : 'Nouvelle catégorie'}
             </h1>
             <p className="text-muted-foreground">
               {isEdit ? 'Mettez à jour les informations de votre catégorie.' : 'Créez une nouvelle structure pour vos produits.'}

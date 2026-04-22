@@ -20,6 +20,7 @@ export default async function ImagesPage() {
           src="/home-img.png"
           alt="Gérer vos images"
           fill
+          sizes="100vw"
           className="object-cover brightness-40"
           priority
         />

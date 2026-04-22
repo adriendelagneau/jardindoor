@@ -8,13 +8,16 @@ export function ProductCardSkeleton() {
 
       {/* Content Skeleton */}
       <div className="flex flex-1 flex-col px-1 pb-1 pt-5">
-        {/* Name Skeleton */}
-        <Skeleton className="h-7 w-3/4 rounded-lg" />
+        {/* Name Skeleton - 2 lines */}
+        <div className="space-y-2">
+          <Skeleton className="h-6 w-full rounded-lg" />
+          <Skeleton className="h-6 w-2/3 rounded-lg" />
+        </div>
 
         {/* Description Skeleton */}
         <div className="mt-3 space-y-2">
-          <Skeleton className="h-4 w-full rounded-md" />
-          <Skeleton className="h-4 w-2/3 rounded-md" />
+          <Skeleton className="h-3 w-full rounded-md" />
+          <Skeleton className="h-3 w-4/5 rounded-md" />
         </div>
 
         {/* Price Skeleton */}
@@ -24,7 +27,7 @@ export function ProductCardSkeleton() {
         </div>
 
         {/* Button Skeleton */}
-        <Skeleton className="mt-8 h-[50px] w-full rounded-full" />
+        <Skeleton className="mt-8 h-12 w-full rounded-full" />
       </div>
     </div>
   );

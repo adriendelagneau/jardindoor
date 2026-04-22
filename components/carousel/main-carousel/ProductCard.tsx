@@ -28,6 +28,7 @@ export function ProductCard({ product }: Props) {
               <Image
                 src={image.url}
                 alt={image.altText ?? product.name}
+                property="og:image"
                 fill
                 sizes="(max-width: 768px) 80vw, 25vw"
                 className={`object-cover transition-transform origin-center duration-700 ease-out group-hover:scale-105 ${

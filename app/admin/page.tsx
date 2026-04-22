@@ -37,6 +37,7 @@ export default function AdminPage() {
             src="/home-img.png" 
             alt="Admin banner" 
             fill 
+            sizes="100vw"
             className="object-cover opacity-40 transition-transform duration-700 group-hover:scale-105" 
           />
           <div className="absolute inset-0 bg-linear-to-r from-primary/80 via-primary/40 to-transparent flex flex-col justify-center p-12 text-primary-foreground">

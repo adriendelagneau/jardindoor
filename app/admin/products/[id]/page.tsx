@@ -19,7 +19,7 @@ export default async function EditProductPage({ params }: PageProps) {
       }
     }),
     prisma.category.findMany({
-      select: { id: true, name: true },
+      select: { id: true, name: true, parentId: true },
       orderBy: { name: 'asc' }
     }),
     prisma.image.findMany({
@@ -42,7 +42,8 @@ export default async function EditProductPage({ params }: PageProps) {
     ...product,
     variants: product.variants.map(v => ({
       ...v,
-      price: Number(v.price)
+      price: Number(v.price),
+      originalPrice: v.originalPrice ? Number(v.originalPrice) : null
     }))
   }
 

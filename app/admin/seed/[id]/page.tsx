@@ -1,13 +1,8 @@
 import React from 'react'
 import prisma from "@/lib/prisma/prisma"
 import { notFound } from 'next/navigation'
-import { ProductForm } from '../../products/components/ProductForm'
+import { ProductForm, type ProductInitialData } from '../../products/components/ProductForm'
 import { ProductSchema } from '@/lib/validation/product'
-
-interface ProductInitialData extends ProductSchema {
-  id: string
-  images: { id: string, url: string, altText: string }[]
-}
 
 interface PageProps {
   params: Promise<{ id: string }>
@@ -25,7 +20,7 @@ export default async function EditSeedPage({ params }: PageProps) {
       }
     }),
     prisma.category.findMany({
-      select: { id: true, name: true },
+      select: { id: true, name: true, parentId: true },
       orderBy: { name: 'asc' }
     }),
     prisma.image.findMany({
@@ -48,7 +43,8 @@ export default async function EditSeedPage({ params }: PageProps) {
     ...seed,
     variants: seed.variants.map(v => ({
       ...v,
-      price: Number(v.price)
+      price: Number(v.price),
+      originalPrice: v.originalPrice ? Number(v.originalPrice) : null
     }))
   }
 
@@ -57,7 +53,7 @@ export default async function EditSeedPage({ params }: PageProps) {
       <ProductForm 
         isEdit 
         productType="SEED"
-        initialData={serializedSeed as any} 
+        initialData={serializedSeed as unknown as ProductInitialData} 
         categories={categories} 
         availableImages={images} 
       />

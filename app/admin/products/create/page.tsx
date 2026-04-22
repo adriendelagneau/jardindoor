@@ -5,7 +5,7 @@ import { ProductForm } from '../components/ProductForm'
 export default async function CreateProductPage() {
   const [categories, images] = await Promise.all([
     prisma.category.findMany({
-      select: { id: true, name: true },
+      select: { id: true, name: true, parentId: true },
       orderBy: { name: 'asc' }
     }),
     prisma.image.findMany({

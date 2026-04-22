@@ -16,7 +16,6 @@ export async function GET(req: NextRequest) {
     const products = await prisma.product.findMany({
       where: {
         categoryId,
-        status: 'ACTIVE'
       },
       include: {
         images: {

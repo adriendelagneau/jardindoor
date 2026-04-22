@@ -15,7 +15,7 @@ type Props = {
 
 export default function MapModal({ open, onOpenChange, lat, lng }: Props) {
   return (
-    <Dialog open={open} onOpenChange={onOpenChange} preventScrollLock>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="h-[80vh] max-w-4xl p-0">
         <DialogTitle className="sr-only">Map view</DialogTitle>
         <DialogDescription className="sr-only">
