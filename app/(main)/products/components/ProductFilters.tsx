@@ -67,14 +67,15 @@ export function ProductFilters({ categories, brands }: Props) {
     });
   };
 
-  const hasActiveFilters = !!(
-    filters.category || 
-    filters.subCategory || 
-    filters.brand || 
-    filters.priceMin || 
-    (filters.priceMax && filters.priceMax !== "2000") ||
-    (filters.orderBy && filters.orderBy !== "newest")
-  );
+   const hasActiveFilters = !!(
+     filters.category ||
+     filters.subCategory ||
+     filters.brand ||
+     filters.type ||
+     filters.priceMin ||
+     (filters.priceMax && filters.priceMax !== "2000") ||
+     (filters.orderBy && filters.orderBy !== "newest")
+   );
 
   return (
     <div className="space-y-6 p-4 bg-white rounded-2xl border shadow-sm">
@@ -140,23 +141,40 @@ export function ProductFilters({ categories, brands }: Props) {
         </Select>
       </div>
 
-      <div className="space-y-2">
-        <label className="text-sm font-medium">Marque</label>
-        <Select
-          value={filters.brand ?? "all"}
-          onValueChange={(val) => setFilters({ brand: val === "all" ? undefined : val })}
-        >
-          <SelectTrigger className="w-full">
-            <SelectValue placeholder="Toutes les marques" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">Tous</SelectItem>
-            {brands.map((b) => (
-              <SelectItem key={b.id} value={b.slug}>{b.name}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
+       <div className="space-y-2">
+         <label className="text-sm font-medium">Marque</label>
+         <Select
+           value={filters.brand ?? "all"}
+           onValueChange={(val) => setFilters({ brand: val === "all" ? undefined : val })}
+         >
+           <SelectTrigger className="w-full">
+             <SelectValue placeholder="Toutes les marques" />
+           </SelectTrigger>
+           <SelectContent>
+             <SelectItem value="all">Toutes</SelectItem>
+             {brands.map((b) => (
+               <SelectItem key={b.id} value={b.slug}>{b.name}</SelectItem>
+             ))}
+           </SelectContent>
+         </Select>
+       </div>
+
+       <div className="space-y-2">
+         <label className="text-sm font-medium">Type</label>
+         <Select
+           value={filters.type ?? "all"}
+           onValueChange={(val) => setFilters({ type: val === "all" ? undefined : val as "PRODUCT" | "SEED" })}
+         >
+           <SelectTrigger className="w-full">
+             <SelectValue placeholder="Tous les types" />
+           </SelectTrigger>
+           <SelectContent>
+             <SelectItem value="all">Tous</SelectItem>
+             <SelectItem value="PRODUCT">Produit</SelectItem>
+             <SelectItem value="SEED">Semence</SelectItem>
+           </SelectContent>
+         </Select>
+       </div>
 
             <div className="space-y-2">
         <label className="text-sm font-medium">Prix (0 - 2000€)</label>

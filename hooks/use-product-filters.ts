@@ -8,6 +8,7 @@ export type ProductFilters = {
   category?: string;
   subCategory?: string;
   brand?: string;
+  type?: "PRODUCT" | "SEED";
   orderBy?: string;
   priceMin?: string;
   priceMax?: string;
@@ -62,18 +63,19 @@ export function useProductFilters() {
     });
   }, [pathname, router, searchParams]);
 
-  return {
-    filters: {
-      query: getFilter("query"),
-      category: getFilter("category"),
-      subCategory: getFilter("subCategory"),
-      brand: getFilter("brand"),
-      orderBy: getFilter("orderBy") || "newest",
-      priceMin: getFilter("priceMin"),
-      priceMax: getFilter("priceMax"),
-    },
-    setFilters,
-    clearFilters,
-    isPending,
-  };
+   return {
+     filters: {
+       query: getFilter("query"),
+       category: getFilter("category"),
+       subCategory: getFilter("subCategory"),
+       brand: getFilter("brand"),
+       type: getFilter("type") as "PRODUCT" | "SEED" | undefined,
+       orderBy: getFilter("orderBy") || "newest",
+       priceMin: getFilter("priceMin"),
+       priceMax: getFilter("priceMax"),
+     },
+     setFilters,
+     clearFilters,
+     isPending,
+   };
 }

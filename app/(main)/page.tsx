@@ -24,6 +24,7 @@ import { ProductSection } from "@/components/carousel/main-carousel/ProductSecti
 export default async function Home() {
   const { products } = await getProducts({
     pageSize: 12,
+    type: "PRODUCT",
   });
 
   const { products: seeds } = await getProducts({
@@ -142,7 +143,7 @@ export default async function Home() {
       </div>
 
          {/* Carousel - Products */}
-      <ProductSection title="Promos" products={products} href="/boutique" />
+      <ProductSection title="Graines" products={seeds} href="/boutique" />
 
       {/* --- PART 3: CONTACT --- */}
       <div className="grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-4">

@@ -11,7 +11,7 @@ import { Label } from '@/components/ui/label'
 import { Card } from '@/components/ui/card'
 import { 
   Loader2, Trash2, ArrowLeft, Save, Info, Settings2, 
-  Image as ImageIcon, Check, Percent, Plus, X, List
+  Image as ImageIcon, Check, Percent, Plus, X, List, Sprout
 } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -112,7 +112,8 @@ export const ProductForm = ({ initialData, categories, availableImages, isEdit =
     name: "variants",
   });
 
-  const nameValue = watch('name')
+   const nameValue = watch('name')
+   const formType = watch('type')
   
   // Auto-slug
   React.useEffect(() => {
@@ -139,13 +140,13 @@ export const ProductForm = ({ initialData, categories, availableImages, isEdit =
 
   const onSubmit = async (data: ProductSchema) => {
     setIsSaving(true)
-    const redirectUrl = productType === 'SEED' ? '/admin/seed' : '/admin/products'
+    const redirectUrl = data.type === 'SEED' ? '/admin/seed' : '/admin/products'
 
     try {
       if (isEdit && initialData?.id) {
         await updateProduct(initialData.id, data)
       } else {
-        await createProduct({ ...data, type: productType })
+        await createProduct(data)
       }
 
       router.push(redirectUrl)
@@ -160,7 +161,7 @@ export const ProductForm = ({ initialData, categories, availableImages, isEdit =
   const handleDelete = async () => {
     if (!initialData?.id) return
     setIsDeleting(true)
-    const redirectUrl = productType === 'SEED' ? '/admin/seed' : '/admin/products'
+    const redirectUrl = formType === 'SEED' ? '/admin/seed' : '/admin/products'
     
     try {
       await deleteProduct(initialData.id)
@@ -174,16 +175,16 @@ export const ProductForm = ({ initialData, categories, availableImages, isEdit =
     }
   }
 
-  const labelPrefix = productType === 'SEED' ? 'la graine' : 'le produit'
-  const titleLabel = productType === 'SEED' ? 'Nouvelle Graine' : 'Nouveau Produit'
-  const editLabel = productType === 'SEED' ? 'la graine' : 'le produit'
+   const labelPrefix = formType === 'SEED' ? 'la graine' : 'le produit'
+   const titleLabel = formType === 'SEED' ? 'Nouvelle Graine' : 'Nouveau Produit'
+   const editLabel = formType === 'SEED' ? 'la graine' : 'le produit'
 
   return (
     <div className="space-y-8 max-w-6xl mx-auto pb-24 animate-in fade-in duration-500">
       <div className="flex items-center justify-between border-b pb-6">
         <div className="flex items-center gap-4">
           <Button variant="ghost" asChild size="icon" className="rounded-full">
-            <Link href={productType === 'SEED' ? "/admin/seed" : "/admin/products"}>
+             <Link href={formType === 'SEED' ? "/admin/seed" : "/admin/products"}>
               <ArrowLeft className="h-5 w-5" />
             </Link>
           </Button>
@@ -192,7 +193,7 @@ export const ProductForm = ({ initialData, categories, availableImages, isEdit =
               {isEdit && initialData ? `Modifier "${initialData.name}"` : titleLabel}
             </h1>
             <p className="text-muted-foreground">
-              {isEdit ? `Mettez à jour les informations de ${editLabel}.` : `Ajoutez ${labelPrefix === 'la graine' ? 'une' : 'un'} ${productType === 'SEED' ? 'graine' : 'article'} à votre catalogue.`}
+               {isEdit ? `Mettez à jour les informations de ${editLabel}.` : `Ajoutez ${labelPrefix === 'la graine' ? 'une' : 'un'} ${formType === 'SEED' ? 'graine' : 'article'} à votre catalogue.`}
             </p>
           </div>
         </div>
@@ -207,7 +208,7 @@ export const ProductForm = ({ initialData, categories, availableImages, isEdit =
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Supprimer {productType === 'SEED' ? 'cette graine' : 'ce produit'} ?</DialogTitle>
+                 <DialogTitle>Supprimer {formType === 'SEED' ? 'cette graine' : 'ce produit'} ?</DialogTitle>
                 <DialogDescription>
                   Cette action est irréversible. Toutes les données seront définitivement supprimées.
                 </DialogDescription>
@@ -226,8 +227,9 @@ export const ProductForm = ({ initialData, categories, availableImages, isEdit =
         )}
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Main Content */}
+       <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+         <input type="hidden" {...register('type')} />
+         {/* Main Content */}
         <div className="lg:col-span-2 space-y-8">
           <Card className="rounded-3xl border shadow-sm p-6 space-y-6">
             <div className="flex items-center gap-2 border-b pb-4">
@@ -237,11 +239,11 @@ export const ProductForm = ({ initialData, categories, availableImages, isEdit =
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2 md:col-span-2">
-                <Label htmlFor="name" className="text-sm font-semibold">{productType === 'SEED' ? 'Nom de la graine' : 'Nom du produit'}</Label>
+                 <Label htmlFor="name" className="text-sm font-semibold">{formType === 'SEED' ? 'Nom de la graine' : 'Nom du produit'}</Label>
                 <Input
                   id="name"
                   {...register('name')}
-                  placeholder={productType === 'SEED' ? "Ex: Tomate Coeur de Boeuf" : "Ex: Monstera Deliciosa XXL"}
+                   placeholder={formType === 'SEED' ? "Ex: Tomate Coeur de Boeuf" : "Ex: Monstera Deliciosa XXL"}
                   className={errors.name ? 'border-destructive h-12 rounded-xl bg-muted/30 focus-visible:ring-destructive text-lg font-medium' : 'h-12 rounded-xl bg-muted/30 text-lg font-medium'}
                 />
                 {errors.name && <p className="text-xs text-destructive">{errors.name.message}</p>}
@@ -252,7 +254,7 @@ export const ProductForm = ({ initialData, categories, availableImages, isEdit =
                 <Input
                   id="slug"
                   {...register('slug')}
-                  placeholder={productType === 'SEED' ? "tomate-coeur-de-boeuf" : "monstera-deliciosa-xxl"}
+                   placeholder={formType === 'SEED' ? "tomate-coeur-de-boeuf" : "monstera-deliciosa-xxl"}
                   className={errors.slug ? 'border-destructive h-11 rounded-xl bg-muted/30 focus-visible:ring-destructive' : 'h-11 rounded-xl bg-muted/30'}
                 />
                 {errors.slug && <p className="text-xs text-destructive">{errors.slug.message}</p>}
@@ -306,7 +308,7 @@ export const ProductForm = ({ initialData, categories, availableImages, isEdit =
                   {...register('description')}
                   rows={6}
                   className="flex w-full rounded-2xl border border-input bg-muted/30 px-4 py-3 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-                  placeholder={productType === 'SEED' ? "Décrivez les caractéristiques de vos graines, conseils de plantation..." : "Décrivez les caractéristiques de votre produit..."}
+                   placeholder={formType === 'SEED' ? "Décrivez les caractéristiques de vos graines, conseils de plantation..." : "Décrivez les caractéristiques de votre produit..."}
                 />
               </div>
             </div>
@@ -449,7 +451,7 @@ export const ProductForm = ({ initialData, categories, availableImages, isEdit =
             <div className="flex items-center gap-2 border-b pb-4">
               <ImageIcon className="h-5 w-5 text-primary" />
               <div className="flex-1">
-                <h2 className="text-xl font-semibold">{productType === 'SEED' ? 'Images de la graine' : 'Images du produit'}</h2>
+                 <h2 className="text-xl font-semibold">{formType === 'SEED' ? 'Images de la graine' : 'Images du produit'}</h2>
                 <p className="text-xs text-muted-foreground">Sélectionnez les images à associer</p>
               </div>
               <Link href="/admin/images/create" className="text-xs text-primary font-bold hover:underline">
@@ -491,20 +493,36 @@ export const ProductForm = ({ initialData, categories, availableImages, isEdit =
           <Card className="rounded-3xl border shadow-sm p-6 space-y-6">
             <h2 className="text-lg font-semibold border-b pb-4">Options</h2>
             
-            <div className="space-y-6">
-              <div className="flex items-center justify-between p-4 rounded-2xl bg-primary/5 border border-primary/10">
-                <Label htmlFor="isPromotion" className="text-sm font-bold cursor-pointer flex items-center gap-2">
-                  <Percent className="h-4 w-4 text-primary" /> En promotion
-                </Label>
-                <input
-                  id="isPromotion"
-                  type="checkbox"
-                  {...register('isPromotion')}
-                  className="h-5 w-5 accent-primary cursor-pointer"
-                />
-              </div>
+             <div className="space-y-6">
+               <div className="flex items-center justify-between p-4 rounded-2xl bg-primary/5 border border-primary/10">
+                 <Label htmlFor="isPromotion" className="text-sm font-bold cursor-pointer flex items-center gap-2">
+                   <Percent className="h-4 w-4 text-primary" /> En promotion
+                 </Label>
+                 <input
+                   id="isPromotion"
+                   type="checkbox"
+                   {...register('isPromotion')}
+                   className="h-5 w-5 accent-primary cursor-pointer"
+                 />
+               </div>
 
-              <div className="space-y-4">
+                <div className="flex items-center justify-between p-4 rounded-2xl bg-primary/5 border border-primary/10">
+                  <Label htmlFor="type" className="text-sm font-bold cursor-pointer flex items-center gap-2">
+                    <Sprout className="h-4 w-4 text-primary" /> Type graine
+                  </Label>
+                  <input
+                    id="type"
+                    type="checkbox"
+                    checked={watch('type') === 'SEED'}
+                    onChange={(e) => {
+                      const newType = e.target.checked ? 'SEED' : 'PRODUCT'
+                      setValue('type', newType as 'SEED' | 'PRODUCT', { shouldDirty: true })
+                    }}
+                    className="h-5 w-5 accent-primary cursor-pointer"
+                  />
+                </div>
+
+               <div className="space-y-4">
                 <Label className="text-sm font-semibold flex items-center gap-2"><Settings2 className="h-4 w-4" /> SEO</Label>
                 <div className="space-y-3">
                   <Input
@@ -529,7 +547,7 @@ export const ProductForm = ({ initialData, categories, availableImages, isEdit =
               disabled={isSaving || (isEdit && !isDirty)}
             >
               {isSaving ? <Loader2 className="h-5 w-5 animate-spin" /> : <Save className="h-5 w-5" />}
-              {isEdit ? 'Mettre à jour' : `Publier ${productType === 'SEED' ? 'la graine' : 'le produit'}`}
+               {isEdit ? 'Mettre à jour' : `Publier ${formType === 'SEED' ? 'la graine' : 'le produit'}`}
             </Button>
             
             <Button 
@@ -538,7 +556,7 @@ export const ProductForm = ({ initialData, categories, availableImages, isEdit =
               asChild 
               className="w-full h-12 rounded-2xl"
             >
-              <Link href={productType === 'SEED' ? "/admin/seed" : "/admin/products"}>Annuler</Link>
+              <Link href={formType === 'SEED' ? "/admin/seed" : "/admin/products"}>Annuler</Link>
             </Button>
           </div>
         </div>
