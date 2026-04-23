@@ -14,28 +14,27 @@ export function ProductList() {
   const { filters } = useProductFilters();
   const loadMoreRef = useRef<HTMLDivElement>(null);
 
-   const {
-     data,
-     fetchNextPage,
-     hasNextPage,
-     isFetchingNextPage,
-     isLoading,
-     isError,
-   } = useInfiniteQuery({
-     queryKey: ["products", filters],
-     queryFn: ({ pageParam = 1 }) =>
-       getProducts({
-         page: pageParam as number,
-         pageSize: PAGE_SIZE,
-         query: filters.query,
-         category: filters.category,
-         subCategory: filters.subCategory,
-         brand: filters.brand,
-         type: filters.type,
-         orderBy: filters.orderBy as any,
-         priceMin: filters.priceMin ? Number(filters.priceMin) : undefined,
-         priceMax: filters.priceMax ? Number(filters.priceMax) : undefined,
-       }),
+  const {
+      data,
+      fetchNextPage,
+      hasNextPage,
+      isFetchingNextPage,
+      isLoading,
+      isError,
+    } = useInfiniteQuery({
+      queryKey: ["products", filters],
+      queryFn: ({ pageParam = 1 }) =>
+        getProducts({
+          page: pageParam as number,
+          pageSize: PAGE_SIZE,
+          query: filters.query,
+          category: filters.category,
+          subCategory: filters.subCategory,
+          brand: filters.brand,
+          orderBy: filters.orderBy as any,
+          priceMin: filters.priceMin ? Number(filters.priceMin) : undefined,
+          priceMax: filters.priceMax ? Number(filters.priceMax) : undefined,
+        }),
     getNextPageParam: (lastPage, allPages) => {
       return lastPage.hasMore ? allPages.length + 1 : undefined;
     },

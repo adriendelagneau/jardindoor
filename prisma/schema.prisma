@@ -1,24 +1,16 @@
 generator client {
-  provider = "prisma-client"
+  provider = "prisma-client-js"
   output   = "../lib/prisma/generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
+
 }
 
-//
-// ==========================
-// AUTHENTICATION
-// ==========================
-//
-
-
-//
-// ==========================
+// ==========================================
 // AUTH & USERS
-// ==========================
-//
+// ==========================================
 
 enum Role {
   USER
@@ -26,23 +18,19 @@ enum Role {
 }
 
 model User {
-  id    String @id @default(uuid())
-  email String @unique
-
+  id            String    @id @default(uuid())
+  email         String    @unique
   name          String?
   password      String?
-  role          Role    @default(USER)
-  emailVerified Boolean @default(false)
+  role          Role      @default(USER)
+  emailVerified Boolean   @default(false)
   image         String?
-
-  deletedAt DateTime?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  deletedAt     DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 
   sessions Session[]
   accounts Account[]
-
 
   @@map("user")
 }
@@ -53,7 +41,6 @@ model Session {
   expiresAt DateTime
   ipAddress String?
   userAgent String?
-
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -64,10 +51,9 @@ model Session {
 }
 
 model Account {
-  id         String @id @default(uuid())
-  accountId  String
-  providerId String
-
+  id                    String    @id @default(uuid())
+  accountId             String
+  providerId            String
   accessToken           String?
   refreshToken          String?
   idToken               String?
@@ -75,9 +61,8 @@ model Account {
   refreshTokenExpiresAt DateTime?
   scope                 String?
   password              String?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
 
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -92,18 +77,15 @@ model Verification {
   value      String
   expiresAt  DateTime
   purpose    String?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   @@map("verification")
 }
 
-//
-// ==========================
-// ENUMS
-// ==========================
-//
+// ==========================================
+// CATALOG ENUMS
+// ==========================================
 
 enum ProductStatus {
   ACTIVE
@@ -111,33 +93,15 @@ enum ProductStatus {
   OUT_OF_STOCK
 }
 
-enum ProductType {
-  PRODUCT
-  SEED
-}
-
-enum PriceUnit {
-  UNIT
-  KG
-  L
-}
-
-//
-// ==========================
-// CATEGORIES & PRODUCTS
-// ==========================
-//
+// ==========================================
+// CATEGORIES, BRANDS & PRODUCTS
+// ==========================================
 
 model Category {
   id          String  @id @default(uuid())
   name        String
   slug        String
   description String? @db.Text
-  position    Int     @default(0)
-
-  // SEO Metadata
-  metaTitle       String?
-  metaDescription String?
 
   parentId String?
   parent   Category?  @relation("CategoryTree", fields: [parentId], references: [id], onDelete: SetNull)
@@ -154,28 +118,35 @@ model Category {
   @@map("category")
 }
 
+model Brand {
+  id   String @id @default(uuid())
+  name String @unique
+  slug String @unique
+
+  products Product[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("brand")
+}
+
 model Product {
   id          String    @id @default(uuid())
   name        String
   slug        String
   description String?   @db.Text
-
-  type        ProductType   @default(PRODUCT)
   publishedAt DateTime?
-  isPromotion Boolean       @default(false)
-
-  // SEO Metadata
-  metaTitle       String?
-  metaDescription String?
+  isPromotion Boolean   @default(false)
 
   categoryId String?
   category   Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
 
-  images  Image[]
   brandId String?
   brand   Brand?  @relation(fields: [brandId], references: [id], onDelete: SetNull)
 
   variants ProductVariant[]
+  images   Image[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -187,21 +158,17 @@ model Product {
 }
 
 model ProductVariant {
-  id        String   @id @default(uuid())
+  id        String  @id @default(uuid())
   productId String
-  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 
-  name      String   // e.g., "500ml", "1L"
-  sku       String?  @unique
-  
-  price         Decimal   @db.Decimal(16, 2)
-  originalPrice Decimal?  @db.Decimal(16, 2)
-  priceUnit     PriceUnit @default(UNIT)
-  status    ProductStatus @default(ACTIVE)
+  name          String
+  price         Decimal       @db.Decimal(16, 2)
+  originalPrice Decimal?      @db.Decimal(16, 2)
+  status        ProductStatus @default(ACTIVE)
+  isDefault     Boolean       @default(false)
 
-  isDefault Boolean @default(false)
-
-  images    Image[]
+  images Image[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -211,33 +178,17 @@ model ProductVariant {
 }
 
 model Image {
-  id      String  @id @default(uuid())
+  id      String @id @default(uuid())
   url     String
-  fileKey String?
+  altText String
 
-  // Media Metadata
-  originalName String?
-  mimeType     String?
-  fileSize     Int?
-  width        Int?
-  height       Int?
-
-  // Usage Metadata
-  altText          String
-  index            Int     @default(0)
   shortDescription String @db.VarChar(255)
-  metaTitle        String
-  metaDescription  String
 
-  // Relations
   productId String?
   product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   variantId String?
-  variant   ProductVariant? @relation(fields: [variantId], references: [id], onDelete: Cascade)
-
-  brandId String?
-  brand   Brand?  @relation(fields: [brandId], references: [id], onDelete: SetNull)
+  variant   ProductVariant? @relation(fields: [variantId], references: [id], onDelete: SetNull)
 
   categoryId String?
   category   Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
@@ -247,16 +198,6 @@ model Image {
 
   @@index([productId])
   @@index([variantId])
-  @@index([brandId])
   @@index([categoryId])
   @@map("image")
-}
-
-model Brand {
-  id   String @id @default(uuid())
-  name String @unique
-  slug String @unique
-
-  images   Image[]
-  products Product[]
 }

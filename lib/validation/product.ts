@@ -15,7 +15,6 @@ export const productSchema = z.object({
   name: z.string().min(2, "Le nom doit contenir au moins 2 caractères"),
   slug: z.string().min(2, "Le slug doit contenir au moins 2 caractères").regex(/^[a-z0-9-]+$/, "Le slug ne doit contenir que des lettres minuscules, chiffres et tirets"),
   description: z.string().optional().nullable(),
-  type: z.enum(["PRODUCT", "SEED"]).default("PRODUCT"),
   isPromotion: z.boolean().default(false),
   categoryId: z.string().uuid("Catégorie invalide").optional().nullable(),
   brandId: z.string().uuid("Marque invalide").optional().nullable(),

@@ -1,8 +1,9 @@
 "use server";
 
 import prisma from "@/lib/prisma/prisma";
-import { brandSchema, type BrandSchema } from "@/lib/validation/brand";
+import { brandSchema, brandUpdateSchema, type BrandSchema, type BrandUpdateSchema } from "@/lib/validation/brand";
 import { revalidatePath } from "next/cache";
+import { getUser } from "@/lib/auth/auth-session";
 
 export async function getBrands() {
   return await prisma.brand.findMany({
@@ -15,27 +16,45 @@ export async function getBrandById(id: string) {
     where: { id },
     include: {
       _count: {
-        select: { products: true, images: true },
+        select: { products: true },
       },
     },
   });
 }
 
 export async function createBrand(data: BrandSchema) {
-  const validated = brandSchema.parse(data);
+  const user = await getUser();
+  if (!user || user.role !== "ADMIN") {
+    throw new Error("Unauthorized");
+  }
+
+  const result = brandSchema.safeParse(data);
+  if (!result.success) {
+    throw new Error("Validation failed");
+  }
   
   const brand = await prisma.brand.create({
-    data: validated,
+    data: result.data,
   });
   
   revalidatePath("/admin/brand");
   return brand;
 }
 
-export async function updateBrand(id: string, data: Partial<BrandSchema>) {
+export async function updateBrand(id: string, data: BrandUpdateSchema) {
+  const user = await getUser();
+  if (!user || user.role !== "ADMIN") {
+    throw new Error("Unauthorized");
+  }
+
+  const result = brandUpdateSchema.safeParse(data);
+  if (!result.success) {
+    throw new Error("Validation failed");
+  }
+
   const brand = await prisma.brand.update({
     where: { id },
-    data,
+    data: result.data,
   });
   
   revalidatePath("/admin/brand");
@@ -43,6 +62,19 @@ export async function updateBrand(id: string, data: Partial<BrandSchema>) {
 }
 
 export async function deleteBrand(id: string) {
+  const user = await getUser();
+  if (!user || user.role !== "ADMIN") {
+    throw new Error("Unauthorized");
+  }
+
+  const productsCount = await prisma.product.count({
+    where: { brandId: id },
+  });
+
+  if (productsCount > 0) {
+    throw new Error("Cannot delete brand with associated products");
+  }
+
   await prisma.brand.delete({
     where: { id },
   });

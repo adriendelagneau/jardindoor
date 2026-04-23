@@ -1,0 +1,123 @@
+import React from "react";
+import prisma from "@/lib/prisma/prisma";
+import { Button } from "@/components/ui/button";
+import { Package, Plus, Edit, Hash, Folder } from "lucide-react";
+import LinkNext from "next/link";
+
+export default async function BrandsPage() {
+  const brands = await prisma.brand.findMany({
+    include: {
+      _count: {
+        select: { products: true, images: true },
+      },
+    },
+    orderBy: [{ name: "asc" }],
+  });
+
+  return (
+    <div className="space-y-12 p-6 max-w-7xl mx-auto">
+      <div className="relative h-64 w-full overflow-hidden rounded-3xl shadow-lg bg-primary/10 border border-primary/20">
+        <div className="absolute inset-0 flex flex-col items-center justify-center space-y-4 px-4 text-center">
+          <div className="bg-primary/20 p-4 rounded-full">
+            <Package className="h-12 w-12 text-primary" />
+          </div>
+          <div>
+            <h1 className="text-4xl font-bold text-foreground uppercase tracking-widest">
+              Marques
+            </h1>
+            <p className="text-muted-foreground text-lg mt-2">
+              Gérez vos marques et fournisseurs
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex justify-center -mt-16 relative z-10">
+        <Button
+          asChild
+          size="lg"
+          className="h-16 px-10 text-xl rounded-full shadow-2xl hover:scale-105 transition-transform bg-primary text-primary-foreground"
+        >
+          <LinkNext href="/admin/brand/create">
+            <Plus className="mr-3 h-8 w-8" />
+            Créer une marque
+          </LinkNext>
+        </Button>
+      </div>
+
+      <div className="bg-card rounded-3xl border shadow-sm overflow-hidden mt-8">
+        <div className="overflow-x-auto">
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="bg-muted/50 border-b">
+                <th className="p-4 font-semibold text-sm">Nom</th>
+                <th className="p-4 font-semibold text-sm">Slug</th>
+                <th className="p-4 font-semibold text-sm text-center">Produits</th>
+                <th className="p-4 font-semibold text-sm text-center">Images</th>
+                <th className="p-4 font-semibold text-sm text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {brands.map((brand) => (
+                <tr
+                  key={brand.id}
+                  className="border-b hover:bg-muted/30 transition-colors group"
+                >
+                  <td className="p-4">
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium text-base">{brand.name}</span>
+                    </div>
+                  </td>
+                  <td className="p-4 text-sm text-muted-foreground font-mono">
+                    {brand.slug}
+                  </td>
+                  <td className="p-4 text-center">
+                    <span className="bg-muted px-3 py-1 rounded-full text-xs font-bold">
+                      {brand._count.products}
+                    </span>
+                  </td>
+                  <td className="p-4 text-center">
+                    <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-bold border border-primary/20">
+                      {brand._count.images}
+                    </span>
+                  </td>
+                  <td className="p-4 text-right">
+                    <Button
+                      variant="ghost"
+                      size="icon-sm"
+                      asChild
+                      className="hover:bg-primary/20 hover:text-primary transition-colors"
+                    >
+                      <LinkNext href={`/admin/brand/${brand.id}`}>
+                        <Edit className="h-4 w-4" />
+                      </LinkNext>
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+              {brands.length === 0 && (
+                <tr>
+                  <td colSpan={5} className="p-12 text-center">
+                    <div className="flex flex-col items-center gap-4">
+                      <div className="bg-muted p-4 rounded-full">
+                        <Package className="h-10 w-10 text-muted-foreground opacity-20" />
+                      </div>
+                      <p className="text-muted-foreground font-medium">
+                        Aucune marque trouvée
+                      </p>
+                      <Button asChild variant="outline">
+                        <LinkNext href="/admin/brand/create">
+                          Ajouter votre première marque
+                        </LinkNext>
+                      </Button>
+                    </div>
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+}

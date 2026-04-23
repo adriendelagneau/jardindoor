@@ -14,7 +14,6 @@ export type GetProductsParams = {
   priceMin?: number;
   priceMax?: number;
   status?: "ACTIVE" | "ARCHIVED" | "OUT_OF_STOCK";
-  type?: "PRODUCT" | "SEED";
 };
 
 export async function getProducts({
@@ -28,25 +27,23 @@ export async function getProducts({
   priceMin,
   priceMax,
   status = "ACTIVE",
-  type,
 }: GetProductsParams) {
   const skip = (page - 1) * pageSize;
 
   const where: Prisma.ProductWhereInput = {
-    ...(type && { type }),
-    variants: {
-      some: {
-        status,
-        ...(priceMin != null || priceMax != null
-          ? {
-              price: {
-                ...(priceMin != null ? { gte: priceMin } : {}),
-                ...(priceMax != null ? { lte: priceMax } : {}),
-              },
-            }
-          : {}),
-      },
-    },
+     variants: {
+       some: {
+         status,
+         ...(priceMin != null || priceMax != null
+           ? {
+               price: {
+                 ...(priceMin != null ? { gte: priceMin } : {}),
+                 ...(priceMax != null ? { lte: priceMax } : {}),
+               },
+             }
+           : {}),
+       },
+     },
 
     ...(subCategory
       ? {
@@ -94,7 +91,7 @@ export async function getProducts({
       brand: { select: { slug: true, name: true } },
       images: {
         take: 3,
-        orderBy: { index: "asc" },
+       
         select: { url: true, altText: true },
       },
       variants: {
@@ -126,7 +123,7 @@ export async function getProducts({
       ...product,
       price: defaultVariant?.price?.toString() ?? null,
       originalPrice: defaultVariant?.originalPrice?.toString() ?? null,
-      priceUnit: defaultVariant?.priceUnit ?? "UNIT",
+    
       variantsCount: product.variants.length,
       variants: product.variants.map(v => ({
         ...v,
@@ -163,7 +160,7 @@ export async function getProductBySlug(slug: string) {
       },
       images: {
         orderBy: {
-          index: "asc",
+   
         },
       },
       variants: {
@@ -173,7 +170,7 @@ export async function getProductBySlug(slug: string) {
         include: {
           images: {
             orderBy: {
-              index: "asc",
+       
             },
           },
         },
@@ -216,7 +213,6 @@ export async function createProduct(data: ProductSchema) {
     name,
     slug,
     description,
-    type,
     isPromotion,
     categoryId,
     brandId,
@@ -231,7 +227,6 @@ export async function createProduct(data: ProductSchema) {
       name,
       slug,
       description,
-      type,
       isPromotion,
       categoryId: categoryId || null,
       brandId: brandId || null,
@@ -279,7 +274,6 @@ export async function updateProduct(id: string, data: ProductUpdateSchema) {
     name,
     slug,
     description,
-    type,
     isPromotion,
     categoryId,
     brandId,
@@ -297,7 +291,6 @@ export async function updateProduct(id: string, data: ProductUpdateSchema) {
         name,
         slug,
         description,
-        type,
         isPromotion,
         categoryId: categoryId === undefined ? undefined : categoryId || null,
         brandId: brandId === undefined ? undefined : brandId || null,
