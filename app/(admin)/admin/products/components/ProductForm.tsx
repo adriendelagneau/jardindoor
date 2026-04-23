@@ -31,6 +31,7 @@ export interface ProductInitialData extends Omit<ProductSchema, 'variants' | 'im
   id: string
   images: { id: string, url: string, altText: string }[]
   variants: (VariantSchema & { id: string })[]
+  type: 'PRODUCT' | 'SEED'
 }
 
 interface ProductFormProps {
@@ -82,6 +83,7 @@ export const ProductForm = ({ initialData, categories, brands = [], availableIma
     resolver: zodResolver(isEdit ? updateSchema : schema) as Resolver<ProductSchema>,
     defaultValues: initialData ? {
       ...initialData,
+      type: initialData.type || productType,
       imageIds: initialData.images?.map((img) => img.id) || [],
       variants: (initialData.variants || []).map(v => ({
         ...v,
@@ -92,6 +94,7 @@ export const ProductForm = ({ initialData, categories, brands = [], availableIma
       name: '',
       slug: '',
       description: '',
+      type: productType,
       isPromotion: false,
       categoryId: '',
       brandId: '',
@@ -193,7 +196,7 @@ export const ProductForm = ({ initialData, categories, brands = [], availableIma
               {isEdit && initialData ? `Modifier "${initialData.name}"` : titleLabel}
             </h1>
             <p className="text-muted-foreground">
-                {isEdit ? `Mettez à jour les informations de ${editLabel}.` : `Ajoutez ${labelPrefix === 'la graine' ? 'une' : 'un'} ${productType === 'SEED' ? 'graine' : 'article'} à votre catalogue.}
+                {isEdit ? `Mettez à jour les informations de ${editLabel}.` : `Ajoutez ${labelPrefix === 'la graine' ? 'une' : 'un'} ${productType === 'SEED' ? 'graine' : 'article'} à votre catalogue.`}
             </p>
           </div>
         </div>
