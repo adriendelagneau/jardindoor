@@ -16,6 +16,7 @@ export type GetProductsParams = {
   orderBy?: "newest" | "priceAsc" | "priceDesc";
   priceMin?: number;
   priceMax?: number;
+  isShowInCarousel?: boolean;
   status?: "ACTIVE" | "ARCHIVED" | "OUT_OF_STOCK";
 };
 
@@ -29,11 +30,13 @@ export async function getProducts({
   orderBy = "newest",
   priceMin,
   priceMax,
+  isShowInCarousel,
   status = "ACTIVE",
 }: GetProductsParams) {
   const skip = (page - 1) * pageSize;
 
   const where: Prisma.ProductWhereInput = {
+    ...(isShowInCarousel != null && { isShowInCarousel }),
     variants: {
       some: {
         status: status as any,
