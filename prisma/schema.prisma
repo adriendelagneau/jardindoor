@@ -137,7 +137,7 @@ model Product {
   description String?   @db.Text
   publishedAt DateTime?
   isPromotion Boolean   @default(false)
-  isShowcInCarousel Boolean   @default(false)
+  isShowInCarousel Boolean   @default(false)
   categoryId String?
   category   Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
 

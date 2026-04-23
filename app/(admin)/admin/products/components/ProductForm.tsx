@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useForm, useFieldArray, Resolver } from 'react-hook-form'
+import { useForm, useFieldArray, Resolver, SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { productSchema as schema, productUpdateSchema as updateSchema, type ProductSchema, type VariantSchema } from '@/lib/validation/product'
 import { Button } from '@/components/ui/button'
@@ -31,7 +31,6 @@ export interface ProductInitialData extends Omit<ProductSchema, 'variants' | 'im
   id: string
   images: { id: string, url: string, altText: string }[]
   variants: (VariantSchema & { id: string })[]
-  type: 'PRODUCT' | 'SEED'
 }
 
 interface ProductFormProps {
@@ -40,14 +39,14 @@ interface ProductFormProps {
   brands?: { id: string, name: string }[]
   availableImages: { id: string, url: string, altText: string }[]
   isEdit?: boolean
-  productType?: 'PRODUCT' | 'SEED'
 }
 
-export const ProductForm = ({ initialData, categories, brands = [], availableImages, isEdit = false, productType = 'PRODUCT' }: ProductFormProps) => {
+export const ProductForm = ({ initialData, categories, brands = [], availableImages, isEdit = false }: ProductFormProps) => {
   const router = useRouter()
   const [isSaving, setIsSaving] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
+
   const [selectedImageIds, setSelectedImageIds] = useState<string[]>(
     initialData?.images?.map((img) => img.id) || []
   )
@@ -83,7 +82,6 @@ export const ProductForm = ({ initialData, categories, brands = [], availableIma
     resolver: zodResolver(isEdit ? updateSchema : schema) as Resolver<ProductSchema>,
     defaultValues: initialData ? {
       ...initialData,
-      type: initialData.type || productType,
       imageIds: initialData.images?.map((img) => img.id) || [],
       variants: (initialData.variants || []).map(v => ({
         ...v,
@@ -94,17 +92,14 @@ export const ProductForm = ({ initialData, categories, brands = [], availableIma
       name: '',
       slug: '',
       description: '',
-      type: productType,
       isPromotion: false,
+      isShowInCarousel: false,
       categoryId: '',
       brandId: '',
-      metaTitle: '',
-      metaDescription: '',
       imageIds: [],
       variants: [{
         name: 'Standard',
         price: 0,
-        priceUnit: 'UNIT',
         status: 'ACTIVE',
         isDefault: true,
       }]
@@ -141,9 +136,9 @@ export const ProductForm = ({ initialData, categories, brands = [], availableIma
     setValue('imageIds', newSelection, { shouldDirty: true })
   }
 
-  const onSubmit = async (data: ProductSchema) => {
+  const onSubmit: SubmitHandler<ProductSchema> = async (data) => {
     setIsSaving(true)
-    const redirectUrl = productType === 'SEED' ? '/admin/seed' : '/admin/products'
+    const redirectUrl = '/admin/products'
 
     try {
       if (isEdit && initialData?.id) {
@@ -164,12 +159,12 @@ export const ProductForm = ({ initialData, categories, brands = [], availableIma
   const handleDelete = async () => {
     if (!initialData?.id) return
     setIsDeleting(true)
-    const redirectUrl = productType === 'SEED' ? '/admin/seed' : '/admin/products'
+
     
     try {
       await deleteProduct(initialData.id)
       setIsDialogOpen(false)
-      router.push(redirectUrl)
+      router.push('/admin/products')
       router.refresh()
     } catch (error) {
       console.error('Error deleting product:', error)
@@ -178,25 +173,25 @@ export const ProductForm = ({ initialData, categories, brands = [], availableIma
     }
   }
 
-   const labelPrefix = productType === 'SEED' ? 'la graine' : 'le produit'
-   const titleLabel = productType === 'SEED' ? 'Nouvelle Graine' : 'Nouveau Produit'
-   const editLabel = productType === 'SEED' ? 'la graine' : 'le produit'
+   const labelPrefix =  'le produit'
+   const titleLabel = 'Nouveau Produit'
+   const editLabel = 'le produit'
 
   return (
     <div className="space-y-8 max-w-6xl mx-auto pb-24 animate-in fade-in duration-500">
       <div className="flex items-center justify-between border-b pb-6">
         <div className="flex items-center gap-4">
            <Button variant="ghost" asChild size="icon" className="rounded-full">
-              <Link href={productType === 'SEED' ? "/admin/seed" : "/admin/products"}>
+              <Link href={ "/admin/products"}>
                 <ArrowLeft className="h-5 w-5" />
               </Link>
             </Button>
           <div>
             <h1 className="text-3xl font-bold tracking-tight">
-              {isEdit && initialData ? `Modifier "${initialData.name}"` : titleLabel}
+              {isEdit && initialData ? `Modifier "${initialData.name}"` : "Nouveau Produit"}
             </h1>
             <p className="text-muted-foreground">
-                {isEdit ? `Mettez à jour les informations de ${editLabel}.` : `Ajoutez ${labelPrefix === 'la graine' ? 'une' : 'un'} ${productType === 'SEED' ? 'graine' : 'article'} à votre catalogue.`}
+                {isEdit ? `Mettez à jour les informations du produit.` : `Ajoutez un produit à votre catalogue.`}
             </p>
           </div>
         </div>
@@ -211,7 +206,7 @@ export const ProductForm = ({ initialData, categories, brands = [], availableIma
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                  <DialogTitle>Supprimer {productType === 'SEED' ? 'cette graine' : 'ce produit'} ?</DialogTitle>
+                  <DialogTitle>Supprimer ce produit ?</DialogTitle>
                 <DialogDescription>
                   Cette action est irréversible. Toutes les données seront définitivement supprimées.
                 </DialogDescription>
@@ -241,11 +236,11 @@ export const ProductForm = ({ initialData, categories, brands = [], availableIma
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2 md:col-span-2">
-                  <Label htmlFor="name" className="text-sm font-semibold">{productType === 'SEED' ? 'Nom de la graine' : 'Nom du produit'}</Label>
+                  <Label htmlFor="name" className="text-sm font-semibold">Nom du produit</Label>
                 <Input
                   id="name"
                   {...register('name')}
-                   placeholder={productType === 'SEED' ? "Ex: Tomate Coeur de Boeuf" : "Ex: Monstera Deliciosa XXL"}
+                   placeholder={"Ex: Monstera Deliciosa XXL"}
                   className={errors.name ? 'border-destructive h-12 rounded-xl bg-muted/30 focus-visible:ring-destructive text-lg font-medium' : 'h-12 rounded-xl bg-muted/30 text-lg font-medium'}
                 />
                 {errors.name && <p className="text-xs text-destructive">{errors.name.message}</p>}
@@ -256,7 +251,7 @@ export const ProductForm = ({ initialData, categories, brands = [], availableIma
                 <Input
                   id="slug"
                   {...register('slug')}
-                   placeholder={productType === 'SEED' ? "tomate-coeur-de-boeuf" : "monstera-deliciosa-xxl"}
+                   placeholder={"monstera-deliciosa-xxl"}
                   className={errors.slug ? 'border-destructive h-11 rounded-xl bg-muted/30 focus-visible:ring-destructive' : 'h-11 rounded-xl bg-muted/30'}
                 />
                 {errors.slug && <p className="text-xs text-destructive">{errors.slug.message}</p>}
@@ -325,7 +320,7 @@ export const ProductForm = ({ initialData, categories, brands = [], availableIma
                   {...register('description')}
                   rows={6}
                   className="flex w-full rounded-2xl border border-input bg-muted/30 px-4 py-3 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-                   placeholder={productType === 'SEED' ? "Décrivez les caractéristiques de vos graines, conseils de plantation..." : "Décrivez les caractéristiques de votre produit..."}
+                   placeholder={"Décrivez les caractéristiques de votre produit..."}
                 />
               </div>
             </div>
@@ -456,7 +451,7 @@ export const ProductForm = ({ initialData, categories, brands = [], availableIma
             <div className="flex items-center gap-2 border-b pb-4">
               <ImageIcon className="h-5 w-5 text-primary" />
               <div className="flex-1">
-                 <h2 className="text-xl font-semibold">{productType === 'SEED' ? 'Images de la graine' : 'Images du produit'}</h2>
+                 <h2 className="text-xl font-semibold">Images du produit</h2>
                 <p className="text-xs text-muted-foreground">Sélectionnez les images à associer</p>
               </div>
               <Link href="/admin/images/create" className="text-xs text-primary font-bold hover:underline">
@@ -533,7 +528,7 @@ export const ProductForm = ({ initialData, categories, brands = [], availableIma
               disabled={isSaving || (isEdit && !isDirty)}
             >
               {isSaving ? <Loader2 className="h-5 w-5 animate-spin" /> : <Save className="h-5 w-5" />}
-                {isEdit ? 'Mettre à jour' : `Publier ${productType === 'SEED' ? 'la graine' : 'le produit'}`}
+                {isEdit ? 'Mettre à jour' : `Publier le produit`}
             </Button>
             
             <Button 
@@ -542,7 +537,7 @@ export const ProductForm = ({ initialData, categories, brands = [], availableIma
               asChild 
               className="w-full h-12 rounded-2xl"
             >
-               <Link href={productType === 'SEED' ? "/admin/seed" : "/admin/products"}>Annuler</Link>
+               <Link href={"/admin/products"}>Annuler</Link>
             </Button>
           </div>
         </div>

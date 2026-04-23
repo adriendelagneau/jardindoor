@@ -131,15 +131,15 @@ model Brand {
 }
 
 model Product {
-  id                String    @id @default(uuid())
-  name              String
-  slug              String
-  description       String?   @db.Text
-  publishedAt       DateTime?
-  isPromotion       Boolean   @default(false)
-  isShowcInCarousel Boolean   @default(false)
-  categoryId        String?
-  category          Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  id               String    @id @default(uuid())
+  name             String
+  slug             String
+  description      String?   @db.Text
+  publishedAt      DateTime?
+  isPromotion      Boolean   @default(false)
+  isShowInCarousel Boolean   @default(false)
+  categoryId       String?
+  category         Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
 
   brandId String?
   brand   Brand?  @relation(fields: [brandId], references: [id], onDelete: SetNull)

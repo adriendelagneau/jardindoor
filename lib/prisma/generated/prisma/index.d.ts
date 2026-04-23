@@ -8563,7 +8563,7 @@ export namespace Prisma {
     description: string | null
     publishedAt: Date | null
     isPromotion: boolean | null
-    isShowcInCarousel: boolean | null
+    isShowInCarousel: boolean | null
     categoryId: string | null
     brandId: string | null
     createdAt: Date | null
@@ -8577,7 +8577,7 @@ export namespace Prisma {
     description: string | null
     publishedAt: Date | null
     isPromotion: boolean | null
-    isShowcInCarousel: boolean | null
+    isShowInCarousel: boolean | null
     categoryId: string | null
     brandId: string | null
     createdAt: Date | null
@@ -8591,7 +8591,7 @@ export namespace Prisma {
     description: number
     publishedAt: number
     isPromotion: number
-    isShowcInCarousel: number
+    isShowInCarousel: number
     categoryId: number
     brandId: number
     createdAt: number
@@ -8607,7 +8607,7 @@ export namespace Prisma {
     description?: true
     publishedAt?: true
     isPromotion?: true
-    isShowcInCarousel?: true
+    isShowInCarousel?: true
     categoryId?: true
     brandId?: true
     createdAt?: true
@@ -8621,7 +8621,7 @@ export namespace Prisma {
     description?: true
     publishedAt?: true
     isPromotion?: true
-    isShowcInCarousel?: true
+    isShowInCarousel?: true
     categoryId?: true
     brandId?: true
     createdAt?: true
@@ -8635,7 +8635,7 @@ export namespace Prisma {
     description?: true
     publishedAt?: true
     isPromotion?: true
-    isShowcInCarousel?: true
+    isShowInCarousel?: true
     categoryId?: true
     brandId?: true
     createdAt?: true
@@ -8722,7 +8722,7 @@ export namespace Prisma {
     description: string | null
     publishedAt: Date | null
     isPromotion: boolean
-    isShowcInCarousel: boolean
+    isShowInCarousel: boolean
     categoryId: string | null
     brandId: string | null
     createdAt: Date
@@ -8753,7 +8753,7 @@ export namespace Prisma {
     description?: boolean
     publishedAt?: boolean
     isPromotion?: boolean
-    isShowcInCarousel?: boolean
+    isShowInCarousel?: boolean
     categoryId?: boolean
     brandId?: boolean
     createdAt?: boolean
@@ -8772,7 +8772,7 @@ export namespace Prisma {
     description?: boolean
     publishedAt?: boolean
     isPromotion?: boolean
-    isShowcInCarousel?: boolean
+    isShowInCarousel?: boolean
     categoryId?: boolean
     brandId?: boolean
     createdAt?: boolean
@@ -8788,7 +8788,7 @@ export namespace Prisma {
     description?: boolean
     publishedAt?: boolean
     isPromotion?: boolean
-    isShowcInCarousel?: boolean
+    isShowInCarousel?: boolean
     categoryId?: boolean
     brandId?: boolean
     createdAt?: boolean
@@ -8804,14 +8804,14 @@ export namespace Prisma {
     description?: boolean
     publishedAt?: boolean
     isPromotion?: boolean
-    isShowcInCarousel?: boolean
+    isShowInCarousel?: boolean
     categoryId?: boolean
     brandId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "description" | "publishedAt" | "isPromotion" | "isShowcInCarousel" | "categoryId" | "brandId" | "createdAt" | "updatedAt", ExtArgs["result"]["product"]>
+  export type ProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "description" | "publishedAt" | "isPromotion" | "isShowInCarousel" | "categoryId" | "brandId" | "createdAt" | "updatedAt", ExtArgs["result"]["product"]>
   export type ProductInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     category?: boolean | Product$categoryArgs<ExtArgs>
     brand?: boolean | Product$brandArgs<ExtArgs>
@@ -8843,7 +8843,7 @@ export namespace Prisma {
       description: string | null
       publishedAt: Date | null
       isPromotion: boolean
-      isShowcInCarousel: boolean
+      isShowInCarousel: boolean
       categoryId: string | null
       brandId: string | null
       createdAt: Date
@@ -9281,7 +9281,7 @@ export namespace Prisma {
     readonly description: FieldRef<"Product", 'String'>
     readonly publishedAt: FieldRef<"Product", 'DateTime'>
     readonly isPromotion: FieldRef<"Product", 'Boolean'>
-    readonly isShowcInCarousel: FieldRef<"Product", 'Boolean'>
+    readonly isShowInCarousel: FieldRef<"Product", 'Boolean'>
     readonly categoryId: FieldRef<"Product", 'String'>
     readonly brandId: FieldRef<"Product", 'String'>
     readonly createdAt: FieldRef<"Product", 'DateTime'>
@@ -12269,7 +12269,7 @@ export namespace Prisma {
     description: 'description',
     publishedAt: 'publishedAt',
     isPromotion: 'isPromotion',
-    isShowcInCarousel: 'isShowcInCarousel',
+    isShowInCarousel: 'isShowInCarousel',
     categoryId: 'categoryId',
     brandId: 'brandId',
     createdAt: 'createdAt',
@@ -12883,7 +12883,7 @@ export namespace Prisma {
     description?: StringNullableFilter<"Product"> | string | null
     publishedAt?: DateTimeNullableFilter<"Product"> | Date | string | null
     isPromotion?: BoolFilter<"Product"> | boolean
-    isShowcInCarousel?: BoolFilter<"Product"> | boolean
+    isShowInCarousel?: BoolFilter<"Product"> | boolean
     categoryId?: StringNullableFilter<"Product"> | string | null
     brandId?: StringNullableFilter<"Product"> | string | null
     createdAt?: DateTimeFilter<"Product"> | Date | string
@@ -12901,7 +12901,7 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     publishedAt?: SortOrderInput | SortOrder
     isPromotion?: SortOrder
-    isShowcInCarousel?: SortOrder
+    isShowInCarousel?: SortOrder
     categoryId?: SortOrderInput | SortOrder
     brandId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -12923,7 +12923,7 @@ export namespace Prisma {
     description?: StringNullableFilter<"Product"> | string | null
     publishedAt?: DateTimeNullableFilter<"Product"> | Date | string | null
     isPromotion?: BoolFilter<"Product"> | boolean
-    isShowcInCarousel?: BoolFilter<"Product"> | boolean
+    isShowInCarousel?: BoolFilter<"Product"> | boolean
     categoryId?: StringNullableFilter<"Product"> | string | null
     brandId?: StringNullableFilter<"Product"> | string | null
     createdAt?: DateTimeFilter<"Product"> | Date | string
@@ -12941,7 +12941,7 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     publishedAt?: SortOrderInput | SortOrder
     isPromotion?: SortOrder
-    isShowcInCarousel?: SortOrder
+    isShowInCarousel?: SortOrder
     categoryId?: SortOrderInput | SortOrder
     brandId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -12961,7 +12961,7 @@ export namespace Prisma {
     description?: StringNullableWithAggregatesFilter<"Product"> | string | null
     publishedAt?: DateTimeNullableWithAggregatesFilter<"Product"> | Date | string | null
     isPromotion?: BoolWithAggregatesFilter<"Product"> | boolean
-    isShowcInCarousel?: BoolWithAggregatesFilter<"Product"> | boolean
+    isShowInCarousel?: BoolWithAggregatesFilter<"Product"> | boolean
     categoryId?: StringNullableWithAggregatesFilter<"Product"> | string | null
     brandId?: StringNullableWithAggregatesFilter<"Product"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Product"> | Date | string
@@ -13633,7 +13633,7 @@ export namespace Prisma {
     description?: string | null
     publishedAt?: Date | string | null
     isPromotion?: boolean
-    isShowcInCarousel?: boolean
+    isShowInCarousel?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     category?: CategoryCreateNestedOneWithoutProductsInput
@@ -13649,7 +13649,7 @@ export namespace Prisma {
     description?: string | null
     publishedAt?: Date | string | null
     isPromotion?: boolean
-    isShowcInCarousel?: boolean
+    isShowInCarousel?: boolean
     categoryId?: string | null
     brandId?: string | null
     createdAt?: Date | string
@@ -13665,7 +13665,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isPromotion?: BoolFieldUpdateOperationsInput | boolean
-    isShowcInCarousel?: BoolFieldUpdateOperationsInput | boolean
+    isShowInCarousel?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     category?: CategoryUpdateOneWithoutProductsNestedInput
@@ -13681,7 +13681,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isPromotion?: BoolFieldUpdateOperationsInput | boolean
-    isShowcInCarousel?: BoolFieldUpdateOperationsInput | boolean
+    isShowInCarousel?: BoolFieldUpdateOperationsInput | boolean
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     brandId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13697,7 +13697,7 @@ export namespace Prisma {
     description?: string | null
     publishedAt?: Date | string | null
     isPromotion?: boolean
-    isShowcInCarousel?: boolean
+    isShowInCarousel?: boolean
     categoryId?: string | null
     brandId?: string | null
     createdAt?: Date | string
@@ -13711,7 +13711,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isPromotion?: BoolFieldUpdateOperationsInput | boolean
-    isShowcInCarousel?: BoolFieldUpdateOperationsInput | boolean
+    isShowInCarousel?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -13723,7 +13723,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isPromotion?: BoolFieldUpdateOperationsInput | boolean
-    isShowcInCarousel?: BoolFieldUpdateOperationsInput | boolean
+    isShowInCarousel?: BoolFieldUpdateOperationsInput | boolean
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     brandId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14350,7 +14350,7 @@ export namespace Prisma {
     description?: SortOrder
     publishedAt?: SortOrder
     isPromotion?: SortOrder
-    isShowcInCarousel?: SortOrder
+    isShowInCarousel?: SortOrder
     categoryId?: SortOrder
     brandId?: SortOrder
     createdAt?: SortOrder
@@ -14364,7 +14364,7 @@ export namespace Prisma {
     description?: SortOrder
     publishedAt?: SortOrder
     isPromotion?: SortOrder
-    isShowcInCarousel?: SortOrder
+    isShowInCarousel?: SortOrder
     categoryId?: SortOrder
     brandId?: SortOrder
     createdAt?: SortOrder
@@ -14378,7 +14378,7 @@ export namespace Prisma {
     description?: SortOrder
     publishedAt?: SortOrder
     isPromotion?: SortOrder
-    isShowcInCarousel?: SortOrder
+    isShowInCarousel?: SortOrder
     categoryId?: SortOrder
     brandId?: SortOrder
     createdAt?: SortOrder
@@ -15697,7 +15697,7 @@ export namespace Prisma {
     description?: string | null
     publishedAt?: Date | string | null
     isPromotion?: boolean
-    isShowcInCarousel?: boolean
+    isShowInCarousel?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     brand?: BrandCreateNestedOneWithoutProductsInput
@@ -15712,7 +15712,7 @@ export namespace Prisma {
     description?: string | null
     publishedAt?: Date | string | null
     isPromotion?: boolean
-    isShowcInCarousel?: boolean
+    isShowInCarousel?: boolean
     brandId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -15852,7 +15852,7 @@ export namespace Prisma {
     description?: StringNullableFilter<"Product"> | string | null
     publishedAt?: DateTimeNullableFilter<"Product"> | Date | string | null
     isPromotion?: BoolFilter<"Product"> | boolean
-    isShowcInCarousel?: BoolFilter<"Product"> | boolean
+    isShowInCarousel?: BoolFilter<"Product"> | boolean
     categoryId?: StringNullableFilter<"Product"> | string | null
     brandId?: StringNullableFilter<"Product"> | string | null
     createdAt?: DateTimeFilter<"Product"> | Date | string
@@ -15897,7 +15897,7 @@ export namespace Prisma {
     description?: string | null
     publishedAt?: Date | string | null
     isPromotion?: boolean
-    isShowcInCarousel?: boolean
+    isShowInCarousel?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     category?: CategoryCreateNestedOneWithoutProductsInput
@@ -15912,7 +15912,7 @@ export namespace Prisma {
     description?: string | null
     publishedAt?: Date | string | null
     isPromotion?: boolean
-    isShowcInCarousel?: boolean
+    isShowInCarousel?: boolean
     categoryId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -16178,7 +16178,7 @@ export namespace Prisma {
     description?: string | null
     publishedAt?: Date | string | null
     isPromotion?: boolean
-    isShowcInCarousel?: boolean
+    isShowInCarousel?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     category?: CategoryCreateNestedOneWithoutProductsInput
@@ -16193,7 +16193,7 @@ export namespace Prisma {
     description?: string | null
     publishedAt?: Date | string | null
     isPromotion?: boolean
-    isShowcInCarousel?: boolean
+    isShowInCarousel?: boolean
     categoryId?: string | null
     brandId?: string | null
     createdAt?: Date | string
@@ -16256,7 +16256,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isPromotion?: BoolFieldUpdateOperationsInput | boolean
-    isShowcInCarousel?: BoolFieldUpdateOperationsInput | boolean
+    isShowInCarousel?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     category?: CategoryUpdateOneWithoutProductsNestedInput
@@ -16271,7 +16271,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isPromotion?: BoolFieldUpdateOperationsInput | boolean
-    isShowcInCarousel?: BoolFieldUpdateOperationsInput | boolean
+    isShowInCarousel?: BoolFieldUpdateOperationsInput | boolean
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     brandId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16302,7 +16302,7 @@ export namespace Prisma {
     description?: string | null
     publishedAt?: Date | string | null
     isPromotion?: boolean
-    isShowcInCarousel?: boolean
+    isShowInCarousel?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     category?: CategoryCreateNestedOneWithoutProductsInput
@@ -16317,7 +16317,7 @@ export namespace Prisma {
     description?: string | null
     publishedAt?: Date | string | null
     isPromotion?: boolean
-    isShowcInCarousel?: boolean
+    isShowInCarousel?: boolean
     categoryId?: string | null
     brandId?: string | null
     createdAt?: Date | string
@@ -16406,7 +16406,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isPromotion?: BoolFieldUpdateOperationsInput | boolean
-    isShowcInCarousel?: BoolFieldUpdateOperationsInput | boolean
+    isShowInCarousel?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     category?: CategoryUpdateOneWithoutProductsNestedInput
@@ -16421,7 +16421,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isPromotion?: BoolFieldUpdateOperationsInput | boolean
-    isShowcInCarousel?: BoolFieldUpdateOperationsInput | boolean
+    isShowInCarousel?: BoolFieldUpdateOperationsInput | boolean
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     brandId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16615,7 +16615,7 @@ export namespace Prisma {
     description?: string | null
     publishedAt?: Date | string | null
     isPromotion?: boolean
-    isShowcInCarousel?: boolean
+    isShowInCarousel?: boolean
     brandId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -16672,7 +16672,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isPromotion?: BoolFieldUpdateOperationsInput | boolean
-    isShowcInCarousel?: BoolFieldUpdateOperationsInput | boolean
+    isShowInCarousel?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     brand?: BrandUpdateOneWithoutProductsNestedInput
@@ -16687,7 +16687,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isPromotion?: BoolFieldUpdateOperationsInput | boolean
-    isShowcInCarousel?: BoolFieldUpdateOperationsInput | boolean
+    isShowInCarousel?: BoolFieldUpdateOperationsInput | boolean
     brandId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16702,7 +16702,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isPromotion?: BoolFieldUpdateOperationsInput | boolean
-    isShowcInCarousel?: BoolFieldUpdateOperationsInput | boolean
+    isShowInCarousel?: BoolFieldUpdateOperationsInput | boolean
     brandId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16748,7 +16748,7 @@ export namespace Prisma {
     description?: string | null
     publishedAt?: Date | string | null
     isPromotion?: boolean
-    isShowcInCarousel?: boolean
+    isShowInCarousel?: boolean
     categoryId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -16761,7 +16761,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isPromotion?: BoolFieldUpdateOperationsInput | boolean
-    isShowcInCarousel?: BoolFieldUpdateOperationsInput | boolean
+    isShowInCarousel?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     category?: CategoryUpdateOneWithoutProductsNestedInput
@@ -16776,7 +16776,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isPromotion?: BoolFieldUpdateOperationsInput | boolean
-    isShowcInCarousel?: BoolFieldUpdateOperationsInput | boolean
+    isShowInCarousel?: BoolFieldUpdateOperationsInput | boolean
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16791,7 +16791,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isPromotion?: BoolFieldUpdateOperationsInput | boolean
-    isShowcInCarousel?: BoolFieldUpdateOperationsInput | boolean
+    isShowInCarousel?: BoolFieldUpdateOperationsInput | boolean
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
