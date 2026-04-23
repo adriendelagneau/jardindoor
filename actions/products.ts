@@ -1,6 +1,6 @@
 "use server";
 
-import { Prisma } from "@/lib/prisma/generated/prisma/client";
+import { Prisma, ProductStatus } from "@/lib/prisma/generated/prisma/client";
 import prisma from "@/lib/prisma/prisma";
 import { productSchema, productUpdateSchema, type ProductSchema, type ProductUpdateSchema } from "@/lib/validation/product";
 import { getUser } from "@/lib/auth/auth-session";
@@ -39,7 +39,7 @@ export async function getProducts({
     ...(isShowInCarousel != null && { isShowInCarousel }),
     variants: {
       some: {
-        status: status as any,
+        status: status as ProductStatus,
         ...(priceMin != null || priceMax != null
           ? {
               price: {
@@ -225,7 +225,7 @@ export async function createProduct(data: ProductSchema) {
           name: v.name,
           price: v.price,
           originalPrice: v.originalPrice,
-          status: v.status as any,
+          status: v.status as ProductStatus,
           isDefault: v.isDefault,
         })),
       },
@@ -293,7 +293,7 @@ export async function updateProduct(id: string, data: ProductUpdateSchema) {
           name: v.name,
           price: v.price,
           originalPrice: v.originalPrice,
-          status: v.status as any,
+          status: v.status as ProductStatus,
           isDefault: v.isDefault,
         })),
       });
