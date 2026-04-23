@@ -95,9 +95,7 @@ export default async function ProductPage({
                 {selectedVariant.originalPrice}€
               </span>
             )}
-            <span className="text-sm text-gray-500 italic">
-              / {selectedVariant?.priceUnit.toLowerCase() || "unité"}
-            </span>
+         
           </div>
 
           {/* Variants Selector */}

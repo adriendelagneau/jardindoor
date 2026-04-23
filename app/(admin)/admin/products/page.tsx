@@ -40,9 +40,20 @@ export default async function ProductsPage() {
 
   return (
     <div className="py-8 lg:py-12 mx-2 space-y-12 pb-24">
-      {/* Hero Section */}
-      <Card className="relative h-[480px] w-full overflow-hidden rounded-3xl shadow-lg border-none bg-primary">
+      <div className="flex items-center justify-between mb-8">
+        <div>
+          <h1 className="text-3xl font-bold font-serif">Catalogue Produits</h1>
+          <p className="text-muted-foreground">Gérez votre inventaire, prix et stocks.</p>
+        </div>
+        <Link href="/admin/products/create">
+          <Button className="gap-2">
+            <Plus size={18} /> Nouveau Produit
+          </Button>
+        </Link>
+      </div>
 
+      {/* Hero Section */}
+      <Card className="relative h-[480px] w-full overflow-hidden  shadow-lg border-none bg-primary">
         <Image 
           src="/home-img.png" 
           alt="Produits banner" 
@@ -55,9 +66,9 @@ export default async function ProductsPage() {
             <div className="bg-white/20 p-2 rounded-xl backdrop-blur-sm">
               <ShoppingBag className="h-8 w-8 text-white" />
             </div>
-            <h1 className="text-4xl font-bold font-serif uppercase tracking-widest">
+            <h2 className="text-4xl font-bold font-serif uppercase tracking-widest">
               Catalogue Produits
-            </h1>
+            </h2>
           </div>
           <p className="max-w-lg text-lg opacity-90">
             Gérez votre inventaire complet, vos prix et vos stocks en temps réel.
@@ -65,18 +76,9 @@ export default async function ProductsPage() {
         </div>
       </Card>
 
-      {/* Action Button */}
-      <div className="flex justify-center -mt-16 relative z-10">
-        <Button asChild size="lg" className="h-16 px-10 text-xl rounded-full shadow-2xl hover:scale-105 transition-transform bg-primary text-primary-foreground">
-          <Link href="/admin/products/create">
-            <Plus className="mr-3 h-8 w-8" />
-            Nouveau Produit
-          </Link>
-        </Button>
-      </div>
-
       {/* Products Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8">
+
         {products.map((product) => {
           const defaultVariant = product.variants[0];
           

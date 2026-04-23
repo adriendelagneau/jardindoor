@@ -14,8 +14,20 @@ export default async function ImagesPage() {
 
   return (
     <div className="py-8 lg:py-12 mx-2 space-y-12 pb-24">
+      <div className="flex items-center justify-between mb-8">
+        <div>
+          <h1 className="text-3xl font-bold font-serif">Médiathèque</h1>
+          <p className="text-muted-foreground">Gérez vos ressources visuelles et média.</p>
+        </div>
+        <Link href="/admin/images/create">
+          <Button className="gap-2">
+            <Plus size={18} /> Créer une image
+          </Button>
+        </Link>
+      </div>
+
       {/* Hero Section */}
-      <Card className="relative h-[480px] w-full overflow-hidden rounded-3xl shadow-lg border-none bg-primary">
+      <Card className="relative h-[480px] w-full overflow-hidden  shadow-lg border-none bg-primary">
         <Image 
           src="/home-img.png" 
           alt="Images banner" 
@@ -28,25 +40,15 @@ export default async function ImagesPage() {
             <div className="bg-white/20 p-2 rounded-xl backdrop-blur-sm">
               <ImageIcon className="h-8 w-8 text-white" />
             </div>
-            <h1 className="text-4xl font-bold font-serif uppercase tracking-widest">
+            <h2 className="text-4xl font-bold font-serif uppercase tracking-widest">
               Médiathèque
-            </h1>
+            </h2>
           </div>
           <p className="max-w-lg text-lg opacity-90">
             Gérez vos ressources visuelles, optimisez vos images et organisez votre catalogue média.
           </p>
         </div>
       </Card>
-
-      {/* Action Button */}
-      <div className="flex justify-center -mt-16 relative z-10">
-        <Button asChild size="lg" className="h-16 px-10 text-xl rounded-full shadow-2xl hover:scale-105 transition-transform bg-primary text-primary-foreground">
-          <Link href="/admin/images/create">
-            <Plus className="mr-3 h-8 w-8" />
-            Créer une image
-          </Link>
-        </Button>
-      </div>
 
       {/* Images List */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 pt-4">

@@ -24,8 +24,20 @@ export default async function CategoriesPage() {
 
   return (
     <div className="py-8 lg:py-12 mx-2 space-y-12 pb-24">
+      <div className="flex items-center justify-between mb-8">
+        <div>
+          <h1 className="text-3xl font-bold font-serif">Catégories</h1>
+          <p className="text-muted-foreground">Gérez la structure de votre boutique.</p>
+        </div>
+        <LinkNext href="/admin/categories/create">
+          <Button className="gap-2">
+            <Plus size={18} /> Créer une catégorie
+          </Button>
+        </LinkNext>
+      </div>
+
       {/* Hero Section */}
-      <Card className="relative h-[480px] w-full overflow-hidden rounded-3xl shadow-lg border-none bg-primary">
+      <Card className="relative h-[480px] w-full overflow-hidden shadow-lg border-none bg-primary">
         <Image 
           src="/home-img.png" 
           alt="Catégories banner" 
@@ -38,25 +50,15 @@ export default async function CategoriesPage() {
             <div className="bg-white/20 p-2 rounded-xl backdrop-blur-sm">
               <FolderTree className="h-8 w-8 text-white" />
             </div>
-            <h1 className="text-4xl font-bold font-serif uppercase tracking-widest">
+            <h2 className="text-4xl font-bold font-serif uppercase tracking-widest">
               Catégories
-            </h1>
+            </h2>
           </div>
           <p className="max-w-lg text-lg opacity-90">
             Organisez votre boutique en créant une structure logique de catégories et sous-catégories.
           </p>
         </div>
       </Card>
-
-      {/* Action Button */}
-      <div className="flex justify-center -mt-16 relative z-10">
-        <Button asChild size="lg" className="h-16 px-10 text-xl rounded-full shadow-2xl hover:scale-105 transition-transform bg-primary text-primary-foreground">
-          <LinkNext href="/admin/categories/create">
-            <Plus className="mr-3 h-8 w-8" />
-            Créer une catégorie
-          </LinkNext>
-        </Button>
-      </div>
 
       {/* Categories List */}
       <div className="bg-card rounded-3xl border shadow-sm overflow-hidden mt-8">
