@@ -1,8 +1,10 @@
 import React from 'react'
 import prisma from "@/lib/prisma/prisma"
 import { Button } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
 import { Plus, FolderTree, Edit, ChevronRight, Hash } from "lucide-react"
 import LinkNext from 'next/link'
+import Image from 'next/image'
 
 export default async function CategoriesPage() {
   const categories = await prisma.category.findMany({
@@ -16,27 +18,35 @@ export default async function CategoriesPage() {
     },
     orderBy: [
       { parentId: 'asc' },
-      { position: 'asc' },
       { name: 'asc' }
     ]
   })
 
   return (
-    <div className="space-y-12 p-6 max-w-7xl mx-auto">
+    <div className="py-8 lg:py-12 mx-2 space-y-12 pb-24">
       {/* Hero Section */}
-      <div className="relative h-64 w-full overflow-hidden rounded-3xl shadow-lg bg-primary/10 border border-primary/20">
-        <div className="absolute inset-0 flex flex-col items-center justify-center space-y-4 px-4 text-center">
-          <div className="bg-primary/20 p-4 rounded-full">
-            <FolderTree className="h-12 w-12 text-primary" />
-          </div>
-          <div>
-            <h1 className="text-4xl font-bold text-foreground uppercase tracking-widest">
+      <Card className="relative h-[480px] w-full overflow-hidden rounded-3xl shadow-lg border-none bg-primary">
+        <Image 
+          src="/home-img.png" 
+          alt="Catégories banner" 
+          fill 
+          sizes="100vw"
+          className="object-cover opacity-40" 
+        />
+        <div className="absolute inset-0 bg-linear-to-r from-primary/80 via-primary/40 to-transparent flex flex-col justify-center p-12 text-primary-foreground">
+          <div className="flex items-center gap-4 mb-2">
+            <div className="bg-white/20 p-2 rounded-xl backdrop-blur-sm">
+              <FolderTree className="h-8 w-8 text-white" />
+            </div>
+            <h1 className="text-4xl font-bold font-serif uppercase tracking-widest">
               Catégories
             </h1>
-            <p className="text-muted-foreground text-lg mt-2">Organisez vos produits par familles et sous-familles</p>
           </div>
+          <p className="max-w-lg text-lg opacity-90">
+            Organisez votre boutique en créant une structure logique de catégories et sous-catégories.
+          </p>
         </div>
-      </div>
+      </Card>
 
       {/* Action Button */}
       <div className="flex justify-center -mt-16 relative z-10">
@@ -58,7 +68,6 @@ export default async function CategoriesPage() {
                 <th className="p-4 font-semibold text-sm">Slug</th>
                 <th className="p-4 font-semibold text-sm">Parent</th>
                 <th className="p-4 font-semibold text-sm text-center">Produits</th>
-                <th className="p-4 font-semibold text-sm text-center">Position</th>
                 <th className="p-4 font-semibold text-sm text-right">Actions</th>
               </tr>
             </thead>
@@ -85,12 +94,6 @@ export default async function CategoriesPage() {
                     <span className="bg-muted px-3 py-1 rounded-full text-xs font-bold">
                       {category._count.products}
                     </span>
-                  </td>
-                  <td className="p-4 text-center text-sm">
-                    <div className="flex items-center justify-center gap-1 text-muted-foreground">
-                      <Hash className="h-3 w-3" />
-                      {category.position}
-                    </div>
                   </td>
                   <td className="p-4 text-right">
                     <Button variant="ghost" size="icon-sm" asChild className="hover:bg-primary/20 hover:text-primary transition-colors">

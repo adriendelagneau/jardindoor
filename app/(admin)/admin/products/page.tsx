@@ -2,6 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 import prisma from "@/lib/prisma/prisma"
 import { Button } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
 import { Plus, ShoppingBag, Edit, Tag, Percent, Archive, PackageCheck, PackageX } from "lucide-react"
 import Link from 'next/link'
 
@@ -20,14 +21,12 @@ const StatusBadge = ({ status }: { status: string }) => {
 
 export default async function ProductsPage() {
   const products = await prisma.product.findMany({
-  
     include: {
       category: {
         select: { name: true }
       },
       images: {
         take: 1,
-
       },
       variants: {
         orderBy: { isDefault: 'desc' },
@@ -40,21 +39,31 @@ export default async function ProductsPage() {
   })
 
   return (
-    <div className="space-y-12 p-6 max-w-7xl mx-auto pb-24">
+    <div className="py-8 lg:py-12 mx-2 space-y-12 pb-24">
       {/* Hero Section */}
-      <div className="relative h-64 w-full overflow-hidden rounded-3xl shadow-lg bg-primary/10 border border-primary/20">
-        <div className="absolute inset-0 flex flex-col items-center justify-center space-y-4 px-4 text-center">
-          <div className="bg-primary/20 p-4 rounded-full">
-            <ShoppingBag className="h-12 w-12 text-primary" />
-          </div>
-          <div>
-            <h1 className="text-4xl font-bold text-foreground uppercase tracking-widest">
+      <Card className="relative h-[480px] w-full overflow-hidden rounded-3xl shadow-lg border-none bg-primary">
+
+        <Image 
+          src="/home-img.png" 
+          alt="Produits banner" 
+          fill 
+          sizes="100vw"
+          className="object-cover opacity-40" 
+        />
+        <div className="absolute inset-0 bg-linear-to-r from-primary/80 via-primary/40 to-transparent flex flex-col justify-center p-12 text-primary-foreground">
+          <div className="flex items-center gap-4 mb-2">
+            <div className="bg-white/20 p-2 rounded-xl backdrop-blur-sm">
+              <ShoppingBag className="h-8 w-8 text-white" />
+            </div>
+            <h1 className="text-4xl font-bold font-serif uppercase tracking-widest">
               Catalogue Produits
             </h1>
-            <p className="text-muted-foreground text-lg mt-2">Gérez vos articles, prix et stocks</p>
           </div>
+          <p className="max-w-lg text-lg opacity-90">
+            Gérez votre inventaire complet, vos prix et vos stocks en temps réel.
+          </p>
         </div>
-      </div>
+      </Card>
 
       {/* Action Button */}
       <div className="flex justify-center -mt-16 relative z-10">

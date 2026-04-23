@@ -129,12 +129,12 @@ export async function getCategories({
       skip,
       take: pageSize,
       orderBy: {
-        position: "asc",
+        name: "asc",
       },
       include: {
         images: {
           take: 1,
-          orderBy: { index: "asc" },
+          orderBy: { createdAt: "asc" },
           select: { url: true, altText: true },
         },
         _count: {
@@ -161,7 +161,7 @@ export async function getCategoryById(id: string) {
       parent: true,
       children: true,
       images: {
-        orderBy: { index: "asc" },
+        orderBy: { createdAt: "asc" },
       },
       _count: {
         select: {
@@ -179,7 +179,7 @@ export async function getCategoryBySlug(slug: string) {
       parent: true,
       children: true,
       images: {
-        orderBy: { index: "asc" },
+        orderBy: { createdAt: "asc" },
       },
       _count: {
         select: {

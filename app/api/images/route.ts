@@ -47,45 +47,16 @@ export async function POST(req: NextRequest) {
       url, 
       altText, 
       shortDescription, 
-      metaTitle, 
-      metaDescription, 
       productId, 
-      brandId, 
       categoryId 
     } = result.data
-
-    // Get the next available index for this entity
-    let nextIndex = 0
-    if (productId) {
-      const lastImage = await prisma.image.findFirst({
-        where: { productId },
-        orderBy: { index: "desc" },
-      })
-      nextIndex = (lastImage?.index ?? -1) + 1
-    } else if (brandId) {
-      const lastImage = await prisma.image.findFirst({
-        where: { brandId },
-        orderBy: { index: "desc" },
-      })
-      nextIndex = (lastImage?.index ?? -1) + 1
-    } else if (categoryId) {
-      const lastImage = await prisma.image.findFirst({
-        where: { categoryId },
-        orderBy: { index: "desc" },
-      })
-      nextIndex = (lastImage?.index ?? -1) + 1
-    }
 
     const image = await prisma.image.create({
       data: {
         url,
         altText,
         shortDescription,
-        metaTitle: metaTitle || altText,
-        metaDescription: metaDescription || shortDescription,
-        index: nextIndex,
         productId: productId || null,
-        brandId: brandId || null,
         categoryId: categoryId || null,
       },
     })

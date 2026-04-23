@@ -3,7 +3,7 @@ import Link from "next/link"
 import prisma from "@/lib/prisma/prisma"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { Plus } from "lucide-react"
+import { Plus, Image as ImageIcon } from "lucide-react"
 
 export default async function ImagesPage() {
   const images = await prisma.image.findMany({
@@ -13,24 +13,30 @@ export default async function ImagesPage() {
   })
 
   return (
-    <div className="space-y-12 p-6">
+    <div className="py-8 lg:py-12 mx-2 space-y-12 pb-24">
       {/* Hero Section */}
-      <div className="relative h-80 w-full overflow-hidden rounded-3xl shadow-xl">
-        <Image
-          src="/home-img.png"
-          alt="Gérer vos images"
-          fill
+      <Card className="relative h-[480px] w-full overflow-hidden rounded-3xl shadow-lg border-none bg-primary">
+        <Image 
+          src="/home-img.png" 
+          alt="Images banner" 
+          fill 
           sizes="100vw"
-          className="object-cover brightness-40"
-          priority
+          className="object-cover opacity-40" 
         />
-        <div className="absolute inset-0 flex flex-col items-center justify-center space-y-4">
-          <h1 className="text-5xl font-bold text-white uppercase tracking-widest text-center">
-            Gérer vos images
-          </h1>
-          <p className="text-white/80 text-lg">Organisez et optimisez votre catalogue visuel</p>
+        <div className="absolute inset-0 bg-linear-to-r from-primary/80 via-primary/40 to-transparent flex flex-col justify-center p-12 text-primary-foreground">
+          <div className="flex items-center gap-4 mb-2">
+            <div className="bg-white/20 p-2 rounded-xl backdrop-blur-sm">
+              <ImageIcon className="h-8 w-8 text-white" />
+            </div>
+            <h1 className="text-4xl font-bold font-serif uppercase tracking-widest">
+              Médiathèque
+            </h1>
+          </div>
+          <p className="max-w-lg text-lg opacity-90">
+            Gérez vos ressources visuelles, optimisez vos images et organisez votre catalogue média.
+          </p>
         </div>
-      </div>
+      </Card>
 
       {/* Action Button */}
       <div className="flex justify-center -mt-16 relative z-10">

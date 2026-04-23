@@ -9,8 +9,7 @@ import {
   Layers, 
   ArrowRight, 
   Plus, 
-  Settings,
-  BarChart3
+
 } from "lucide-react";
 
 export default function AdminPage() {
@@ -45,14 +44,7 @@ export default function AdminPage() {
             <p className="max-w-lg text-lg opacity-90 mb-8">
               Bienvenue dans votre espace de gestion. Suivez vos stocks, organisez vos catégories et mettez à jour votre catalogue en quelques clics.
             </p>
-            <div className="flex gap-4">
-              <Button variant="secondary" className="gap-2">
-                <BarChart3 size={18} /> Statistiques
-              </Button>
-              <Button variant="outline" className="bg-transparent border-white/20 hover:bg-white/10 gap-2">
-                <Settings size={18} /> Paramètres
-              </Button>
-            </div>
+          
           </div>
         </Card>
 
@@ -83,7 +75,7 @@ export default function AdminPage() {
         </Link>
 
         {/* 3. Brands */}
-        <Link href="/admin/brands" className="md:col-span-1 md:row-span-1">
+        <Link href="/admin/brand" className="md:col-span-1 md:row-span-1">
           <Card className="h-full hover:bg-accent/5 transition-colors cursor-pointer group flex flex-col justify-center">
             <CardHeader className="p-6">
               <Tag className="text-primary mb-2 group-hover:scale-110 transition-transform" size={28} />

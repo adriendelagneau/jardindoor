@@ -2,6 +2,9 @@
 
 import { Prisma } from "@/lib/prisma/generated/prisma/client";
 import prisma from "@/lib/prisma/prisma";
+import { productSchema, productUpdateSchema, type ProductSchema, type ProductUpdateSchema } from "@/lib/validation/product";
+import { getUser } from "@/lib/auth/auth-session";
+import { revalidatePath } from "next/cache";
 
 export type GetProductsParams = {
   query?: string;
@@ -31,19 +34,19 @@ export async function getProducts({
   const skip = (page - 1) * pageSize;
 
   const where: Prisma.ProductWhereInput = {
-     variants: {
-       some: {
-         status,
-         ...(priceMin != null || priceMax != null
-           ? {
-               price: {
-                 ...(priceMin != null ? { gte: priceMin } : {}),
-                 ...(priceMax != null ? { lte: priceMax } : {}),
-               },
-             }
-           : {}),
-       },
-     },
+    variants: {
+      some: {
+        status: status as any,
+        ...(priceMin != null || priceMax != null
+          ? {
+              price: {
+                ...(priceMin != null ? { gte: priceMin } : {}),
+                ...(priceMax != null ? { lte: priceMax } : {}),
+              },
+            }
+          : {}),
+      },
+    },
 
     ...(subCategory
       ? {
@@ -80,29 +83,22 @@ export async function getProducts({
     where,
     skip,
     take: pageSize,
-    orderBy:
-      orderBy === "priceAsc"
-        ? { variants: { _count: "asc" } } // This is a bit tricky with Prisma, usually you'd order by min price.
-        : orderBy === "priceDesc"
-        ? { variants: { _count: "desc" } }
-        : { createdAt: "desc" },
+    orderBy: { createdAt: "desc" },
     include: {
       category: { select: { slug: true, name: true } },
       brand: { select: { slug: true, name: true } },
       images: {
         take: 3,
-       
         select: { url: true, altText: true },
       },
       variants: {
         orderBy: { price: "asc" },
-        take: 1,
       },
     },
   });
 
-  // Handle ordering by price manually if needed, or stick to default for now.
-  const sortedProducts = [...products];
+  // Handle ordering by price manually
+  let sortedProducts = [...products];
   if (orderBy === "priceAsc") {
     sortedProducts.sort((a, b) => {
       const priceA = Number(a.variants[0]?.price || 0);
@@ -118,12 +114,11 @@ export async function getProducts({
   }
 
   const serializedProducts = sortedProducts.map((product) => {
-    const defaultVariant = product.variants[0];
+    const defaultVariant = product.variants.find(v => v.isDefault) || product.variants[0];
     return {
       ...product,
       price: defaultVariant?.price?.toString() ?? null,
       originalPrice: defaultVariant?.originalPrice?.toString() ?? null,
-    
       variantsCount: product.variants.length,
       variants: product.variants.map(v => ({
         ...v,
@@ -159,9 +154,7 @@ export async function getProductBySlug(slug: string) {
         },
       },
       images: {
-        orderBy: {
-   
-        },
+        orderBy: { createdAt: "asc" },
       },
       variants: {
         orderBy: {
@@ -169,9 +162,7 @@ export async function getProductBySlug(slug: string) {
         },
         include: {
           images: {
-            orderBy: {
-       
-            },
+            orderBy: { createdAt: "asc" },
           },
         },
       },
@@ -194,10 +185,6 @@ export async function getProductBySlug(slug: string) {
   };
 }
 
-import { productSchema, productUpdateSchema, type ProductSchema, type ProductUpdateSchema } from "@/lib/validation/product";
-import { getUser } from "@/lib/auth/auth-session";
-import { revalidatePath } from "next/cache";
-
 export async function createProduct(data: ProductSchema) {
   const user = await getUser();
   if (!user || user.role !== "ADMIN") {
@@ -216,8 +203,6 @@ export async function createProduct(data: ProductSchema) {
     isPromotion,
     categoryId,
     brandId,
-    metaTitle,
-    metaDescription,
     imageIds,
     variants,
   } = result.data;
@@ -230,16 +215,12 @@ export async function createProduct(data: ProductSchema) {
       isPromotion,
       categoryId: categoryId || null,
       brandId: brandId || null,
-      metaTitle: metaTitle || name,
-      metaDescription: metaDescription || description,
       variants: {
         create: variants.map((v) => ({
           name: v.name,
-          sku: v.sku,
           price: v.price,
           originalPrice: v.originalPrice,
-          priceUnit: v.priceUnit,
-          status: v.status,
+          status: v.status as any,
           isDefault: v.isDefault,
         })),
       },
@@ -277,14 +258,11 @@ export async function updateProduct(id: string, data: ProductUpdateSchema) {
     isPromotion,
     categoryId,
     brandId,
-    metaTitle,
-    metaDescription,
     imageIds,
     variants,
   } = result.data;
 
   const updatedProduct = await prisma.$transaction(async (tx) => {
-    // 1. Update Product
     const product = await tx.product.update({
       where: { id },
       data: {
@@ -294,16 +272,10 @@ export async function updateProduct(id: string, data: ProductUpdateSchema) {
         isPromotion,
         categoryId: categoryId === undefined ? undefined : categoryId || null,
         brandId: brandId === undefined ? undefined : brandId || null,
-        metaTitle: metaTitle || (name ? name : undefined),
-        metaDescription:
-          metaDescription || (description ? description : undefined),
       },
     });
 
-    // 2. Update Variants if provided
     if (variants !== undefined) {
-      // For simplicity, we delete and recreate.
-      // In a production app with orders, you'd want to update existing ones to keep IDs stable.
       await tx.productVariant.deleteMany({
         where: { productId: id },
       });
@@ -312,17 +284,14 @@ export async function updateProduct(id: string, data: ProductUpdateSchema) {
         data: variants.map((v) => ({
           productId: id,
           name: v.name,
-          sku: v.sku,
           price: v.price,
           originalPrice: v.originalPrice,
-          priceUnit: v.priceUnit,
-          status: v.status,
+          status: v.status as any,
           isDefault: v.isDefault,
         })),
       });
     }
 
-    // 3. Update image associations if provided
     if (imageIds !== undefined) {
       await tx.image.updateMany({
         where: { productId: id, id: { notIn: imageIds } },

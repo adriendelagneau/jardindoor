@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Loader2, Trash2, ArrowLeft, Save, Info, Settings2 } from 'lucide-react'
+import { Loader2, Trash2, ArrowLeft, Save, Info } from 'lucide-react'
 import Link from 'next/link'
 import { 
   Dialog, 
@@ -48,10 +48,7 @@ export const CategoryForm = ({ initialData, availableCategories, isEdit = false 
       name: '',
       slug: '',
       description: '',
-      position: 0,
       parentId: null,
-      metaTitle: '',
-      metaDescription: '',
     },
   })
 
@@ -199,33 +196,6 @@ export const CategoryForm = ({ initialData, availableCategories, isEdit = false 
               </div>
             </div>
           </Card>
-
-          <Card className="rounded-3xl border shadow-sm p-6 space-y-6">
-            <div className="flex items-center gap-2 border-b pb-4">
-              <Settings2 className="h-5 w-5 text-primary" />
-              <h2 className="text-xl font-semibold">Configuration SEO</h2>
-            </div>
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="metaTitle" className="text-sm font-semibold">Meta Titre</Label>
-                <Input
-                  id="metaTitle"
-                  {...register('metaTitle')}
-                  placeholder="Titre pour les moteurs de recherche"
-                  className="h-11 rounded-xl bg-muted/30"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="metaDescription" className="text-sm font-semibold">Meta Description</Label>
-                <Input
-                  id="metaDescription"
-                  {...register('metaDescription')}
-                  placeholder="Description pour les moteurs de recherche"
-                  className="h-11 rounded-xl bg-muted/30"
-                />
-              </div>
-            </div>
-          </Card>
         </div>
 
         {/* Sidebar Controls */}
@@ -249,16 +219,6 @@ export const CategoryForm = ({ initialData, availableCategories, isEdit = false 
                     ))
                   }
                 </select>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="position" className="text-sm font-semibold">Ordre d&apos;affichage (Position)</Label>
-                <Input
-                  id="position"
-                  type="number"
-                  {...register('position', { valueAsNumber: true })}
-                  className="h-11 rounded-xl bg-muted/30"
-                />
               </div>
             </div>
           </Card>
