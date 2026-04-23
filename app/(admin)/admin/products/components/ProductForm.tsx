@@ -342,7 +342,7 @@ export const ProductForm = ({ initialData, categories, brands = [], availableIma
                 type="button" 
                 variant="outline" 
                 size="sm" 
-                onClick={() => append({ name: '', price: 0, priceUnit: 'UNIT', status: 'ACTIVE', isDefault: false })}
+                onClick={() => append({ name: '', price: 0, status: 'ACTIVE', isDefault: false })}
                 className="rounded-full gap-2 border-primary/20 hover:bg-primary/5 text-primary"
               >
                 <Plus className="h-4 w-4" />
@@ -411,32 +411,20 @@ export const ProductForm = ({ initialData, categories, brands = [], availableIma
                     )}
 
                     <div className="space-y-2">
-                      <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Unité</Label>
-                      <select
-                        {...register(`variants.${index}.priceUnit`)}
-                        className="flex h-10 w-full rounded-xl border border-input bg-white px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-ring"
-                      >
-                        <option value="UNIT">Unité</option>
-                        <option value="KG">Kg</option>
-                        <option value="L">Litre</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-6 pt-2">
-                    <div className="flex items-center gap-2">
+                      <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Statut</Label>
                       <select
                         {...register(`variants.${index}.status`)}
-                        className={cn(
-                          "flex h-9 rounded-lg border border-input bg-white px-3 text-[11px] font-bold uppercase tracking-wider focus:outline-none",
-                          watch(`variants.${index}.status`) === 'ACTIVE' ? 'text-green-600' : 'text-amber-600'
-                        )}
+                        className="flex h-10 w-full rounded-xl border border-input bg-white px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-ring"
                       >
                         <option value="ACTIVE">En stock</option>
                         <option value="OUT_OF_STOCK">Rupture</option>
                         <option value="ARCHIVED">Archivé</option>
                       </select>
                     </div>
+                  </div>
+
+                  <div className="flex items-center gap-6 pt-2">
+                    
 
                     <label className="flex items-center gap-2 cursor-pointer group">
                       <input 
@@ -523,21 +511,18 @@ export const ProductForm = ({ initialData, categories, brands = [], availableIma
                   />
                 </div>
 
-               <div className="space-y-4">
-                <Label className="text-sm font-semibold flex items-center gap-2"><Settings2 className="h-4 w-4" /> SEO</Label>
-                <div className="space-y-3">
-                  <Input
-                    {...register('metaTitle')}
-                    placeholder="Titre SEO"
-                    className="h-10 rounded-xl bg-muted/30 text-xs"
-                  />
-                  <Input
-                    {...register('metaDescription')}
-                    placeholder="Meta description"
-                    className="h-10 rounded-xl bg-muted/30 text-xs"
+                <div className="flex items-center justify-between p-4 rounded-2xl bg-primary/5 border border-primary/10">
+                  <Label htmlFor="isShowInCarousel" className="text-sm font-bold cursor-pointer flex items-center gap-2">
+                    <List className="h-4 w-4 text-primary" />
+                    Afficher dans le carrousel
+                  </Label>
+                  <input
+                    id="isShowInCarousel"
+                    type="checkbox"
+                    {...register('isShowInCarousel')}
+                    className="h-5 w-5 accent-primary cursor-pointer"
                   />
                 </div>
-              </div>
             </div>
           </Card>
 
