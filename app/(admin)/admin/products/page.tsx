@@ -1,4 +1,3 @@
-import React from 'react'
 import Image from 'next/image'
 import prisma from "@/lib/prisma/prisma"
 import { Button } from "@/components/ui/button"
@@ -84,19 +83,22 @@ export default async function ProductsPage() {
           
           return (
             <div key={product.id} className="group bg-card rounded-3xl border shadow-sm overflow-hidden flex flex-col transition-all hover:shadow-xl hover:border-primary/20">
-              <div className="aspect-4/3 relative bg-muted overflow-hidden">
-                {product.images[0] ? (
-                  <Image
-                    src={product.images[0].url}
-                    alt={product.name}
-                    fill
-                    className="object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                ) : (
-                  <div className="absolute inset-0 flex items-center justify-center text-muted-foreground opacity-30">
-                    <ShoppingBag className="h-16 w-16" />
-                  </div>
-                )}
+               <div className="aspect-3/4 relative bg-muted overflow-hidden rounded-t-3xl">
+                 {product.images[0] ? (
+                   <div className="absolute inset-0 p-5">
+                     <Image
+                       src={product.images[0].url}
+                       alt={product.name}
+                       fill
+                       sizes="(max-width: 768px) 80vw, 25vw"
+                       className="object-cover group-hover:scale-110 transition-transform duration-500 rounded-2xl"
+                     />
+                   </div>
+                 ) : (
+                   <div className="absolute inset-0 flex items-center justify-center text-muted-foreground opacity-30">
+                     <ShoppingBag className="h-16 w-16" />
+                   </div>
+                 )}
                 {product.isPromotion && (
                   <div className="absolute top-4 left-4 bg-primary text-white text-[10px] font-black uppercase tracking-tighter px-3 py-1 rounded-full shadow-lg flex items-center gap-1 z-10">
                     <Percent className="h-3 w-3" /> Promotion
