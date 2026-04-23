@@ -16,7 +16,7 @@ export const productSchema = z.object({
   isPromotion: z.boolean().default(false),
   isShowInCarousel: z.boolean().default(false),
   categoryId: z.string().uuid("Catégorie invalide").optional().nullable(),
-  brandId: z.uuid("Marque invalide").optional().nullable(),
+  brandId: z.string().uuid("Marque invalide").optional().or(z.literal("")).nullable(),
   imageIds: z.array(z.string()).optional().default([]), // For associating existing images
   variants: z.array(variantSchema).min(1, "Au moins une variante est requise"),
 });

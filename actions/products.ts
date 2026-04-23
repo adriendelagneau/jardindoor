@@ -216,7 +216,7 @@ export async function createProduct(data: ProductSchema) {
       isPromotion,
       isShowInCarousel,
       categoryId: categoryId || null,
-      brandId: brandId || null,
+      brandId: brandId && brandId !== "" ? brandId : null,
       variants: {
         create: variants.map((v) => ({
           name: v.name,
@@ -275,7 +275,7 @@ export async function updateProduct(id: string, data: ProductUpdateSchema) {
         isPromotion,
         isShowInCarousel,
         categoryId: categoryId === undefined ? undefined : categoryId || null,
-        brandId: brandId === undefined ? undefined : brandId || null,
+        brandId: brandId === undefined ? undefined : (brandId && brandId !== "" ? brandId : null),
       },
     });
 

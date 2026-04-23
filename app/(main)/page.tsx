@@ -24,6 +24,7 @@ import { ProductSection } from "@/components/carousel/main-carousel/ProductSecti
 export default async function Home() {
   const { products } = await getProducts({
     pageSize: 12,
+    isShowInCarousel: true,
 
   });
 
