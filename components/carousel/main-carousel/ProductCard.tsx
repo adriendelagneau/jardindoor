@@ -10,9 +10,10 @@ import cloudinaryUrl from "@/utils/updateCloudinaryUrl";
 // Add description to the type if it exists, otherwise it will just be undefined.
 type Props = {
   product: ProductFromGetProducts & { description?: string | null };
+  priority?: boolean;
 };
 
-export function ProductCard({ product }: Props) {
+export function ProductCard({ product, priority }: Props) {
   const [isLoading, setIsLoading] = useState(true);
 
   if (!product) return null;
@@ -29,7 +30,7 @@ export function ProductCard({ product }: Props) {
               <Image
                 src={cloudinaryUrl(image.url, { width: 600, height: 800, crop: "fill" })}
                 alt={image.altText ?? product.name}
-                property="og:image"
+                priority={priority}
                 fill
                 sizes="(max-width: 768px) 80vw, 25vw"
                 className={`object-cover transition-transform origin-center duration-700 ease-out group-hover:scale-105 ${

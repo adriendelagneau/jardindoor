@@ -63,9 +63,11 @@ export default async function ProductPage({
                 src={cloudinaryUrl(displayImages[0].url, { width: 1000, height: 1250, crop: "fill" })}
                 alt={displayImages[0].altText || product.name}
                 fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover"
                 priority
-                loading="eager"
+                placeholder="blur"
+                blurDataURL={cloudinaryUrl(displayImages[0].url, { width: 40, height: 50, crop: "fill", quality: 20, blurRadius: 1000 })}
               />
             ) : (
               <div className="flex h-full items-center justify-center bg-gray-50 text-muted-foreground italic">

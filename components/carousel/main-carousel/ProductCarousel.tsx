@@ -52,13 +52,13 @@ export function ProductCarousel({ products }: ProductCarouselProps) {
       >
         <CarouselContent>
           {products.map(
-            (product) =>
+            (product, index) =>
               product && (
                 <CarouselItem
                   key={product.id}
                   className="shrink-0 basis-[170px] lg:basis-[200px]"
                 >
-                  <ProductCard product={product} />
+                  <ProductCard product={product} priority={index < 4} />
                 </CarouselItem>
               ),
           )}

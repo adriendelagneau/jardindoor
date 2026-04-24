@@ -89,8 +89,12 @@ export function ProductList() {
   return (
     <div className="space-y-8">
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {allProducts.map((product) => (
-          <ProductCard key={product.id} product={product as any} />
+        {allProducts.map((product, index) => (
+          <ProductCard 
+            key={product.id} 
+            product={product as any} 
+            priority={index < 4}
+          />
         ))}
 
         {/* Next page loading skeletons */}
