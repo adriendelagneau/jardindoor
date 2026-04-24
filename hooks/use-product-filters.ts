@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useTransition } from "react";
+import { useCallback } from "react";
 
 export type ProductFilters = {
   query?: string;
@@ -18,7 +18,6 @@ export function useProductFilters() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [isPending, startTransition] = useTransition();
 
   const getFilter = useCallback(
     (key: keyof ProductFilters) => searchParams.get(key) || undefined,
@@ -40,16 +39,13 @@ export function useProductFilters() {
       // Reset page when filters change
       params.delete("page");
 
-      startTransition(() => {
-        router.push(`${pathname}?${params.toString()}`, { scroll: false });
-      });
+      router.push(`${pathname}?${params.toString()}`, { scroll: false });
     },
     [pathname, router, searchParams]
   );
 
   const clearFilters = useCallback(() => {
-    const params = new URLSearchParams(searchParams.toString());
-    const query = params.get("query");
+    const query = searchParams.get("query");
     
     // Create new params and only add query back if it exists
     const newParams = new URLSearchParams();
@@ -57,10 +53,10 @@ export function useProductFilters() {
       newParams.set("query", query);
     }
 
-    startTransition(() => {
-      const queryString = newParams.toString();
-      router.push(queryString ? `${pathname}?${queryString}` : pathname, { scroll: false });
-    });
+    const queryString = newParams.toString();
+    const newPath = queryString ? `${pathname}?${queryString}` : pathname;
+    
+    router.push(newPath, { scroll: false });
   }, [pathname, router, searchParams]);
 
    return {
@@ -76,6 +72,5 @@ export function useProductFilters() {
      },
      setFilters,
      clearFilters,
-     isPending,
    };
 }

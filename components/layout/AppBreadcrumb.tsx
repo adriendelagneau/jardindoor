@@ -6,6 +6,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import Link from "next/link";
 import { Fragment } from "react";
 
 export function AppBreadcrumb({
@@ -29,10 +30,12 @@ export function AppBreadcrumb({
                   </BreadcrumbPage>
                 ) : (
                   <BreadcrumbLink
-                    href={item.href}
+                    asChild
                     className="text-green-700/60 hover:text-green-900"
                   >
-                    {item.label}
+                    <Link href={item.href || "#"}>
+                      {item.label}
+                    </Link>
                   </BreadcrumbLink>
                 )}
               </BreadcrumbItem>
