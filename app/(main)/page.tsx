@@ -80,18 +80,17 @@ export default async function Home() {
         </Card>
 
         {/* Promo / Discount Block */}
-        <Card className="md:col-span-1 md:row-span-1 bg-primary text-primary-foreground flex flex-col justify-center items-center text-center p-6 border-none text-xl">
-          <Link
-            href="/products?isPromotion=true"
-            className="flex flex-col items-center gap-2"
-          >
-            <Tag size={32} className="mb-2 opacity-80" />
-            <CardTitle className="text-xl mb-1">PROMOS</CardTitle>
-            <CardDescription className="text-primary-foreground/80 text-xs">
-              <span className="font-semibold text-lg">-10%, -20%, -30%</span>
-            </CardDescription>
-          </Link>
-        </Card>
+        <Link href="/products?isPromotion=true" className="block">
+          <Card className="md:col-span-1 md:row-span-1 bg-primary text-primary-foreground flex flex-col justify-center items-center text-center p-6 border-none text-xl">
+            <div className="flex flex-col items-center gap-2">
+              <Tag size={32} className="mb-2 opacity-80" />
+              <CardTitle className="text-xl mb-1">PROMOS</CardTitle>
+              <CardDescription className="text-primary-foreground/80 text-xs">
+                <span className="font-semibold text-lg">-10%, -20%, -30%</span>
+              </CardDescription>
+            </div>
+          </Card>
+        </Link>
       </div>
 
       {/* Carousel - Products */}
@@ -182,14 +181,14 @@ export default async function Home() {
 
         {/* Contact Info (Email & Phone) */}
         <Card className="md:col-span-2 md:row-span-1 grid grid-cols-2 gap-4 bg-muted/30 p-4 text-2xl">
-          <div className="flex flex-col justify-center items-center text-center p-2 rounded-lg bg-card border border-border/50">
+          <a href="mailto:contact@jardin.fr" className="flex flex-col justify-center items-center text-center p-2 rounded-lg bg-card border border-border/50 hover:bg-accent transition-colors">
             <Mail className="text-primary mb-2" size={24} />
             <p className="text-sm font-medium">contact@jardin.fr</p>
-          </div>
-          <div className="flex flex-col justify-center items-center text-center p-2 rounded-lg bg-card border border-border/50">
+          </a>
+          <a href="tel:0297000000" className="flex flex-col justify-center items-center text-center p-2 rounded-lg bg-card border border-border/50 hover:bg-accent transition-colors">
             <Phone className="text-primary mb-2" size={24} />
             <p className="text-sm font-medium">02 97 00 00 00</p>
-          </div>
+          </a>
         </Card>
       </div>
     </div>
