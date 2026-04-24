@@ -16,20 +16,20 @@ type Props = {
 export default function MapModal({ open, onOpenChange, lat, lng }: Props) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="h-[80vh] max-w-4xl p-0">
-        <DialogTitle className="sr-only">Map view</DialogTitle>
-        <DialogDescription className="sr-only">
-          Map showing the location of the listing
-        </DialogDescription>
-        <MapContainer
-          center={[lat, lng]}
-          zoom={13}
-          className="h-full w-full rounded-lg"
-        >
-          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-          <Marker position={[lat, lng]} />
-        </MapContainer>
-      </DialogContent>
+        <DialogContent className="h-[80vh] w-[95vw] sm:w-[90vw] md:w-[80vw] lg:max-w-4xl p-0 border-none">
+          <DialogTitle className="sr-only">Map view</DialogTitle>
+          <DialogDescription className="sr-only">
+            Map showing the location of the listing
+          </DialogDescription>
+          <MapContainer
+            center={[lat, lng]}
+            zoom={13}
+            className="h-full w-full"
+          >
+            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+            <Marker position={[lat, lng]} />
+          </MapContainer>
+        </DialogContent>
     </Dialog>
   );
 }

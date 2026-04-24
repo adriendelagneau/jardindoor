@@ -158,8 +158,8 @@ export default async function Home() {
       {/* --- PART 3: CONTACT --- */}
       <div id="contact" className="grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-4">
         {/* Map Section */}
-        <Card className="md:col-span-2 md:row-span-2 overflow-hidden border-none shadow-none bg-transparent">
-          <CardContent className="p-0 h-full">
+        <Card className="md:col-span-2 md:row-span-2 overflow-hidden border-none shadow-none bg-transparent py-0">
+          <CardContent className="p-0 m-0 h-full">
             <SingleMap />
           </CardContent>
         </Card>
@@ -167,7 +167,7 @@ export default async function Home() {
         {/* Address & Quick Help */}
         <Card className="md:col-span-2 md:row-span-1 flex items-center justify-center p-6 bg-accent/20 text-xl">
           <div className="flex items-center gap-4">
-            <div className="bg-primary/10 p-3 rounded-full">
+            <div className="bg-primary/10  rounded-full">
               <MapPin className="text-primary" size={24} />
             </div>
             <div>
