@@ -22,6 +22,7 @@ import {
 import { Loader2, Trash2, ArrowLeft, Save, RefreshCw } from 'lucide-react'
 import Link from 'next/link'
 import { ImageDropzone } from '@/components/ui/image-dropzone'
+import cloudinaryUrl from '@/utils/updateCloudinaryUrl'
 
 interface EditImageFormProps {
   image: {
@@ -159,7 +160,7 @@ export const EditImageForm = ({ image }: EditImageFormProps) => {
         <div className="space-y-6">
           <div className="relative aspect-square w-full overflow-hidden rounded-3xl shadow-2xl border bg-muted group">
             <Image
-              src={currentUrl}
+              src={cloudinaryUrl(currentUrl, { width: 800, height: 800, crop: "fit" })}
               alt={image.altText}
               fill
               className={`object-contain p-4 transition-opacity duration-300 ${isUploading ? 'opacity-40' : 'opacity-100'}`}

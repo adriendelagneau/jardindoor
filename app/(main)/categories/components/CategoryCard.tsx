@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { MoveRightIcon } from "lucide-react";
 import { CategoryFromGetCategories } from "@/actions/categories";
+import cloudinaryUrl from "@/utils/updateCloudinaryUrl";
 
 type Props = {
   category: CategoryFromGetCategories;
@@ -30,7 +31,7 @@ export function CategoryCard({ category }: Props) {
           {image ? (
             <>
               <Image
-                src={image.url}
+                src={cloudinaryUrl(image.url, { width: 800, height: 450, crop: "fill" })}
                 alt={image.altText ?? category.name}
                 fill
                 sizes="(max-width: 768px) 100vw, 33vw"

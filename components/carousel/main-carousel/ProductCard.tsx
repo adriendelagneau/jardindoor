@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { MoveRightIcon } from "lucide-react";
 import { ProductFromGetProducts } from "@/actions/products";
+import cloudinaryUrl from "@/utils/updateCloudinaryUrl";
 
 // Add description to the type if it exists, otherwise it will just be undefined.
 type Props = {
@@ -26,7 +27,7 @@ export function ProductCard({ product }: Props) {
           {image ? (
             <div className="absolute inset-0 p-5">
               <Image
-                src={image.url}
+                src={cloudinaryUrl(image.url, { width: 600, height: 800, crop: "fill" })}
                 alt={image.altText ?? product.name}
                 property="og:image"
                 fill

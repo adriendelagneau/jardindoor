@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import cloudinaryUrl from "@/utils/updateCloudinaryUrl";
 
 export default async function ProductPage({
   params,
@@ -59,11 +60,12 @@ export default async function ProductPage({
           <div className="relative aspect-4/5 overflow-hidden rounded-[2rem] bg-muted shadow-sm ring-1 ring-black/5">
             {displayImages?.[0] ? (
               <Image
-                src={displayImages[0].url}
+                src={cloudinaryUrl(displayImages[0].url, { width: 1000, height: 1250, crop: "fill" })}
                 alt={displayImages[0].altText || product.name}
                 fill
                 className="object-cover"
                 priority
+                loading="eager"
               />
             ) : (
               <div className="flex h-full items-center justify-center bg-gray-50 text-muted-foreground italic">

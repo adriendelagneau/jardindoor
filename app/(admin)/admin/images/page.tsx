@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Plus, Image as ImageIcon } from "lucide-react"
 import { getImages } from "@/actions/images"
+import cloudinaryUrl from "@/utils/updateCloudinaryUrl"
 
 export default async function ImagesPage() {
   const images = await getImages()
@@ -53,7 +54,7 @@ export default async function ImagesPage() {
             <Card className="overflow-hidden border-none shadow-md hover:shadow-xl transition-all duration-300 h-full bg-card">
               <div className="aspect-4/3 relative overflow-hidden">
                 <Image
-                  src={image.url}
+                  src={cloudinaryUrl(image.url, { width: 400, height: 300, crop: "fill" })}
                   alt={image.altText || ""}
                   fill
                   className="object-cover group-hover:scale-110 transition-transform duration-500"

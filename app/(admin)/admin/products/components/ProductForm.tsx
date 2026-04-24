@@ -34,6 +34,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import cloudinaryUrl from "@/utils/updateCloudinaryUrl";
 import {
   Dialog,
   DialogContent,
@@ -634,7 +635,7 @@ export const ProductForm = ({
                   )}
                 >
                   <Image
-                    src={img.url}
+                    src={cloudinaryUrl(img.url, { width: 200, height: 200, crop: "fill" })}
                     alt={img.altText}
                     fill
                     className="object-cover"

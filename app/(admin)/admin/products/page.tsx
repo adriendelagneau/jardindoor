@@ -13,6 +13,7 @@ import {
   PackageX,
 } from "lucide-react";
 import Link from "next/link";
+import cloudinaryUrl from "@/utils/updateCloudinaryUrl";
 
 const StatusBadge = ({ status }: { status: string }) => {
   switch (status) {
@@ -113,7 +114,7 @@ export default async function ProductsPage() {
                 {product.images[0] ? (
                   <div className="absolute inset-0 p-5">
                     <Image
-                      src={product.images[0].url}
+                      src={cloudinaryUrl(product.images[0].url, { width: 400, height: 533, crop: "fill" })}
                       alt={product.name}
                       fill
                       sizes="(max-width: 768px) 80vw, 25vw"

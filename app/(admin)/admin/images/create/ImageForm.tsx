@@ -1,6 +1,7 @@
 "use client"
 
 import Image from 'next/image'
+import cloudinaryUrl from '@/utils/updateCloudinaryUrl'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { imageSchema, type ImageSchema } from '@/lib/validation/image'
@@ -65,7 +66,7 @@ export const ImageForm = ({ image, onSave, onRemove }: ImageFormProps) => {
     >
       <div className="relative aspect-square w-full md:w-48 shrink-0 overflow-hidden rounded-xl border bg-muted">
         <Image
-          src={image.url}
+          src={cloudinaryUrl(image.url, { width: 200, height: 200, crop: "fill" })}
           alt="Preview"
           fill
           className="object-cover"
