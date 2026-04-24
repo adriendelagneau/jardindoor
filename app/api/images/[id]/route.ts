@@ -52,15 +52,13 @@ export async function PATCH(
       }, { status: 400 })
     }
 
-    const { altText, shortDescription, metaTitle, metaDescription } = result.data
+    const { altText, shortDescription } = result.data
 
     const updatedImage = await prisma.image.update({
       where: { id },
       data: {
         altText,
         shortDescription,
-        metaTitle: metaTitle || altText, // Fallback if metaTitle is provided but empty or not provided
-        metaDescription: metaDescription || shortDescription,
       },
     })
 

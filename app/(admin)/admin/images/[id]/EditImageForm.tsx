@@ -28,8 +28,6 @@ interface EditImageFormProps {
     url: string
     altText: string
     shortDescription: string
-    metaTitle: string
-    metaDescription: string
   }
 }
 

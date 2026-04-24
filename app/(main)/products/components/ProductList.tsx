@@ -15,26 +15,26 @@ export function ProductList() {
   const loadMoreRef = useRef<HTMLDivElement>(null);
 
   const {
-      data,
-      fetchNextPage,
-      hasNextPage,
-      isFetchingNextPage,
-      isLoading,
-      isError,
-    } = useInfiniteQuery({
-      queryKey: ["products", filters],
-      queryFn: ({ pageParam = 1 }) =>
-        getProducts({
-          page: pageParam as number,
-          pageSize: PAGE_SIZE,
-          query: filters.query,
-          category: filters.category,
-          subCategory: filters.subCategory,
-          brand: filters.brand,
-          orderBy: filters.orderBy as any,
-          priceMin: filters.priceMin ? Number(filters.priceMin) : undefined,
-          priceMax: filters.priceMax ? Number(filters.priceMax) : undefined,
-        }),
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+    isError,
+  } = useInfiniteQuery({
+    queryKey: ["products", filters],
+    queryFn: ({ pageParam = 1 }) =>
+      getProducts({
+        page: pageParam as number,
+        pageSize: PAGE_SIZE,
+        query: filters.query,
+        category: filters.category,
+        subCategory: filters.subCategory,
+        brand: filters.brand,
+        orderBy: filters.orderBy as any,
+        priceMin: filters.priceMin ? Number(filters.priceMin) : undefined,
+        priceMax: filters.priceMax ? Number(filters.priceMax) : undefined,
+      }),
     getNextPageParam: (lastPage, allPages) => {
       return lastPage.hasMore ? allPages.length + 1 : undefined;
     },
@@ -60,7 +60,9 @@ export function ProductList() {
   if (isError) {
     return (
       <div className="flex h-64 flex-col items-center justify-center space-y-4">
-        <p className="text-red-500 font-medium">Une erreur est survenue lors du chargement des produits.</p>
+        <p className="text-red-500 font-medium">
+          Une erreur est survenue lors du chargement des produits.
+        </p>
         <button
           onClick={() => window.location.reload()}
           className="rounded-full bg-green-900 px-8 py-3 text-white transition-all hover:bg-green-800"
@@ -77,7 +79,9 @@ export function ProductList() {
     return (
       <div className="flex h-64 flex-col items-center justify-center text-gray-500 italic space-y-2">
         <p className="text-xl font-serif">Aucun produit trouvé</p>
-        <p className="text-sm">Essayez de modifier vos filtres ou votre recherche.</p>
+        <p className="text-sm">
+          Essayez de modifier vos filtres ou votre recherche.
+        </p>
       </div>
     );
   }
@@ -97,10 +101,7 @@ export function ProductList() {
       </div>
 
       {/* Load more observer */}
-      <div
-        ref={loadMoreRef}
-        className="h-20 w-full"
-      />
+      <div ref={loadMoreRef} className="h-20 w-full" />
     </div>
   );
 }
