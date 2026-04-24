@@ -182,10 +182,12 @@ export default async function Home() {
 
         {/* Contact Info (Email & Phone) */}
         <Card className="md:col-span-2 md:row-span-1 grid grid-cols-2 gap-4 bg-muted/30 p-4 text-2xl">
+         <a href="mailto:contact@jardin.fr" target="_blank" rel="noopener noreferrer">
           <div className="flex flex-col justify-center items-center text-center p-2 rounded-lg bg-card border border-border/50">
             <Mail className="text-primary mb-2" size={24} />
             <p className="text-sm font-medium">contact@jardin.fr</p>
           </div>
+         </a>
           <div className="flex flex-col justify-center items-center text-center p-2 rounded-lg bg-card border border-border/50">
             <Phone className="text-primary mb-2" size={24} />
             <p className="text-sm font-medium">02 97 00 00 00</p>
