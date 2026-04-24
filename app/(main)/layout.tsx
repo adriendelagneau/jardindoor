@@ -11,7 +11,7 @@ export default function MainLayout({
     <>
       <Navbar />
       <AppSidebar />
-      <main className="flex-1 flex flex-col max-w-7xl mx-auto w-full">
+      <main className="flex-1 flex flex-col max-w-7xl mx-auto w-full ">
         {children}
       </main>
       <Footer />

@@ -1,19 +1,39 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
 "use client";
 
 import { SearchIcon, MenuIcon, XIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-
 import { Suspense, useEffect, useState } from "react";
-
 import { useSidebarStore } from "@/store/useSidebarStore";
-
 import { NavSearchbar } from "./NavSearchbar";
 
 export const Navbar = () => {
   const { toggleSidebar } = useSidebarStore();
-
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  useEffect(() => {
+    const controlNavbar = () => {
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY < 200) {
+        setIsVisible(true);
+      } else if (currentScrollY > lastScrollY) {
+        // Scrolling down
+        setIsVisible(false);
+      } else {
+        // Scrolling up
+        setIsVisible(true);
+      }
+      
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", controlNavbar);
+    return () => window.removeEventListener("scroll", controlNavbar);
+  }, [lastScrollY]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -27,7 +47,9 @@ export const Navbar = () => {
   }, []);
 
   return (
-    <div className="bg-background fixed top-0 left-0 z-50 flex h-16 w-full items-center border-b px-4 shadow-sm lg:px-8">
+    <div className={`bg-background fixed top-0 left-0 z-50 flex h-16 w-full items-center border-b px-4 shadow-sm lg:px-8 transition-transform duration-300 ${
+      isVisible ? "translate-y-0" : "-translate-y-full"
+    }`}>
       <div className="relative mx-auto flex h-full w-full max-w-7xl items-center lg:justify-between">
         {/* Mobile menu */}
         <button onClick={() => toggleSidebar("home")} className="lg:hidden">
@@ -47,7 +69,7 @@ export const Navbar = () => {
             sizes="50px"
             className=""
           />
-          <div className="font-bold font-serif text-lg uppercase ">jardin indoor</div>
+          <div className="font-bold font-serif sm:text-lg uppercase ">jardin indoor</div>
         </Link>
 
         {/* Search */}
@@ -66,23 +88,24 @@ export const Navbar = () => {
             Boutique
           </Link>
           <Link
-            href="/favorites"
+            href="/products?category=graines"
             className="flex items-center gap-1 underline-effect cursor-pointer"
           >
             Graines
           </Link>
           <Link
-            href="/favorites"
+            href="/products?isPromotion=true"
             className="flex items-center gap-1 underline-effect cursor-pointer"
           >
             Promos
           </Link>
-          <Link
-            href="/favorites"
+        
+          <a
+            href="/#contact"
             className="flex items-center gap-1 underline-effect cursor-pointer"
           >
             Contact
-          </Link>
+          </a>
         </div>
       </div>
       <SearchIcon

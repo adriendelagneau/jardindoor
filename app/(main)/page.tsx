@@ -157,7 +157,7 @@ export default async function Home() {
       <ProductSection title="Graines" products={seeds} href="/boutique" />
 
       {/* --- PART 3: CONTACT --- */}
-      <div className="grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-4">
+      <div id="contact" className="grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-4">
         {/* Map Section */}
         <Card className="md:col-span-2 md:row-span-2 overflow-hidden border-none shadow-none bg-transparent">
           <CardContent className="p-0 h-full">
