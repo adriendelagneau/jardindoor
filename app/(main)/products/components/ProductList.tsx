@@ -34,6 +34,7 @@ export function ProductList() {
         orderBy: filters.orderBy as any,
         priceMin: filters.priceMin ? Number(filters.priceMin) : undefined,
         priceMax: filters.priceMax ? Number(filters.priceMax) : undefined,
+        isPromotion: filters.isPromotion || undefined,
       }),
     getNextPageParam: (lastPage, allPages) => {
       return lastPage.hasMore ? allPages.length + 1 : undefined;

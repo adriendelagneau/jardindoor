@@ -20,12 +20,12 @@ import {
 } from "lucide-react";
 import { getProducts } from "../../actions/products";
 import { ProductSection } from "@/components/carousel/main-carousel/ProductSection";
+import Link from "next/link";
 
 export default async function Home() {
   const { products } = await getProducts({
     pageSize: 12,
     isShowInCarousel: true,
-
   });
 
   const { products: seeds } = await getProducts({
@@ -54,34 +54,43 @@ export default async function Home() {
               Tout le matériel nécessaire pour vos plantes, des graines aux
               systèmes hydroponiques.
             </p>
-            <Button size="lg" className="w-fit gap-2">
-              Voir la boutique <ArrowRight size={18} />
-            </Button>
+            <Link href="/products">
+              <Button size="lg" className="w-fit gap-2">
+                Voir la boutique <ArrowRight size={18} />
+              </Button>
+            </Link>
           </div>
         </Card>
 
         {/* Categories - Boutique */}
         <Card className="md:col-span-1 md:row-span-2 hover:bg-accent transition-colors cursor-pointer group flex flex-col justify-center">
-          <CardHeader>
-            <ShoppingBag
-              className="text-primary mb-2 group-hover:scale-110 transition-transform"
-              size={48}
-            />
-            <CardTitle className="text-3xl">Boutique</CardTitle>
-            <CardDescription className="text-base">
-              Lampes, tentes, extracteurs et tout le nécessaire pour
-              l&apos;hydroponie.
-            </CardDescription>
-          </CardHeader>
+          <Link href="/products">
+            <CardHeader className=" text-center">
+              <ShoppingBag
+                className="text-primary mb-2 mx-auto group-hover:scale-110 transition-transform"
+                size={48}
+              />
+              <CardTitle className="text-3xl">Boutique</CardTitle>
+              <CardDescription className="text-base">
+                Lampes, tentes, extracteurs et tout le nécessaire pour
+                l&apos;hydroponie.
+              </CardDescription>
+            </CardHeader>
+          </Link>
         </Card>
 
         {/* Promo / Discount Block */}
         <Card className="md:col-span-1 md:row-span-1 bg-primary text-primary-foreground flex flex-col justify-center items-center text-center p-6 border-none text-xl">
-          <Tag size={32} className="mb-2 opacity-80" />
-          <CardTitle className="text-xl mb-1">PROMOS</CardTitle>
-          <CardDescription className="text-primary-foreground/80 text-xs">
-           <span className="font-semibold text-lg">-10%, -20%, -30%</span>
-          </CardDescription>
+          <Link
+            href="/products?isPromotion=true"
+            className="flex flex-col items-center gap-2"
+          >
+            <Tag size={32} className="mb-2 opacity-80" />
+            <CardTitle className="text-xl mb-1">PROMOS</CardTitle>
+            <CardDescription className="text-primary-foreground/80 text-xs">
+              <span className="font-semibold text-lg">-10%, -20%, -30%</span>
+            </CardDescription>
+          </Link>
         </Card>
       </div>
 
@@ -92,21 +101,23 @@ export default async function Home() {
       <div className="grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-4">
         {/* Categories - Graines (Main Seed) */}
         <Card className="md:col-span-2 md:row-span-2 hover:bg-accent transition-colors cursor-pointer group flex flex-col justify-center p-8 bg-secondary/30 relative overflow-hidden">
-          <Sprout
-            className="text-primary/20 absolute -right-8 -bottom-8 group-hover:scale-110 transition-transform"
-            size={240}
-          />
-          <div className="relative z-10">
-            <Sprout className="text-primary mb-4" size={48} />
-            <CardTitle className="text-4xl mb-4">Graines Premium</CardTitle>
-            <CardDescription className="text-lg max-w-sm">
-              Une sélection rigoureuse des meilleures varieties pour une
-              croissance optimale et des recoltes genereuses.
-            </CardDescription>
-            <Button variant="outline" className="mt-6 gap-2">
-              Découvrir la collection <ArrowRight size={16} />
-            </Button>
-          </div>
+          <Link href="/products?category=graines" className="relative z-10">
+            <Sprout
+              className="text-primary/20 absolute -right-8 -bottom-8 group-hover:scale-110 transition-transform"
+              size={240}
+            />
+            <div className="relative z-10">
+              <Sprout className="text-primary mb-4" size={48} />
+              <CardTitle className="text-4xl mb-4">Graines Premium</CardTitle>
+              <CardDescription className="text-lg max-w-sm">
+                Une sélection rigoureuse des meilleures varieties pour une
+                croissance optimale et des recoltes genereuses.
+              </CardDescription>
+              <Button variant="outline" className="mt-6 gap-2">
+                Découvrir la collection <ArrowRight size={16} />
+              </Button>
+            </div>
+          </Link>
         </Card>
 
         {/* Seed Info/Quote */}
@@ -123,7 +134,7 @@ export default async function Home() {
             <Leaf className="text-primary" size={24} />
           </div>
           <CardTitle className="text-sm uppercase tracking-widest font-bold">
-          Barneys Farm
+            Barneys Farm
           </CardTitle>
           <CardDescription className="text-[10px]">
             Partenaire Premium
@@ -142,7 +153,7 @@ export default async function Home() {
         </Card>
       </div>
 
-         {/* Carousel - Products */}
+      {/* Carousel - Products */}
       <ProductSection title="Graines" products={seeds} href="/boutique" />
 
       {/* --- PART 3: CONTACT --- */}

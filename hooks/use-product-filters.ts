@@ -12,6 +12,7 @@ export type ProductFilters = {
   orderBy?: string;
   priceMin?: string;
   priceMax?: string;
+  isPromotion?: boolean;
 };
 
 export function useProductFilters() {
@@ -32,7 +33,7 @@ export function useProductFilters() {
         if (value === undefined || value === null || value === "") {
           params.delete(key);
         } else {
-          params.set(key, value);
+          params.set(key, String(value));
         }
       });
 
@@ -69,6 +70,7 @@ export function useProductFilters() {
        orderBy: getFilter("orderBy") || "newest",
        priceMin: getFilter("priceMin"),
        priceMax: getFilter("priceMax"),
+       isPromotion: getFilter("isPromotion") === "true",
      },
      setFilters,
      clearFilters,

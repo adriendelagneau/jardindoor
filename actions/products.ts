@@ -17,6 +17,7 @@ export type GetProductsParams = {
   priceMin?: number;
   priceMax?: number;
   isShowInCarousel?: boolean;
+  isPromotion?: boolean;
   status?: "ACTIVE" | "ARCHIVED" | "OUT_OF_STOCK";
 };
 
@@ -31,12 +32,14 @@ export async function getProducts({
   priceMin,
   priceMax,
   isShowInCarousel,
+  isPromotion,
   status = "ACTIVE",
 }: GetProductsParams) {
   const skip = (page - 1) * pageSize;
 
   const where: Prisma.ProductWhereInput = {
     ...(isShowInCarousel != null && { isShowInCarousel }),
+    ...(isPromotion != null && { isPromotion }),
     variants: {
       some: {
         status: status as ProductStatus,

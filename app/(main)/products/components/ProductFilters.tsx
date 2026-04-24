@@ -7,7 +7,9 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
-import { X } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+import { X, Percent } from "lucide-react";
 import { useState, useEffect } from "react";
 
 type Props = {
@@ -68,6 +70,7 @@ export function ProductFilters({ categories, brands }: Props) {
       filters.subCategory ||
       filters.brand ||
       filters.priceMin ||
+      filters.isPromotion ||
       (filters.priceMax && filters.priceMax !== "2000") ||
       (filters.orderBy && filters.orderBy !== "newest")
     );
@@ -164,6 +167,21 @@ export function ProductFilters({ categories, brands }: Props) {
             <span>{priceRange[0]}€</span>
             <span>{priceRange[1]}€</span>
           </div>
+        </div>
+
+        <div className="flex items-center space-x-2 pt-2">
+          <Checkbox 
+            id="isPromotion" 
+            checked={filters.isPromotion} 
+            onCheckedChange={(checked) => setFilters({ isPromotion: checked === true ? true : undefined })}
+          />
+          <Label 
+            htmlFor="isPromotion" 
+            className="text-sm font-medium flex items-center gap-2 cursor-pointer"
+          >
+            <Percent size={14} className="text-primary" />
+            En promotion 
+          </Label>
         </div>
 
       {hasActiveFilters && (
