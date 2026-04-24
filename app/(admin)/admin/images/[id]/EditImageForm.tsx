@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { imageUpdateSchema, type ImageUpdateSchema } from '@/lib/validation/image'
+import { updateImage, deleteImage } from '@/actions/images'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -92,14 +93,7 @@ export const EditImageForm = ({ image }: EditImageFormProps) => {
   const onSubmit = async (data: ImageUpdateSchema) => {
     setIsSaving(true)
     try {
-      const response = await fetch(`/api/images/${image.id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      })
-
-      if (!response.ok) throw new Error('Failed to update')
-
+      await updateImage(image.id, data)
       router.refresh()
       router.push('/admin/images')
     } catch (error) {
@@ -112,12 +106,7 @@ export const EditImageForm = ({ image }: EditImageFormProps) => {
   const handleDelete = async () => {
     setIsDeleting(true)
     try {
-      const response = await fetch(`/api/images/${image.id}`, {
-        method: 'DELETE',
-      })
-
-      if (!response.ok) throw new Error('Failed to delete')
-
+      await deleteImage(image.id)
       setIsDialogOpen(false)
       router.push('/admin/images')
       router.refresh()

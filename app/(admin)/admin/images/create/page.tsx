@@ -5,6 +5,7 @@ import { ImageDropzone } from '@/components/ui/image-dropzone'
 import { Button } from '@/components/ui/button'
 import { ImageForm } from './ImageForm'
 import { type ImageSchema } from '@/lib/validation/image'
+import { createImage } from '@/actions/images'
 
 interface UploadedImage {
   id: string
@@ -74,22 +75,12 @@ const Page = () => {
     )
 
     try {
-      const response = await fetch('/api/images', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      })
-
-      if (!response.ok) {
-        throw new Error('Save failed')
-      }
-
-      const result = await response.json()
+      const result = await createImage(data)
 
       setUploadedImages((prev) =>
         prev.map((img) =>
           img.id === id
-            ? { ...img, saving: false, saved: true, dbId: result.image.id }
+            ? { ...img, saving: false, saved: true, dbId: result.id }
             : img
         )
       )

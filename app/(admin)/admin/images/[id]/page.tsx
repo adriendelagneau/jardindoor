@@ -1,7 +1,7 @@
 import React from 'react'
-import prisma from "@/lib/prisma/prisma"
 import { notFound } from 'next/navigation'
 import { EditImageForm } from './EditImageForm'
+import { getImageById } from '@/actions/images'
 
 interface PageProps {
   params: Promise<{ id: string }>
@@ -10,9 +10,7 @@ interface PageProps {
 export default async function ImageEditPage({ params }: PageProps) {
   const { id } = await params
 
-  const image = await prisma.image.findUnique({
-    where: { id },
-  })
+  const image = await getImageById(id)
 
   if (!image) {
     notFound()

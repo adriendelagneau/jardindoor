@@ -1,16 +1,12 @@
 import Image from "next/image"
 import Link from "next/link"
-import prisma from "@/lib/prisma/prisma"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Plus, Image as ImageIcon } from "lucide-react"
+import { getImages } from "@/actions/images"
 
 export default async function ImagesPage() {
-  const images = await prisma.image.findMany({
-    orderBy: {
-      createdAt: "desc",
-    },
-  })
+  const images = await getImages()
 
   return (
     <div className="py-8 lg:py-12 mx-2 space-y-12 pb-24">
