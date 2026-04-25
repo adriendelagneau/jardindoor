@@ -171,7 +171,7 @@ export function ProductFilters({ categories, brands, className }: Props) {
           </div>
         </div>
 
-        <div className="flex items-center space-x-2 pt-2">
+        <div className="flex items-center gap-2">
           <Checkbox 
             id="isPromotion" 
             checked={filters.isPromotion} 
@@ -181,7 +181,6 @@ export function ProductFilters({ categories, brands, className }: Props) {
             htmlFor="isPromotion" 
             className="text-sm font-medium flex items-center gap-2 cursor-pointer"
           >
-            <Percent size={14} className="text-primary" />
             En promotion 
           </Label>
         </div>
@@ -190,7 +189,7 @@ export function ProductFilters({ categories, brands, className }: Props) {
         <Button 
           variant="ghost" 
           onClick={clearFilters} 
-          className="w-full gap-2 mt-4 text-red-600 hover:text-red-700 hover:bg-red-50"
+          className="w-full justify-start p-0 gap-2 text-red-600 hover:text-red-700 hover:bg-red-50"
         >
           <X size={16} /> Réinitialiser tout
         </Button>
