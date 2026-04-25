@@ -9,26 +9,11 @@ import { Separator } from "@/components/ui/separator";
 import { useSidebarStore } from "@/store/useSidebarStore";
 import { usePathname } from "next/navigation";
 import { ProductFilters } from "@/app/(main)/products/components/ProductFilters";
-import { useQuery } from "@tanstack/react-query";
-import { getCategories } from "@/actions/categories";
-import { getBrands } from "@/actions/brands";
 
 const HomeContent = () => {
   const pathname = usePathname();
   const isProductsPage = pathname === "/products";
   const { closeSidebar } = useSidebarStore();
-
-  const { data: categoriesData } = useQuery({
-    queryKey: ["categories-all"],
-    queryFn: () => getCategories({ pageSize: 100 }),
-    enabled: isProductsPage,
-  });
-
-  const { data: brandsData } = useQuery({
-    queryKey: ["brands-all"],
-    queryFn: () => getBrands(),
-    enabled: isProductsPage,
-  });
 
   return (
     <div>
@@ -73,8 +58,6 @@ const HomeContent = () => {
           <Separator className="my-4" />
           <div className="pb-8">
             <ProductFilters
-              categories={categoriesData?.categories || []}
-              brands={brandsData || []}
               className="bg-transparent border-none shadow-none p-0"
             />
           </div>

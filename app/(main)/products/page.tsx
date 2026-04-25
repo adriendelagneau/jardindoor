@@ -1,5 +1,3 @@
-import { getCategories } from "@/actions/categories";
-import { getBrands } from "@/actions/brands";
 import { ProductList } from "./components/ProductList";
 import { ProductFilters } from "./components/ProductFilters";
 import { MobileFilters } from "./components/MobileFilters";
@@ -12,11 +10,6 @@ export const metadata = {
 };
 
 export default async function ProductsPage() {
-  const [categories, brands] = await Promise.all([
-    getCategories({ pageSize: 100 }),
-    getBrands(),
-  ]);
-
   return (
     <div className="container mx-auto px-4 py-12 mt-16">
       <div className="flex flex-col lg:flex-row gap-8">
@@ -28,10 +21,7 @@ export default async function ProductsPage() {
         {/* Sidebar Filters (Desktop) */}
         <aside className="hidden lg:block w-64 shrink-0">
           <Suspense fallback={<div className="h-64 bg-muted animate-pulse rounded-2xl" />}>
-            <ProductFilters 
-              categories={categories.categories} 
-              brands={brands} 
-            />
+            <ProductFilters />
           </Suspense>
         </aside>
 

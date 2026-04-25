@@ -12,17 +12,33 @@ import { Label } from "@/components/ui/label";
 import { X, Percent } from "lucide-react";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
+import { useQuery } from "@tanstack/react-query";
+import { getCategories } from "@/actions/categories";
+import { getBrands } from "@/actions/brands";
 
 type Props = {
-  categories: CategoryFromGetCategories[];
-  brands: GetBrandsResult;
   className?: string;
 };
 
-export function ProductFilters({ categories, brands, className }: Props) {
+export function ProductFilters({ className }: Props) {
   const { filters, setFilters, clearFilters } = useProductFilters();
+
+  const { data: categoriesData } = useQuery({
+    queryKey: ["categories-all"],
+    queryFn: () => getCategories({ pageSize: 100 }),
+  });
+
+  const { data: brandsData } = useQuery({
+    queryKey: ["brands-all"],
+    queryFn: () => getBrands(),
+  });
+
+  const categories = categoriesData?.categories || [];
+  const brands = brandsData || [];
+
   const [priceRange, setPriceRange] = useState([
-    Number(filters.priceMin) || 0,
+// ...
+
     Number(filters.priceMax) || 2000,
   ]);
 
