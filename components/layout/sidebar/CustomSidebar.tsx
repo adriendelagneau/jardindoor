@@ -60,7 +60,7 @@ export function CustomSidebar({
 
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 ${side === "left" ? "left-0" : "right-0"} z-100 h-screen ${width} bg-background shadow-xl transition-transform duration-300 ease-out ${
+        className={`fixed top-0 ${side === "left" ? "left-0" : "right-0"} z-[100] h-screen ${width} bg-background shadow-xl transition-transform duration-300 ease-out ${
           open
             ? "translate-x-0"
             : side === "left"
