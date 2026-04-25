@@ -11,13 +11,15 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { X, Percent } from "lucide-react";
 import { useState, useEffect } from "react";
+import { cn } from "@/lib/utils";
 
 type Props = {
   categories: CategoryFromGetCategories[];
   brands: GetBrandsResult;
+  className?: string;
 };
 
-export function ProductFilters({ categories, brands }: Props) {
+export function ProductFilters({ categories, brands, className }: Props) {
   const { filters, setFilters, clearFilters } = useProductFilters();
   const [priceRange, setPriceRange] = useState([
     Number(filters.priceMin) || 0,
@@ -76,7 +78,7 @@ export function ProductFilters({ categories, brands }: Props) {
     );
 
   return (
-    <div className="space-y-6 p-4 bg-white rounded-2xl border shadow-sm">
+    <div className={cn("space-y-6 p-4 bg-white rounded-2xl border shadow-sm", className)}>
       <h3 className="font-semibold text-lg">Filtres</h3>
 
       <div className="space-y-2">

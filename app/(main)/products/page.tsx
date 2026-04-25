@@ -2,6 +2,7 @@ import { getCategories } from "@/actions/categories";
 import { getBrands } from "@/actions/brands";
 import { ProductList } from "./components/ProductList";
 import { ProductFilters } from "./components/ProductFilters";
+import { MobileFilters } from "./components/MobileFilters";
 import { ProductCardSkeleton } from "@/components/carousel/main-carousel/ProductCardSkeleton";
 import { Suspense } from "react";
 
@@ -19,8 +20,11 @@ export default async function ProductsPage() {
   return (
     <div className="container mx-auto px-4 py-12 mt-16">
       <div className="flex flex-col lg:flex-row gap-8">
-        {/* Sidebar Filters */}
-        <aside className="w-full lg:w-64 shrink-0">
+        {/* Mobile Filter Trigger */}
+        <MobileFilters categories={categories.categories} brands={brands} />
+
+        {/* Sidebar Filters (Desktop) */}
+        <aside className="hidden lg:block w-64 shrink-0">
           <Suspense fallback={<div className="h-64 bg-muted animate-pulse rounded-2xl" />}>
             <ProductFilters 
               categories={categories.categories} 

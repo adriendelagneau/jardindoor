@@ -59,7 +59,7 @@ export const Navbar = () => {
         {/* Logo */}
         <Link
           href="/"
-          className="absolute top-1/2 left-1/2 flex items-center -translate-x-1/2 -translate-y-1/2 gap-2 lg:static lg:translate-x-0 lg:translate-y-0"
+          className="absolute top-1/2 left-1/2 flex  items-center -translate-x-1/2 -translate-y-1/2 gap-2 lg:static lg:translate-x-0 lg:translate-y-0"
         >
           <Image
             src="/logo1.png"
@@ -69,7 +69,7 @@ export const Navbar = () => {
             sizes="50px"
             className=""
           />
-          <div className="font-bold font-serif sm:text-lg uppercase ">jardin indoor</div>
+          <div className="font-bold font-serif sm:text-lg uppercase w-52 sm:w-auto">jardin indoor</div>
         </Link>
 
         {/* Search */}
