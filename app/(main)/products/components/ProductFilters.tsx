@@ -94,7 +94,7 @@ export function ProductFilters({ categories, brands, className }: Props) {
           <SelectTrigger className="w-full">
             <SelectValue placeholder="Toutes les catégories" />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent position="popper">
             <SelectItem value="all">Tous</SelectItem>
             {categories
               .filter((c) => !c.parentId)
@@ -119,7 +119,7 @@ export function ProductFilters({ categories, brands, className }: Props) {
           <SelectTrigger className="w-full">
             <SelectValue placeholder="Toutes les sous-catégories" />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent position="popper">
             <SelectItem value="all">Tous</SelectItem>
             {categories
               .filter(
@@ -145,7 +145,7 @@ export function ProductFilters({ categories, brands, className }: Props) {
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Toutes les marques" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent position="popper">
               <SelectItem value="all">Toutes</SelectItem>
               {brands.map((b) => (
                 <SelectItem key={b.id} value={b.slug}>{b.name}</SelectItem>

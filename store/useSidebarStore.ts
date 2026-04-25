@@ -1,7 +1,7 @@
 // stores/sidebar-store.ts
 import { create } from "zustand";
 
-export type SidebarType = "home" | "admin";
+export type SidebarType = "home" | "admin" | "products";
 
 export type SidebarState = {
   open: boolean;
