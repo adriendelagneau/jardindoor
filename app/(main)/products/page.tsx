@@ -21,7 +21,9 @@ export default async function ProductsPage() {
     <div className="container mx-auto px-4 py-12 mt-16">
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Mobile Filter Trigger */}
-        <MobileFilters categories={categories.categories} brands={brands} />
+        <Suspense fallback={<div className="lg:hidden h-12 w-full bg-muted animate-pulse rounded-2xl mb-6" />}>
+          <MobileFilters categories={categories.categories} brands={brands} />
+        </Suspense>
 
         {/* Sidebar Filters (Desktop) */}
         <aside className="hidden lg:block w-64 shrink-0">
