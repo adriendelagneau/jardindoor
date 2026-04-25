@@ -22,7 +22,7 @@ export default async function ProductsPage() {
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Mobile Filter Trigger */}
         <Suspense fallback={<div className="lg:hidden h-12 w-full bg-muted animate-pulse rounded-2xl mb-6" />}>
-          <MobileFilters categories={categories.categories} brands={brands} />
+          <MobileFilters />
         </Suspense>
 
         {/* Sidebar Filters (Desktop) */}

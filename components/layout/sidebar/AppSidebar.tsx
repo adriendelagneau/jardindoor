@@ -17,22 +17,25 @@ export function AppSidebar() {
       <div className="flex h-screen flex-col">
         {/* Header */}
         <div className="flex h-16 items-center justify-between border-b p-4">
-                {/* Logo */}
-        <Link
-          href={type === "admin" ? "/admin" : "/"}
-          className="relative flex items-center gap-2"
-        >
-          <div className="relative h-[50px] w-[50px]">
-            <Image
-              src="/logo1.png"
-              alt="Lokko logo"
-              fill
-              sizes="50px"
-              className="object-contain"
-            />
-          </div>
-          <div className="font-bold uppercase">jardin indoor {type === "admin" && "(Admin)"}</div>
-        </Link>
+          {/* Logo */}
+          <Link
+            href={type === "admin" ? "/admin" : "/"}
+            className="relative flex items-center gap-2"
+            onClick={closeSidebar}
+          >
+            <div className="relative h-[50px] w-[50px]">
+              <Image
+                src="/logo1.png"
+                alt="Lokko logo"
+                fill
+                sizes="50px"
+                className="object-contain"
+              />
+            </div>
+            <div className="font-bold uppercase">
+              jardin indoor {type === "admin" && "(Admin)"}
+            </div>
+          </Link>
           <button onClick={closeSidebar} aria-label="Close sidebar">
             <XIcon size={24} />
           </button>
