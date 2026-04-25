@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 
 export function Footer() {
   return (
-    <footer className="text-muted-foreground mx-auto mt-24 w-full max-w-7xl border-t px-2 py-10">
+    <footer className="text-muted-foreground mx-auto mt-3 w-full max-w-7xl border-t px-2 py-10">
       <div className="container mx-auto grid grid-cols-1 gap-10 px-2 md:grid-cols-4">
         {/* 1. Branding */}
         <div>

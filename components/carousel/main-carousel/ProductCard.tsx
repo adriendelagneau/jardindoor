@@ -80,7 +80,7 @@ export function ProductCard({ product, priority }: Props) {
                 {product.price}€
               </span>
               {product.isPromotion && product.originalPrice && (
-                <span className="text-sm text-gray-400 line-through">
+                <span className="text-sm text-red-500 line-through">
                   {product.originalPrice}€
                 </span>
               )}
