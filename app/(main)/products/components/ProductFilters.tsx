@@ -37,9 +37,8 @@ export function ProductFilters({ className }: Props) {
   const brands = brandsData || [];
 
   const [priceRange, setPriceRange] = useState([
-// ...
-
-    Number(filters.priceMax) || 2000,
+    Number(filters.priceMin) || 0,
+    filters.priceMax ? Number(filters.priceMax) : 200,
   ]);
 
   // Derive active category and subcategory from filters
@@ -68,7 +67,7 @@ export function ProductFilters({ className }: Props) {
   useEffect(() => {
     setPriceRange([
       Number(filters.priceMin) || 0,
-      Number(filters.priceMax) || 2000,
+      filters.priceMax ? Number(filters.priceMax) : 200,
     ]);
   }, [filters.priceMin, filters.priceMax]);
 
@@ -79,7 +78,7 @@ export function ProductFilters({ className }: Props) {
   const handlePriceCommit = (value: number[]) => {
     setFilters({ 
       priceMin: value[0] === 0 ? undefined : value[0].toString(),
-      priceMax: value[1] === 2000 ? undefined : value[1].toString()
+      priceMax: value[1] === 200 ? undefined : value[1].toString()
     });
   };
 
@@ -89,7 +88,7 @@ export function ProductFilters({ className }: Props) {
       filters.brand ||
       filters.priceMin ||
       filters.isPromotion ||
-      (filters.priceMax && filters.priceMax !== "2000") ||
+      (filters.priceMax && filters.priceMax !== "200") ||
       (filters.orderBy && filters.orderBy !== "newest")
     );
 
@@ -152,38 +151,38 @@ export function ProductFilters({ className }: Props) {
         </Select>
       </div>
 
-       <div className="space-y-2">
-          <label className="text-sm font-medium">Marque</label>
-          <Select
-            value={filters.brand ?? "all"}
-            onValueChange={(val) => setFilters({ brand: val === "all" ? undefined : val })}
-          >
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Toutes les marques" />
-            </SelectTrigger>
-            <SelectContent position="popper">
-              <SelectItem value="all">Toutes</SelectItem>
-              {brands.map((b) => (
-                <SelectItem key={b.id} value={b.slug}>{b.name}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+      <div className="space-y-2">
+        <label className="text-sm font-medium">Marque</label>
+        <Select
+          value={filters.brand ?? "all"}
+          onValueChange={(val) => setFilters({ brand: val === "all" ? undefined : val })}
+        >
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="Toutes les marques" />
+          </SelectTrigger>
+          <SelectContent position="popper">
+            <SelectItem value="all">Toutes</SelectItem>
+            {brands.map((b) => (
+              <SelectItem key={b.id} value={b.slug}>{b.name}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-medium">Prix (0 - 2000€)</label>
+          <label className="text-sm font-medium">Prix (0 - 200€+)</label>
           <Slider
-            defaultValue={[0, 2000]}
+            defaultValue={[0, 200]}
             value={priceRange}
             min={0}
-            max={2000}
-            step={10}
+            max={200}
+            step={5}
             onValueChange={handlePriceChange}
             onValueCommit={handlePriceCommit}
           />
           <div className="flex justify-between text-xs text-muted-foreground">
             <span>{priceRange[0]}€</span>
-            <span>{priceRange[1]}€</span>
+            <span>{priceRange[1] === 200 ? "200€+" : `${priceRange[1]}€`}</span>
           </div>
         </div>
 
