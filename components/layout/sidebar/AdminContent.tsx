@@ -5,9 +5,13 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import { useSidebarStore } from "@/store/useSidebarStore";
+import { usePathname } from "next/navigation";
+import { ProductFilters } from "@/app/(main)/products/components/ProductFilters";
 
 const AdminContent = () => {
   const { closeSidebar } = useSidebarStore();
+  const pathname = usePathname();
+  const isAdminProductsPage = pathname === "/admin/products";
 
   return (
     <div>
@@ -54,7 +58,19 @@ const AdminContent = () => {
           </Link>
         </li>
       </ul>
-      <Separator className="my-4" />
+
+      {isAdminProductsPage && (
+        <>
+          <Separator className="my-4" />
+          <div className="pb-8">
+            <ProductFilters
+              className="bg-transparent border-none shadow-none p-0"
+            />
+          </div>
+        </>
+      )}
+      
+      {!isAdminProductsPage && <Separator className="my-4" />}
     </div>
   );
 };

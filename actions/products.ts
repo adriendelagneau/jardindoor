@@ -33,7 +33,7 @@ export async function getProducts({
   priceMax,
   isShowInCarousel,
   isPromotion,
-  status = "ACTIVE",
+  status,
 }: GetProductsParams) {
   const skip = (page - 1) * pageSize;
 
@@ -42,7 +42,7 @@ export async function getProducts({
     ...(isPromotion != null && { isPromotion }),
     variants: {
       some: {
-        status: status as ProductStatus,
+        ...(status && { status: status as ProductStatus }),
         ...(priceMin != null || priceMax != null
           ? {
             price: {

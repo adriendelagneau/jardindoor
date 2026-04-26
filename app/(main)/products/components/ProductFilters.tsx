@@ -1,15 +1,12 @@
 "use client";
 
 import { useProductFilters } from "@/hooks/use-product-filters";
-import { CategoryFromGetCategories } from "@/actions/categories";
-import { GetBrandsResult } from "@/actions/brands";
-import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import { X, Percent } from "lucide-react";
+import { X, } from "lucide-react";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
