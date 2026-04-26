@@ -1,6 +1,6 @@
 "use server";
 
-import { Prisma, ProductStatus } from "@/lib/prisma/generated/prisma/client";
+import { Prisma, ProductStatus } from "@/prisma/generated/prisma";
 import prisma from "@/lib/prisma";
 import { productSchema, productUpdateSchema, type ProductSchema, type ProductUpdateSchema } from "@/lib/validation/product";
 import { getUser } from "@/lib/auth/auth-session";
@@ -87,9 +87,9 @@ export async function getProducts({
 
   const prismaOrderBy: Prisma.ProductOrderByWithRelationInput =
     orderBy === "priceAsc"
-      ? { variants: { _min: { price: "asc" } } }
+      ? { variants: { _count: "asc" } }
       : orderBy === "priceDesc"
-      ? { variants: { _min: { price: "desc" } } }
+      ? { variants: { _count: "desc" } }
       : { createdAt: "desc" };
 
   const products = await prisma.product.findMany({
