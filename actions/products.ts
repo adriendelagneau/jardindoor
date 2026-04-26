@@ -1,7 +1,7 @@
 "use server";
 
 import { Prisma, ProductStatus } from "@/lib/prisma/generated/prisma/client";
-import prisma from "@/lib/prisma/prisma";
+import prisma from "@/lib/prisma";
 import { productSchema, productUpdateSchema, type ProductSchema, type ProductUpdateSchema } from "@/lib/validation/product";
 import { getUser } from "@/lib/auth/auth-session";
 import { revalidatePath } from "next/cache";
@@ -45,28 +45,28 @@ export async function getProducts({
         status: status as ProductStatus,
         ...(priceMin != null || priceMax != null
           ? {
-              price: {
-                ...(priceMin != null ? { gte: priceMin } : {}),
-                ...(priceMax != null ? { lte: priceMax } : {}),
-              },
-            }
+            price: {
+              ...(priceMin != null ? { gte: priceMin } : {}),
+              ...(priceMax != null ? { lte: priceMax } : {}),
+            },
+          }
           : {}),
       },
     },
 
     ...(subCategory
       ? {
-          category: { is: { slug: subCategory } },
-        }
+        category: { is: { slug: subCategory } },
+      }
       : category
-      ? {
+        ? {
           category: {
             is: {
               OR: [{ slug: category }, { parent: { slug: category } }],
             },
           },
         }
-      : {}),
+        : {}),
 
     ...(brand && {
       brand: { is: { slug: brand } },
@@ -85,11 +85,18 @@ export async function getProducts({
 
   const total = await prisma.product.count({ where });
 
+  const prismaOrderBy: Prisma.ProductOrderByWithRelationInput =
+    orderBy === "priceAsc"
+      ? { variants: { _min: { price: "asc" } } }
+      : orderBy === "priceDesc"
+      ? { variants: { _min: { price: "desc" } } }
+      : { createdAt: "desc" };
+
   const products = await prisma.product.findMany({
     where,
     skip,
     take: pageSize,
-    orderBy: { createdAt: "desc" },
+    orderBy: prismaOrderBy,
     include: {
       category: { select: { slug: true, name: true } },
       brand: { select: { slug: true, name: true } },
@@ -103,23 +110,7 @@ export async function getProducts({
     },
   });
 
-  // Handle ordering by price manually
-  let sortedProducts = [...products];
-  if (orderBy === "priceAsc") {
-    sortedProducts.sort((a, b) => {
-      const priceA = Number(a.variants[0]?.price || 0);
-      const priceB = Number(b.variants[0]?.price || 0);
-      return priceA - priceB;
-    });
-  } else if (orderBy === "priceDesc") {
-    sortedProducts.sort((a, b) => {
-      const priceA = Number(a.variants[0]?.price || 0);
-      const priceB = Number(b.variants[0]?.price || 0);
-      return priceB - priceA;
-    });
-  }
-
-  const serializedProducts = sortedProducts.map((product) => {
+  const serializedProducts = products.map((product) => {
     const defaultVariant = product.variants.find(v => v.isDefault) || product.variants[0];
     return {
       ...product,

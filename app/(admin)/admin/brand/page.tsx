@@ -1,5 +1,5 @@
 import React from "react";
-import prisma from "@/lib/prisma/prisma";
+import prisma from "@/lib/prisma";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Package, Plus, Edit, Hash, Folder } from "lucide-react";
@@ -21,7 +21,9 @@ export default async function BrandsPage() {
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-3xl font-bold font-serif">Marques</h1>
-          <p className="text-muted-foreground">Gérez vos marques et fournisseurs.</p>
+          <p className="text-muted-foreground">
+            Gérez vos marques et fournisseurs.
+          </p>
         </div>
         <LinkNext href="/admin/brand/create">
           <Button className="gap-2">
@@ -32,12 +34,12 @@ export default async function BrandsPage() {
 
       {/* Hero Section */}
       <Card className="relative h-[480px] w-full overflow-hidden  shadow-lg border-none bg-primary">
-        <Image 
-          src="/home-img.png" 
-          alt="Marques banner" 
-          fill 
+        <Image
+          src="/home-img.png"
+          alt="Marques banner"
+          fill
           sizes="100vw"
-          className="object-cover opacity-40" 
+          className="object-cover opacity-40"
         />
         <div className="absolute inset-0 bg-linear-to-r from-primary/80 via-primary/40 to-transparent flex flex-col justify-center p-12 text-primary-foreground">
           <div className="flex items-center gap-4 mb-2">
@@ -61,8 +63,12 @@ export default async function BrandsPage() {
               <tr className="bg-muted/50 border-b">
                 <th className="p-4 font-semibold text-sm">Nom</th>
                 <th className="p-4 font-semibold text-sm">Slug</th>
-                <th className="p-4 font-semibold text-sm text-center">Produits</th>
-                <th className="p-4 font-semibold text-sm text-right">Actions</th>
+                <th className="p-4 font-semibold text-sm text-center">
+                  Produits
+                </th>
+                <th className="p-4 font-semibold text-sm text-right">
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -73,7 +79,9 @@ export default async function BrandsPage() {
                 >
                   <td className="p-4">
                     <div className="flex items-center gap-2">
-                      <span className="font-medium text-base">{brand.name}</span>
+                      <span className="font-medium text-base">
+                        {brand.name}
+                      </span>
                     </div>
                   </td>
                   <td className="p-4 text-sm text-muted-foreground font-mono">

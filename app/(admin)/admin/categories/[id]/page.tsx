@@ -1,14 +1,14 @@
-import React from 'react'
-import prisma from "@/lib/prisma/prisma"
-import { notFound } from 'next/navigation'
-import { CategoryForm } from '../components/CategoryForm'
+import React from "react";
+import prisma from "@/lib/prisma";
+import { notFound } from "next/navigation";
+import { CategoryForm } from "../components/CategoryForm";
 
 interface PageProps {
-  params: Promise<{ id: string }>
+  params: Promise<{ id: string }>;
 }
 
 export default async function EditCategoryPage({ params }: PageProps) {
-  const { id } = await params
+  const { id } = await params;
 
   const [category, allCategories] = await Promise.all([
     prisma.category.findUnique({
@@ -20,22 +20,22 @@ export default async function EditCategoryPage({ params }: PageProps) {
         name: true,
       },
       orderBy: {
-        name: 'asc'
-      }
-    })
-  ])
+        name: "asc",
+      },
+    }),
+  ]);
 
   if (!category) {
-    notFound()
+    notFound();
   }
 
   return (
     <div className="p-6">
-      <CategoryForm 
-        isEdit 
-        initialData={category} 
-        availableCategories={allCategories} 
+      <CategoryForm
+        isEdit
+        initialData={category}
+        availableCategories={allCategories}
       />
     </div>
-  )
+  );
 }

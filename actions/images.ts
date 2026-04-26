@@ -1,6 +1,6 @@
 "use server";
 
-import prisma from "@/lib/prisma/prisma";
+import prisma from "@/lib/prisma";
 import { imageSchema, imageUpdateSchema, type ImageSchema, type ImageUpdateSchema } from "@/lib/validation/image";
 import { getUser } from "@/lib/auth/auth-session";
 import { revalidatePath } from "next/cache";
@@ -57,12 +57,12 @@ export async function createImage(data: ImageSchema) {
     throw new Error("Validation failed");
   }
 
-  const { 
-    url, 
-    altText, 
-    shortDescription, 
-    productId, 
-    categoryId 
+  const {
+    url,
+    altText,
+    shortDescription,
+    productId,
+    categoryId
   } = result.data;
 
   try {

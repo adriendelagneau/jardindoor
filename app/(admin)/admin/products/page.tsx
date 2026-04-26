@@ -1,5 +1,5 @@
 import Image from "next/image";
-import prisma from "@/lib/prisma/prisma";
+import prisma from "@/lib/prisma";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
@@ -114,7 +114,11 @@ export default async function ProductsPage() {
                 {product.images[0] ? (
                   <div className="absolute inset-0 p-5">
                     <Image
-                      src={cloudinaryUrl(product.images[0].url, { width: 400, height: 533, crop: "fill" })}
+                      src={cloudinaryUrl(product.images[0].url, {
+                        width: 400,
+                        height: 533,
+                        crop: "fill",
+                      })}
                       alt={product.name}
                       fill
                       sizes="(max-width: 768px) 80vw, 25vw"

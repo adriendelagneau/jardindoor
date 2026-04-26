@@ -1,9 +1,9 @@
-import prisma from "@/lib/prisma/prisma";
+import prisma from "@/lib/prisma";
 import * as bcrypt from "bcrypt";
 
 async function main() {
-  const adminEmail = "admin@jardin-indoor.fr"; 
-  const plainPassword = "YourSecurePassword123!"; 
+  const adminEmail = "admin@jardin-indoor.fr";
+  const plainPassword = "YourSecurePassword123!";
 
   // Hash the password using bcrypt
   const saltRounds = 10;

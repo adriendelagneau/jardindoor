@@ -15,7 +15,7 @@ export default async function proxy(request: NextRequest) {
   // Protect /admin routes - check session AND role
   if (pathname.startsWith("/admin")) {
     if (!session || session.user.role !== "ADMIN") {
-      console.log(session, "toto")
+      
       // Redirect to home page with a query param to trigger the login modal
       const url = new URL("/", request.url);
      

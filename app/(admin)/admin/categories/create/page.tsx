@@ -1,6 +1,6 @@
-import React from 'react'
-import prisma from "@/lib/prisma/prisma"
-import { CategoryForm } from '../components/CategoryForm'
+import React from "react";
+import prisma from "@/lib/prisma";
+import { CategoryForm } from "../components/CategoryForm";
 
 export default async function CreateCategoryPage() {
   const categories = await prisma.category.findMany({
@@ -9,13 +9,13 @@ export default async function CreateCategoryPage() {
       name: true,
     },
     orderBy: {
-      name: 'asc'
-    }
-  })
+      name: "asc",
+    },
+  });
 
   return (
     <div className="p-6">
       <CategoryForm availableCategories={categories} />
     </div>
-  )
+  );
 }

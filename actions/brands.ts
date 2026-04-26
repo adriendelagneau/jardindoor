@@ -1,6 +1,6 @@
 "use server";
 
-import prisma from "@/lib/prisma/prisma";
+import prisma from "@/lib/prisma";
 import { brandSchema, brandUpdateSchema, type BrandSchema, type BrandUpdateSchema } from "@/lib/validation/brand";
 import { revalidatePath } from "next/cache";
 import { getUser } from "@/lib/auth/auth-session";
@@ -32,11 +32,11 @@ export async function createBrand(data: BrandSchema) {
   if (!result.success) {
     throw new Error("Validation failed");
   }
-  
+
   const brand = await prisma.brand.create({
     data: result.data,
   });
-  
+
   revalidatePath("/admin/brand");
   return brand;
 }
@@ -56,7 +56,7 @@ export async function updateBrand(id: string, data: BrandUpdateSchema) {
     where: { id },
     data: result.data,
   });
-  
+
   revalidatePath("/admin/brand");
   return brand;
 }
@@ -78,7 +78,7 @@ export async function deleteBrand(id: string) {
   await prisma.brand.delete({
     where: { id },
   });
-  
+
   revalidatePath("/admin/brand");
 }
 

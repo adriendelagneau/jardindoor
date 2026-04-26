@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import prisma from "@/lib/prisma/prisma";
+import prisma from "@/lib/prisma";
 
 type Suggestion = {
   label: string;

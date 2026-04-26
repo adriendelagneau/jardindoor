@@ -1,7 +1,7 @@
 "use server";
 
 import { Prisma } from "@/lib/prisma/generated/prisma/client";
-import prisma from "@/lib/prisma/prisma";
+import prisma from "@/lib/prisma";
 import { getUser } from "@/lib/auth/auth-session";
 import { revalidatePath } from "next/cache";
 import { categorySchema, categoryUpdateSchema, type CategorySchema, type CategoryUpdateSchema } from "@/lib/validation/category";
@@ -116,10 +116,10 @@ export async function getCategories({
     ...(onlyRoots
       ? { parentId: null }
       : onlySubcategories
-      ? { parentId: { not: null } }
-      : parentId !== undefined
-      ? { parentId }
-      : {}),
+        ? { parentId: { not: null } }
+        : parentId !== undefined
+          ? { parentId }
+          : {}),
   };
 
   const [total, categories] = await Promise.all([
